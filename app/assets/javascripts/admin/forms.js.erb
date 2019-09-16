@@ -1,0 +1,53 @@
+$(document).ready(function () {
+    $(document).on('change', '.file-uploader input[type=file]', function () {
+        var $input = $(this)[0];
+
+        if ($input.files && $input.files[0]) {
+            var placeholder = null;
+            var file = $input.files[0];
+
+            var filename = file.name;
+            var mimeType = file.type;
+
+            if (mimeType.includes('image')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    placeholder = '<div class="p-content">' +
+                        '<%= image_tag "delete.svg", class: "p-reset" %>' +
+                        '<img src="' + e.target.result + '" class="p-thumbnail">' +
+                        '</div>';
+                    $('.file-placeholder').html(placeholder);
+                }
+
+                reader.readAsDataURL($input.files[0]);
+            } else {
+                placeholder = '<div class="p-content">' +
+                    '<%= image_tag "delete.svg", class: "p-reset" %>' +
+                    '<div class="p-text">' + filename + '</div>' +
+                    '</div>';
+                $('.file-placeholder').html(placeholder);
+            }
+        }
+    });
+
+    $(document).on('click', '.file-placeholder .p-reset', function () {
+        var $input = $(this).closest('input[type=file]');
+        var $placeholder = $(this).closest('.file-placeholder');
+
+
+        $input.val('');
+        $placeholder.remove();
+    });
+
+    $('.has_many_fields input[type="checkbox"][id*="destroy"]').on('change', function () {
+        var $row = $(this).closest('ol');
+        var $container = $(this).closest('li');
+        var isChecked = $(this).is(':checked');
+
+        var $nodes = $row.children().not($container);
+        var $inputs = $('input, textarea, select', $nodes);
+
+        $nodes.css('opacity', isChecked ? 0.3 : 1);
+        $inputs.prop('disabled', isChecked);
+    });
+});

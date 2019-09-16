@@ -1,0 +1,43 @@
+.purr {
+	position: fixed;
+	top: 30px;
+	left: 30px;
+	width: 250px;
+	padding: 15px;
+	border-radius: 5px;
+	z-index: 9999;
+	color: white;
+	&:first-letter {
+		text-transform: uppercase;
+	}
+}
+
+.purr.flash-error {
+	background-color: rgba(217, 83, 79, 0.8);
+}
+
+.purr.flash-success {
+	background-color: rgba(53, 112, 212, 0.8);
+}
+
+.best_in_place {
+	cursor: pointer;
+	border-bottom: 1px dashed;
+	&.disabled {
+		color: #999;
+	}
+	.select2-container {
+		width: 100% !important;
+	}
+	&.col-numeric {
+		direction: ltr;
+		text-align: left;
+		display: inline-block;
+	}
+	&[data-bip-type="checkbox"] {
+		border: none;
+		.status_tag.true {
+			background-color: $primary-color;
+		}
+	}
+}

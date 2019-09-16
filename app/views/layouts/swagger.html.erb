@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title><%= "#{Settings.project_name} API" %></title>
+		<%= stylesheet_link_tag 'swagger', media: 'all', 'data-turbolinks-track' => true %>
+		<%= favicon_link_tag asset_path('favicon.png') %>
+		<style>
+			html {
+				box-sizing: border-box;
+				overflow: -moz-scrollbars-vertical;
+				overflow-y: scroll;
+			}
+
+			*,
+			*:before,
+			*:after {
+				box-sizing: inherit;
+			}
+
+			body {
+				margin: 0;
+				background: #fafafa;
+			}
+		</style>
+	</head>
+
+	<body>
+		<%= javascript_include_tag 'swagger', 'data-turbolinks-track' => true %>
+		<%= yield %>
+	</body>
+</html>

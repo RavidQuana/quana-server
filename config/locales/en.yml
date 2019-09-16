@@ -1,0 +1,51 @@
+en:
+  formtastic:
+    create: Create
+    no: 'No'
+    update: Update
+    yes: 'Yes'
+  mailer:
+    footer: 
+      html: |
+        Thanks,<br />
+        the %{app_name} team  
+    address:
+      html: Copyright &copy; 2019 %{app_name}, All Rights Reserved.
+  sms:
+    devise:
+      otp:
+        body: Welcome to %{app_name}. Your code is %{code}.
+        failure: An unexpected error occurred. Please try again.
+        success: Activation code successfully sent! 
+  activerecord:
+    models:
+      admin: Admin
+      admin_user:
+        one: Admin Account
+        other: Admin Accounts     
+      app_settings:
+        one: Setting
+        other: Settings
+    attributes:
+      admin_user:
+        id: ID
+        email: Email
+        name: Name
+        first_name: First Name
+        last_name: Last Name
+        phone_number: Phone Number
+        password: Password
+        password_confirmation: Password (Repeat)
+        sign_in_count: Sign In Count
+        last_sign_in_at: Last Sign In At
+        last_sign_in_ip: Last Sign In IP
+        current_sign_in_at: Current Sign In At
+        current_sign_in_ip: Current Sign In IP  
+        role: Role
+        role_administrator: Administrator
+        role_manager: Manager
+        scopes:
+          administrator: Administrator
+          manager: Manager
+        created_at: Created At
+        updated_at: Updated At  

@@ -1,0 +1,28 @@
+.meta-tag, .status_tag {
+	color: #fff;
+	font-size: 12px;
+	min-width: 50px;
+	margin-left: 2px;
+	padding: 2px 10px;
+	margin-bottom: 5px;
+	text-align: center;
+	border-radius: 4px;
+	text-decoration: none;
+	display: inline-block;
+	box-sizing: border-box;
+	background-color: $background-color;
+	&.active, &.yes { background-color: $success; }
+	&.pending { background-color: $warning; }
+	&.failed, &.canceled, &.error, &.expired { background-color: $error; }
+}
+
+.image-tag {
+	size: 100px;
+	padding: 5px;
+	background-color: #fff;
+	box-sizing: content-box;
+	img {
+		width: 100px;
+		margin-left: 20px;
+	}
+}

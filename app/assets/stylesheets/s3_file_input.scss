@@ -1,0 +1,118 @@
+$s3-wrapper-color: #e6e6e6;
+$s3-preview-border: #ebebeb;
+$s3-progress-background: #1a1a1a;
+$s3-progress-foreground: #4a2c7b;
+
+.input.s3_file, .input.s3_array {
+	position: relative;
+	
+    .s3-input-wrapper {
+    	content: '';
+	    width: 100px;
+	    height: 100px;
+		text-align: center;
+		position: relative;	 
+	    display: inline-block;
+	    vertical-align: middle;
+	    background: $s3-wrapper-color;
+	    background-position: center center;
+	    background-image: image-url('s3_file_input/add.svg');
+	   	background-repeat: no-repeat;
+	    background-size: 25px;	
+
+		input[type="file"] {
+		    top: 0;
+		    right: 0;
+		    margin: 0;
+		    padding: 0;
+		    opacity: 0;
+		    z-index: 1;
+		    width: 100%;
+		    height: 100%;
+		    cursor: pointer;
+		    position: absolute;
+		    filter: alpha(opacity=0);
+		}    	
+    }
+
+	.s3-file-preview {
+		width: 100px;
+		padding: 5px;
+		margin: 10px;
+		height: 100px;
+		overflow: hidden;
+		position: relative;
+		text-align: center;
+		display: inline-block;
+		vertical-align: middle;
+		box-sizing: border-box;
+		border: 1px solid $s3-preview-border;
+
+		.s3-thumb {
+			width: 100%;
+			height: auto;
+
+			// image specific adjustments 
+			img#{&} {  }		
+
+			// video specific adjustments
+			video#{&} {  }
+
+			// general case adjustments
+			&.no-preview {
+				height: 100%;
+				padding: 7px;
+				display: flex;
+				font-size: 12px;
+			    align-items: flex-end;
+			    justify-content: center;
+			    background-position: center center;	
+			    background-image: image-url('s3_file_input/file.svg');
+			    background-repeat: no-repeat;	
+			    background-size: 25px;
+			}
+		}
+
+		.s3-clear {
+			right: 5px;
+			width: 10px;
+			z-index: 10;
+			height: 10px;
+			cursor: pointer;
+			position: absolute;
+		    background-position: center center;
+		    background-image: image-url('s3_file_input/delete.svg');
+		    background-repeat: no-repeat;
+		    background-size: cover;		
+		}
+
+		.s3-overlay {
+			top: 0;
+			left: 0;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			background-color: rgba(0, 0, 0, 0.6);
+		}
+
+		.s3-progress {
+		    left: 0;
+		    right: 0;
+		    z-index: 11;
+		    bottom: 5px;
+		    height: 3px;
+		    margin: 0 auto;
+		    appearance: none;
+			position: absolute;
+			-webkit-appearance: none;
+		    width: calc(100% - 10px);
+		    &::-webkit-progress-bar {
+  				background-color: $s3-progress-background;
+			}
+		    &::-webkit-progress-value {
+		    	background-color: $s3-progress-foreground;
+		    }
+		}	
+	}    
+}

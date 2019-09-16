@@ -1,0 +1,8 @@
+app_version:
+  key: app_version
+  value: '0.1'
+  data_type: <%= AppSettings.data_types[:string] %>
+  description: 'App Version'
+  is_client_accessible: true
+  created_at: <%= DateTime.current %>
+  updated_at: <%= DateTime.current %>

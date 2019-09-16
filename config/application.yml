@@ -1,0 +1,49 @@
+# encoding: utf-8
+
+defaults: &defaults
+  project_name: 'Archicebus'
+
+  api_page_size: 20
+  autocomplete_results_count: 20
+
+  # SMS Client
+  sms_client_type:
+  sms_client_sender_id: 'Archicebus'
+
+  default_country_code: 'IL'
+
+test:
+  <<: *defaults
+
+  server_domain: 'localhost:3000'
+
+  # AWS S3
+  aws_s3_region:
+  aws_s3_bucket:
+
+development:
+  <<: *defaults
+
+  server_domain: 'localhost:3000'
+
+  # AWS S3
+  aws_s3_region: eu-west-1
+  aws_s3_bucket: archicebus-dev
+
+staging:
+  <<: *defaults
+
+  server_domain: 'archicebus-staging.herokuapp.com'
+
+  # AWS S3
+  aws_s3_region:
+  aws_s3_bucket:
+
+production:
+  <<: *defaults
+
+  server_domain: 'archicebus-production.herokuapp.com'
+
+  # AWS S3
+  aws_s3_region:
+  aws_s3_bucket: 

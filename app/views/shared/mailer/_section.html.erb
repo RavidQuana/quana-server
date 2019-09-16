@@ -1,0 +1,19 @@
+<%
+	style = {
+		font_family: 'Open Sans',
+		font_size: '16px',
+		font_weight: '400',
+		line_height: '24px',
+		text_align: I18n.locale == :he ? 'right' : 'left',
+		color: '#000000'
+	}.merge(style || { })
+%>
+
+<tr>
+  <td align="<%= style[:text_align] %>" style="font-size: 0px; padding: 10px 25px; padding-bottom: 30px; 
+  	word-break: break-word;">
+    <div style="<%= to_css_string(style) %>"> 
+    	<%= content %>
+    </div>
+  </td>
+</tr>

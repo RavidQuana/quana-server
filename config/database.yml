@@ -1,0 +1,25 @@
+default: &default
+  database: archicebus_dev
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  password: kofkof12
+  username: postgres
+  pool: 50
+
+# list all supported environments here, to allow editing of the corresponding credentials file in dev mode
+# (otherwise, an exception is thrown, and this file is overridden by Heroku anyway)
+test:
+  <<: *default
+  database: archicebus_test
+  host: postgres
+  username: postgres
+
+development: 
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

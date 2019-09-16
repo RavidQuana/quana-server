@@ -1,0 +1,203 @@
+he:
+  active_admin:
+    language: "שפה"
+    page_size: "רשומות בדף:"
+    menus:
+      main: "ראשי"
+      dashboard: "ראשי"
+      notifications: "התראות"
+      system: "מערכת"
+    dashboard:
+      title: "ראשי"
+      welcome: "ברוכים הבאים לממשק הניהול של %{app_name}!"         
+    any: "בחר מרשימה"
+    no_match: "לא נמצאו תוצאות."
+    view: "מידע נוסף"
+    edit: "עריכה"
+    delete: "מחיקה"
+    remove: "הסר"
+    delete_confirmation: "האם אתה בטוח שברצונך למחוק פריט זה?"
+    hide_confirmation: "האם אתה בטוח שברצונך להסתיר את הפריט הזה?"
+    logout: "התנתק"
+    destroy: "מחיקה"    
+    new_model: "פריט חדש"
+    edit_model: "עריכה"
+    delete_model: "מחיקה"
+    details: "פרטי %{model}"
+    cancel: "ביטול"
+    approve: "אישור"
+    reject: "דחיה"
+    restore: "שחזור"
+    hide: "הסתרה"
+    import: "ייבוא מרשימה"
+    import_success: "הקודים יובאו בהצלחה!"
+    upload: "ייבוא ברקודים"
+    empty: "ריק"
+    previous: "הקודם"
+    next: "הבא"
+    has_many_new: "חדש"
+    has_many_delete: "מחיקה"
+    has_many_remove: "הסרה"
+    fail: "לא ניתן להשלים את הפעולה המבוקשת. אנא נסה שוב במועד מאוחר יותר."
+    statuses:
+      pending: "ממתין לאישור"
+      pending_activation: "ממתין לאימות"
+      pending_approval: "ממתין לאישור"
+      active: "פעיל"
+      approved: "אושר"
+      rejected: "נדחה"
+      deleted: "נמחק"
+    scopes:
+      all: "כל הרשומות"
+      pending: "ממתין לאישור"
+      pending_approval: "ממתין לאישור"
+      active: "פעיל"
+      deleted: "נמחק" 
+      inactive: "לא בתוקף" 
+    status_tag:
+      yes: "כן"
+      no: "לא"
+    search_status:
+      headline: "פילטרים"   
+      current_scope: "חפש ב-" 
+      current_filters: "קריטריונים" 
+      no_current_filters: "ללא"  
+    data_export:
+      data: דו"ח
+      filters: סינונים פעילים
+      key: שדה
+      value: ערך
+      report_date: תאריך הפקת הדו"ח
+      report_time: שעת הפקת הדו"ח
+      success: 'בקשתך התקבלה בהצלחה. הדו"ח ישלח לכתובת %{email} בדקות הקרובות.'
+    batch_actions:
+      button_label: "פעולות מרוכזות"
+      default_confirmation: "האם אתה בטוח שברצונך לעשות זאת?"
+      delete_confirmation: "האם אתה בטוח שברצונך למחוק את הפריטים הללו?"
+      hide_confirmation: "האם אתה בטוח שברצונך להסתיר את הפריטים הללו?"
+      restore_confirmation: "האם אתה בטוח שברצונך לשחזר את הפריטים הללו?"
+      approve_confirmation: "האם אתה בטוח שברצונך לאשר את הפריטים הללו?"
+      succesfully_destroyed:
+        one: "הפריט נמחק בהצלחה"
+        other: "%{count} פריטים נמחקו בהצלחה"
+      succesfully_hidden: 
+        one: "הפריט הוסתר בהצלחה"
+        other: "%{count} פריטים הוסתרו בהצלחה"
+      succesfully_restored: 
+        one: "הפריט שוחזר בהצלחה"
+        other: "%{count} פריטים שוחזרו בהצלחה"             
+      succesfully_approved: 
+        one: "הפריט אושר בהצלחה"
+        other: "%{count} פריטים אושרו בהצלחה" 
+      succesfully_rejected: 
+        one: "הפריט נדחה בהצלחה"
+        other: "%{count} פריטים נדחו בהצלחה"      
+      selection_toggle_explanation: "(שנה בחירה)"
+      action_label: "%{title}פריטים מסומנים"
+      labels:
+        approve: "אשר "
+        destroy: "מחק "
+        hide: "הסתר "
+        restore: "שחזר "
+    access_denied:
+      message: "אינך מורשה לבצע פעולה זו."
+    devise:
+      username:
+        title: "שם משתמש"
+      email:
+        title: 'דוא"ל'
+      subdomain:
+        title: "תת מתחם"
+      password:
+        title: "סיסמה"  
+      password_confirmation:
+        title: "סיסמה (חזור שנית)"
+      current_password:
+        title: "סיסמה נוכחית"        
+      code:
+        title: "קוד אימות"              
+      sign_up:
+        title: "הרשמה"
+        submit: "הרשמה"
+      login:
+        title: "התחברות"
+        remember_me: "זכור אותי"
+        submit: "התחברות"
+      reset_password:
+        title: "נחסמה/שכחת סיסמתך?"
+        instructions: "אנא הזן את כתובת הדוא\"ל עמה נרשמת על-מנת שנוכל לשלוח לך קישור לאיפוס הסיסמה"
+        submit: "איפוס סיסמה"
+      renew_password:
+        title: "חידוש סיסמה"
+        submit: "חידוש סיסמה"
+      change_password:
+        title: "שינוי סיסמה"
+        submit: "שינוי סיסמה"
+      unlock:
+        title: "שלח מחדש הנחיות לאישור הרשמה"
+        submit: "אישור"
+      confirmation:
+        title: "שלח מחדש הנחיות לאימות חשבון"
+        submit: "אישור"
+      otp:
+        title: הפעלת אימות דו-שלבי
+        instructions: "אנא סרוק את הברקוד באמצעות אפליקציית אימות כלשהי (כדוגמת Google Authenticator, Authy, 1Password וכו') והזן את הקוד המוצג בתיבה שלהלן:"
+        submit: הפעל
+        invalid: קוד האימות שהוזן אינו תקין        
+      two_factor:
+        title: אימות דו-שלבי
+        submit: אימות      
+    blank_slate:
+      content: "טרם נוצרו רשומות"
+      link: "צור אחת"
+    sidebars:
+      filters: "סינון"
+      search_status: "מאפייני חיפוש"
+    filters:
+      buttons:
+        add: "הוסף"
+        filter: "סנן"
+        clear: "נקה"
+      predicates:
+        contains: "מכיל"
+        equals: "שווה ל-"
+        starts_with: "מתחיל ב-"
+        ends_with: "מסתיים ב-"
+        greater_than: "גדול מ-"
+        less_than: "קטן מ-" 
+        in: "שווה ל-" 
+        eq: "שווה ל-" 
+        gteq: "גדול או שווה ל-"
+        lteq: "קטן או שווה ל-" 
+        not_eq: "שונה מ-"
+        not_cont: "אינו מכיל"
+        not_in: "שונה מ-"
+      complementary: "משלים"
+      groups:
+        attributes: "מאפיינים"
+        flags: "דגלים"
+        organizations: "חברות בארגונים"
+        keys: "מפתחות"
+        history: "פעולות ותהליכים"
+        events: "אירועים"
+        campaigns: "קמפיינים"
+        mobile: "אפליקציית המשפיעים"
+        legacy: "לא בשימוש"
+    pagination:
+      empty: "לא נמצאו %{model}"
+      one: "מציג <b>1</b> %{model}"
+      one_page: "מציג <b>%{n}</b> %{model}"
+      multiple: 'מציג %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> מתוך <b>%{total}</b> בסה"כ'
+      multiple_without_total: "מציג %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>"
+      entry:
+        one: "פריט"
+        other: "פריטים"
+    search:
+      select: "בחר אחד..."
+      not_found: "לא נמצאו תוצאות." 
+      placeholders: 
+        city: "הקלד שם או מזהה עיר לחיפוש"     
+    forms:
+      submit: "אישור"
+      cancel: "ביטול"
+    powered_by: ""

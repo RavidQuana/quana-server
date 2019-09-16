@@ -1,0 +1,7 @@
+<%= render 'shared/mailer/section', content: t('devise.mailer.unlock_instructions.subject'), 
+	style: { font_size: '26px' } %>
+<%= render 'shared/mailer/section', content: t('devise.mailer.unlock_instructions.instructions',
+	email: @email) %>
+<%= render 'shared/mailer/button', button_text: t('devise.mailer.unlock_instructions.link'),
+	button_url: unlock_url(@resource, unlock_token: @token) %>
+<%= render 'shared/mailer/section', content: t('devise.mailer.unlock_instructions.note') %>

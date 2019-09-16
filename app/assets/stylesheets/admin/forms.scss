@@ -1,0 +1,123 @@
+body {
+	&.logged_in {
+		&.new, &.edit, 
+		&.create, &.update {
+			#main_content {
+				padding: 0;
+				border-radius: 0;
+				background: none;
+				box-shadow: none;       
+			}
+
+			form {
+				fieldset.inputs {
+					padding: 20px;
+					background: #fff;
+					position: relative;
+					border-radius: 3px;
+					-webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04);
+					-moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04);
+					box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04);
+					& > legend {
+						left: 20px;
+						right: 20px;
+						position: absolute;
+						width: calc(100% - 40px) !important;              
+					}
+					& > ol { margin-top: 60px; }
+					input::-webkit-outer-spin-button,
+					input::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+					}
+					input[type="number"] {
+						direction: ltr;
+						text-align: right;
+					} 
+					input[type="color"] {
+						width: 60px;
+						border-raiuds: 3px;
+						background-color: #fff;
+						border: 1px solid #e4eaec;
+					}
+					input.ltr, textarea.ltr { 
+						direction: ltr;
+						text-align: left; 
+					}   
+					.mce-tinymce {
+						width: 50% !important;
+						display: inline-block;
+						.mce-branding { display: none; }
+					}
+					&.inline {
+						padding-top: 0;
+						box-shadow: none;
+						padding-bottom: 0; 
+						margin-bottom: 5px;
+						& > ol {
+							margin: 0;
+							display: flex;
+							justify-content: space-between;
+							li {
+								flex: 3;
+								margin-left: 15px;
+								&:last-child { 
+									flex: 1;
+									margin: 0; 
+								}
+								label {
+									width: 100%;
+									display: block;
+									font-weight: bold;
+									margin-bottom: 10px;
+								}
+								input[type="text"], .select2-container {
+									width: 100% !important;
+								} 
+								.has_many_remove {
+									height: 35px;
+									padding: 7px 12px;
+								}
+								input[type="checkbox"][id*='destroy'] {
+									margin-top: 5px;
+								}
+							}
+						} 
+						&:not(:first-child) {
+							& > ol {
+								li.input:not([id*='destroy']) {
+									label { display: none; }
+								}
+							}
+						}
+						&:first-child {
+							& > ol {
+								.has_many_remove { margin-top: 35px; }  
+								input[type="checkbox"][id*='destroy'] {
+									margin-top: 40px;
+								}             
+							}           
+						}                       
+					}         
+				}
+				fieldset.actions {
+					.action { width: 100px; }
+					.cancel {
+						width: 100px;
+						text-align: center;
+						border-radius: 3px;
+						vertical-align: middle;
+						background-color: $background-color;
+						a { 
+							color: #fff; 
+							width: 100%;
+							height: 100%;
+							padding: 10px;
+							display: inline-block;
+						}           
+					}
+				}
+			}
+		}
+	}
+}

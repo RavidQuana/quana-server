@@ -1,0 +1,23 @@
+<div id="login">
+	<header class="auth-header">
+		<%= image_tag "logo.svg", class: 'logo' %>
+		<h1><%= I18n.t('active_admin.devise.unlock.title') %></h1>
+	</header> 
+
+	<section class="auth-main">
+	  	<%= active_admin_form_for(resource, as: resource_name, url: password_path(resource_name), 
+	  		html: { method: :post }) do |f|
+			f.inputs do
+	  			f.input :email, as: :email, label: I18n.t('active_admin.devise.email.title'),
+	  				input_html: { autofocus: true } 
+			end
+
+			f.actions do
+	  			f.action :submit, label: I18n.t('active_admin.devise.unlock.submit'), button_html: { 
+	  				value: I18n.t('active_admin.devise.unlock.submit') }
+			end
+	  	end %>
+	</section>
+
+	<%= render "active_admin/devise/shared/footer" %> 
+</div>

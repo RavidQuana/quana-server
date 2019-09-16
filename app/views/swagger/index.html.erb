@@ -1,0 +1,19 @@
+<div id="swagger-ui"></div>
+<script>
+    window.onload = function () {
+        const protocol = '<%= Rails.env.development? ? "http://" : "https://" %>';
+        const url = protocol + '<%= Settings.server_domain %>/api/v1/docs';
+        const ui = SwaggerUIBundle({
+            url: url,
+            validatorUrl: null,
+            dom_id: '#swagger-ui',
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            layout: "StandaloneLayout"
+        })
+
+        window.ui = ui;
+    }
+</script>

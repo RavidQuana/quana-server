@@ -1,0 +1,34 @@
+<%
+	style = {
+		background: '#4a2c7b',
+		border_radius: '2px',
+		color: '#ffffff',
+		display: 'block',
+		font_family: 'Open Sans',
+		font_size: '16px',
+		font_weight: '400',
+		line_height: '120%',
+		margin: '0',
+		padding: '10px 25px',
+		text_align: 'center',
+		text_decoration: 'none',
+		text_transform: 'none'
+	}.merge(style || { })
+%>
+
+<tr>
+	<td align="<%= style[:text_align] %>" style="font-size: 0px; padding: 10px 25px; padding-bottom: 30px; 
+		word-break: break-word;">
+		<table border="0" cellpadding="0" cellspacing="0" role="presentation" 
+			style="border-collapse: separate; width: 250px; line-height: 100%;">
+			<tr>
+				<td align="center" bgcolor="<%= style[:background] %>" role="presentation" 
+					style="border: none; cursor: auto; background: <%= style[:background] %>;
+					border-radius: <%= style[:border_radius] %>" valign="middle"> 
+					<%= link_to button_text, button_url, target: '_blank', 
+						style: to_css_string(style.except(:text_align)) %> 
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>

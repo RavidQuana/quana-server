@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang=<%= I18n.locale %>>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+		<title><%= [@page_title, ActiveAdmin.application.site_title].compact.join(" | ") %></title>
+
+		<% ActiveAdmin.application.stylesheets.each do |style, options| %>
+			<%= stylesheet_link_tag style, options %>
+		<% end %>
+
+		<% ActiveAdmin.application.javascripts.each do |path| %>
+			<%= javascript_include_tag path %>
+		<% end %>
+
+		<%= favicon_link_tag asset_path('favicon.png') %>
+
+		<%= csrf_meta_tag %>
+	</head>
+
+	<body class="active_admin logged_out <%= controller.action_name %>">
+		<div id="wrapper">
+			<div id="content_wrapper">
+				<% flash_messages.each do |type, message| %>
+          			<%= render 'shared/flash', type: type, message: message %>
+        		<% end %>
+
+				<div id="active_admin_content">
+					<%= yield %>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

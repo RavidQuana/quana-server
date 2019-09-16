@@ -1,0 +1,369 @@
+he:
+  best_in_place:
+    cancel: ביטול
+    ok: אישור
+  date:
+    abbr_day_names:
+    - א
+    - ב
+    - ג
+    - ד
+    - ה
+    - ו
+    - ש
+    abbr_month_names:
+    - null
+    - ינו
+    - פבר
+    - מרץ
+    - אפר
+    - מאי
+    - יונ
+    - יול
+    - אוג
+    - ספט
+    - אוק
+    - נוב
+    - דצמ
+    day_names:
+    - ראשון
+    - שני
+    - שלישי
+    - רביעי
+    - חמישי
+    - שישי
+    - שבת
+    formats:
+      default: '%d-%m-%Y'
+      long: '%e ב%B, %Y'
+      short: '%e %b'
+    month_names:
+    - null
+    - ינואר
+    - פברואר
+    - מרץ
+    - אפריל
+    - מאי
+    - יוני
+    - יולי
+    - אוגוסט
+    - ספטמבר
+    - אוקטובר
+    - נובמבר
+    - דצמבר
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: בערך שעה אחת
+        other: בערך %{count} שעות
+      about_x_months:
+        one: בערך חודש אחד
+        other: בערך %{count} חודשים
+      about_x_years:
+        one: בערך שנה אחת
+        other: בערך %{count} שנים
+      almost_x_years:
+        one: כמעט שנה
+        other: כמעט %{count} שנים
+      half_a_minute: חצי דקה
+      less_than_x_minutes:
+        one: פחות מדקה אחת
+        other: פחות מ- %{count} דקות
+        zero: פחות מדקה אחת
+      less_than_x_seconds:
+        one: פחות משניה אחת
+        other: פחות מ- %{count} שניות
+        zero: פחות משניה אחת
+      over_x_years:
+        one: מעל שנה אחת
+        other: מעל %{count} שנים
+      x_days:
+        one: יום אחד
+        other: '%{count} ימים'
+      x_minutes:
+        one: דקה אחת
+        other: '%{count} דקות'
+      x_months:
+        one: חודש אחד
+        other: '%{count} חודשים'
+      x_seconds:
+        one: שניה אחת
+        other: '%{count} שניות'
+    prompts:
+      day: יום
+      hour: שעה
+      minute: דקה
+      month: חודש
+      second: שניות
+      year: שנה
+  errors:
+    format: '%{attribute}: %{message}'
+    messages:
+      accepted: חייב באישור
+      blank: לא יכול להיות ריק
+      confirmation: לא תואם לאישורו
+      empty: לא יכול להיות ריק
+      equal_to: חייב להיות שווה ל- %{count}
+      even: חייב להיות זוגי
+      exclusion: לא זמין
+      greater_than: חייב להיות גדול מ- %{count}
+      greater_than_or_equal_to: חייב להיות גדול או שווה ל- %{count}
+      inclusion: לא נכלל ברשימה
+      invalid: לא תקין
+      less_than: חייב להיות קטן מ- %{count}
+      less_than_or_equal_to: חייב להיות קטן או שווה ל- %{count}
+      not_a_number: חייב להיות מספר
+      not_an_integer: חייב להיות מספר שלם
+      odd: חייב להיות אי זוגי
+      taken: כבר בשימוש
+      too_long: ארוך מדי (יותר מ- %{count} תווים)
+      too_short: קצר מדי (פחות מ- %{count} תווים)
+      wrong_length: לא באורך הנכון (חייב להיות %{count} תווים)
+      content_type_whitelist_error: הינו בפורמט אשר אינו נתמך ע"י המערכת
+      upload_failed: לא ניתן להעלות את הקובץ
+      file_size_too_big: ניתן להעלות קבצים עד לנפח של
+      file_size_is_greater_than_or_equal_to: "קטן מדי (נפח מינימלי: %{count})"
+      file_size_is_less_than_or_equal_to: "גדול מדי (נפח מרבי: %{count})"       
+    template:
+      body: 'אנא בדוק את השדות הבאים:'
+      header:
+        one: 'לא ניתן לשמור את ה%{model}: שגיאה אחת'
+        other: 'לא ניתן לשמור את ה%{model}: %{count} שגיאות.'
+  formtastic:
+    create: אישור
+    no: לא
+    update: אישור
+    yes: כן
+  helpers:
+    select:
+      prompt: נא לבחור
+    submit:
+      create: יצירת %{model}
+      submit: שמור %{model}
+      update: עדכון %{model}
+  number:
+    currency:
+      format:
+        delimiter: ','
+        format: '%u %n'
+        precision: 2
+        separator: .
+        significant: false
+        strip_insignificant_zeros: false
+        unit: ₪
+    format:
+      delimiter: ','
+      precision: 3
+      separator: .
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: '%n %u'
+        units:
+          billion: מיליארד
+          million: מיליון
+          quadrillion: קודריליון
+          thousand: אלף
+          trillion: טריליון
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: '%n %u'
+        units:
+          byte:
+            one: בייט
+            other: בתים
+          gb: GB
+          kb: kb
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  mailer:
+    footer: 
+      html: |
+        תודה,<br />
+        צוות %{app_name}  
+    address:
+      html: '&copy; 2019 %{app_name}, כל הזכויות שמורות.'
+  sms:
+    devise:
+      otp:
+        body: Welcome to %{app_name}. Your code is %{code}.
+        failure: An unexpected error occurred. Please try again.
+        success: Activation code successfully sent! 
+  support:
+    array:
+      last_word_connector: ' ו'
+      two_words_connector: ' ו'
+      words_connector: ', '
+  time:
+    am: am
+    formats:
+      default: '%a %d %b %H:%M:%S %Z %Y'
+      long: '%d.%m.%Y %H:%M'
+      short: '%H:%M'
+      am_pm: '%I:%M %p'
+    pm: pm
+  views:
+    pagination:
+      next: הבא
+      last: אחרון
+      first: ראשון
+      previous: הקודם
+      truncate: ...
+  attributes: #shared
+    id: מזהה
+    name: שם
+    created_at: נוצר ב
+    updated_at: עודכן ב
+  activerecord:
+    models:
+      admin: ניהול
+      admin_user:
+        one: חשבון
+        other: חשבונות
+      admin_role:
+        one: הרשאות
+        other: הרשאות
+      app_settings:
+        one: הגדרה
+        other: הגדרות
+      client_action: 
+        one: פעולה
+        other: פעולות       
+      device:
+        one: מכשיר
+        other: מכשירים
+      notification:
+        one: התראה
+        other: התראות
+      notification_type:
+        one: סוג
+        other: סוגי התראות 
+    attributes:
+      admin_user:
+        id: מזהה
+        name: שם
+        first_name: שם פרטי
+        last_name: שם משפחה
+        email: דוא"ל
+        thumbnail: תמונה
+        phone_number: מספר טלפון
+        password: סיסמה
+        password_confirmation: סיסמה (חזור שנית)
+        sign_in_count: כניסות
+        last_sign_in_at: כניסה אחרונה ב
+        last_sign_in_ip: כניסה אחרונה מ
+        current_sign_in_at: כניסה נוכחית ב
+        current_sign_in_ip: כניסה נוכחית מ        
+        admin_role: הרשאות
+      admin_role:
+        display_name: שם תצוגה
+        admin_managed_resources: הרשאות
+      app_settings:
+        key: הגדרה
+        value: ערך
+        data_type: סוג
+        data_types:
+          string: מחרוזת
+          integer: מספרי
+          decimal: עשרוני
+          boolean: בוליאני
+        description: תיאור
+        is_client_accessible: נגיש לאפליקציות?
+      client_action:
+        required_linkable_type: מקושר ל
+      device:
+        owner: בעלים
+        owner_type: סוג בעלים
+        owner_id: בעלים    
+        device_token: מכשיר
+        device_type: סוג מכשיר
+        os_type: סוג מערכת הפעלה
+        os_types:
+          ios: iOS
+          android: Android
+        os_version: גרסת מערכת הפעלה
+        app_version: גרסת אפליקציה 
+        failed_attempts: מס. בקשות (רצופות) שנכשלו
+        is_sandbox: מצב Sandbox?
+      notification:
+        sender: מקור
+        sender_type: סוג מקור
+        sender_id: מקור
+        receiver: יעד
+        receiver_type: סוג יעד
+        receiver_id: יעד
+        notification_type: סוג התראה
+        notification_type_id: סוג התראה
+        body: תוכן
+        linkable: מקושר ל
+        linkable_type: סוג קישור
+        linkable_id: מקושר ל
+        delivery_status: סטטוס 
+        delivery_statuses:   
+          received: התקבל
+          seen: נצפה
+          read: נקרא
+      notification_type:
+        body_pattern: תבנית תוכן
+        body_pattern_he: תבנית תוכן
+        body_pattern_en: תבנית תוכן (אנגלית)
+        client_action: פעולה
+        client_action_id: פעולה
+        send_push: שלח בדחיפה?
+        send_sms: שלח מסרון?
+    scopes:
+      all: הכל
+      hidden: מוסתר    
+    errors:
+      messages:
+        extension_white_list_error: הקובץ שנבחר הינו בפורמט אשר אינו נתמך ע"י המערכת - אנא בחר בקובץ אחר ונסה שנית
+        min_size_error: "גודל קובץ מינימלי להעלאה %{min_size}"
+        max_size_error: "גודל קובץ מרבי להעלאה %{max_size}"
+        id_number: אינה חוקית
+        image_size: 'לא ניתן להעלות את %{filename} - קובץ  תמונה מקסימלי הוא עד %{image_size} מגה '
+        just_datetime_invalid_date: התאריך שהוזן אינו חוקי
+        just_datetime_invalid_time_hour: הערך שהוזן עבור השעה אינו חוקי
+        just_datetime_invalid_time_minute: הערך שהוזן עבור הדקות אינו חוקי
+        mime_type: סוג קובץ זה אינו נתמך
+        record_invalid: ארעה שגיאה בעת שמירת הפריט. אנא בדוק את הנתונים ונסה שנית.
+      models:
+        admin_user:
+          attributes:
+            email:
+              blank: יש להזין כתובת דוא"ל
+              invalid: כתובת הדוא"ל שהוזנה אינה תקינה
+            password:
+              blank: יש להזין סיסמה
+              taken_in_past: יש לבחור בסיסמה שלא נעשה בה שימוש בעבר
+              too_short: הסיסמה שהוזנה קצרה מדי (מינ. 8 תווים)
+              password_complexity:
+                digit: חייבת להכיל לפחות ספרה אחת
+                upper: חייבת להכיל לפחות אות גדולה אחת
+            password_confirmation:
+              confirmation: הסיסמאות אינן תואמות
+            reset_password_token:
+              invalid: מפתח איפוס הסיסמה אינו תקין או פג תוקף. אנא נסה שנית.
+            admin_role:
+              blank: לא יכול להיות ריק
+              required: לא יכול להיות ריק
+        app_settings:
+          attributes:
+            key:
+              blank: יש להזין שם עבור ההגדרה
+              taken: ההגדרה המבוקשת קיימת כבר במערכת

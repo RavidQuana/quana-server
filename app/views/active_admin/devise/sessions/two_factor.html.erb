@@ -1,0 +1,25 @@
+<div id="login">
+  	<header class="auth-header">
+		<%= image_tag "logo.svg", class: 'logo' %>
+		<h1><%= I18n.t('active_admin.devise.two_factor.title') %></h1>
+  	</header> 
+
+	<section class="auth-main">
+		<% scope = Devise::Mapping.find_scope!(resource_name) %>
+	  	<%= active_admin_form_for(resource, as: resource_name, url: send(:"#{scope}_session_path", 
+	  		locale: I18n.locale), html: { method: :post }) do |f|
+		
+			f.inputs do	  		
+		  		f.input :otp_attempt, as: :password, label: I18n.t('active_admin.devise.code.title'),
+		  			input_html: { autofocus: true }
+			end
+		
+			f.actions do
+		  		f.action :submit, label: I18n.t('active_admin.devise.two_factor.submit'), button_html: { 
+		  			value: I18n.t('active_admin.devise.two_factor.submit') }
+	  		end
+	  	end %>
+	</section>
+
+	<%= render "active_admin/devise/shared/footer" %> 
+</div>

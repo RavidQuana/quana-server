@@ -1,0 +1,23 @@
+<div id="login">
+	<header class="auth-header">
+		<%= image_tag "logo.svg", class: 'logo' %>
+		<h1><%= I18n.t('active_admin.devise.otp.title') %></h1>
+		<h2><%= I18n.t('active_admin.devise.otp.instructions') %></h2>
+	</header>
+
+	<section class="auth-main">
+		<%= image_tag "data:image/svg+xml;base64,#{Base64.encode64(@qrcode.as_svg.to_s)}", class: 'qr-code' %>
+	
+	  	<%= active_admin_form_for(:otp, url: otp_setup_path(locale: I18n.locale), html: { method: :post }) do |f|
+		    f.inputs do
+		      	f.input :code, as: :password, label: I18n.t('active_admin.devise.code.title'), input_html: { 
+					autofocus: true }
+		    end
+
+		    f.actions do
+		      	f.action :submit, label: t('active_admin.devise.otp.submit'), button_html: { 
+		      		value: t('active_admin.devise.otp.submit') }
+		    end
+		end %>
+	</section>
+</div>
