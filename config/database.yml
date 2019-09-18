@@ -11,7 +11,7 @@ default: &default
 # (otherwise, an exception is thrown, and this file is overridden by Heroku anyway)
 test:
   <<: *default
-  database: quana_test
+  database: postgres
   host: postgres
   username: postgres
 
