@@ -1,3 +1,5 @@
+![](https://github.com/MonkeyTech/quana-server/workflows/Rails%20Unit%20Tests/badge.svg)
+
 # Archicebus
 
 Archicebus is a Ruby on Rails server-side project boilerplate. It includes most of Monkeytech's infrastructure modules and aims to provide guidelines and best practices for projects developed inside the company.
