@@ -18,17 +18,23 @@ jobs:
           --health-retries 5
     steps:
     - uses: actions/checkout@master
-    - name: Build and test with Rake
-      env:
-        DATABASE_URL: localhost
-        DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
-        RAILS_ENV: test
+    - name: Install libraries
       run: |
         apt-get update
         apt-get -yqq install libpq-dev
         apt-get -yqq install nodejs
+    - name: Install gems
+      run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+    - name: Create db
+      run: |
+        psql -h localhost -c "create database activerecord_unittest;" -U quana_test
+    - name: Migrate and Test
+      env:
+        DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
+        RAILS_ENV: test
+      run: |
         bundle exec rails db:create
         bundle exec rails db:migrate
         bundle exec rails test
