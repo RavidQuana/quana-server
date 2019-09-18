@@ -20,8 +20,8 @@ jobs:
     - uses: actions/checkout@master
     - name: Build and test with Rake
       env:
-        PGHOST: 127.0.0.1
-        PGUSER: postgres
+        DATABASE_URL: localhost
+        DATABASE_PORT: ${{ job.services.postgres.ports[5432] }}
         RAILS_ENV: test
       run: |
         apt-get update
