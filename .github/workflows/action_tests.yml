@@ -26,7 +26,7 @@ jobs:
       run: |
         apt-get update
         apt-get -yqq install libpq-dev
-        apt-get install libv8-dev
+        apt-get -yqq install libv8-dev
         gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rails db:create
