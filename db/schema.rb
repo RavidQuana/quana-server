@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_081933) do
+ActiveRecord::Schema.define(version: 2019_09_18_140219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,32 @@ ActiveRecord::Schema.define(version: 2019_04_30_081933) do
     t.index ["name"], name: "index_client_actions_on_name"
   end
 
+  create_table "data_records", force: :cascade do |t|
+    t.integer "sample_id", null: false
+    t.string "read_id", null: false
+    t.string "file_id", null: false
+    t.string "food_label", null: false
+    t.integer "card", null: false
+    t.decimal "secs_elapsed", precision: 10, scale: 4, null: false
+    t.string "ard_state", null: false
+    t.decimal "msec", precision: 10, scale: 4, null: false
+    t.decimal "si", precision: 10, scale: 4, null: false
+    t.decimal "clean_duration", precision: 10, scale: 4, null: false
+    t.integer "qcm_respond", null: false
+    t.integer "qcm_1", null: false
+    t.integer "qcm_2", null: false
+    t.integer "qcm_3", null: false
+    t.integer "qcm_4", null: false
+    t.integer "qcm_5", null: false
+    t.integer "qcm_6", null: false
+    t.integer "qcm_7", null: false
+    t.integer "ht_status"
+    t.integer "humidiy"
+    t.integer "temp"
+    t.string "fan_type", null: false
+    t.index ["sample_id"], name: "index_data_records_on_sample_id"
+  end
+
   create_table "devices", force: :cascade do |t|
     t.integer "owner_id"
     t.string "owner_type"
@@ -122,6 +148,12 @@ ActiveRecord::Schema.define(version: 2019_04_30_081933) do
     t.datetime "updated_at", null: false
     t.index ["device_token"], name: "index_devices_on_device_token"
     t.index ["owner_id", "owner_type"], name: "index_devices_on_owner"
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notification_types", force: :cascade do |t|
@@ -163,6 +195,18 @@ ActiveRecord::Schema.define(version: 2019_04_30_081933) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
+  end
+
+  create_table "samples", force: :cascade do |t|
+    t.string "type", null: false
+    t.integer "material_id", null: false
+    t.integer "user_id"
+    t.string "device"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["material_id"], name: "index_samples_on_material_id"
+    t.index ["type"], name: "index_samples_on_type"
+    t.index ["user_id"], name: "index_samples_on_user_id"
   end
 
 end

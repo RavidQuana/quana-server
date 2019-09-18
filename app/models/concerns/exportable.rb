@@ -4,6 +4,41 @@ module Exportable
   module ClassMethods
     attr_reader :exportable_methods
 
+    def stream_query_rows(sql_query, options="WITH CSV HEADER")
+      conn = ActiveRecord::Base.connection.raw_connection
+      conn.copy_data "COPY (#{sql_query}) TO STDOUT #{options};" do
+        while row = conn.get_copy_data
+          yield row
+        end
+      end
+    end
+
+    def stream_file_csv_report(query)
+      #query_options = "WITH CSV HEADER"
+      # Note that if you have a custom select in your query
+      # you may need to generate the header yourself. e.g.
+      # => stream.write "Created Date,Ordered Date,Price,# of Items"
+      # => query_options = "WITH CSV" # note the lack of 'HEADER'
+      stream_file(self.name, "csv") do |stream|
+        self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
+          stream.write row_from_db
+        end
+      end
+    end
+  
+    def stream_csv_report(query)
+      #query_options = "WITH CSV HEADER"
+      # Note that if you have a custom select in your query
+      # you may need to generate the header yourself. e.g.
+      # => stream.write "Created Date,Ordered Date,Price,# of Items"
+      # => query_options = "WITH CSV" # note the lack of 'HEADER'
+      Enumerator.new do |yielder|
+        self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
+          yielder << row_from_db
+        end
+      end
+    end
+
     def exportables
       @exportables || {
           name: I18n.t('active_admin.data_export.data'),

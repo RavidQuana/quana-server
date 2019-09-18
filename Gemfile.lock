@@ -384,6 +384,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    rcsv (0.3.1)
     redis (4.1.2)
     redis-actionpack (5.1.0)
       actionpack (>= 4.0, < 7)
@@ -553,6 +554,7 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rails (= 6.0.0)
+  rcsv
   redis
   redis-rails
   require_all

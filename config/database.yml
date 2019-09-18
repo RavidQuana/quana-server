@@ -1,5 +1,5 @@
 default: &default
-  database: archicebus_dev
+  database: quana
   adapter: postgresql
   encoding: unicode
   host: localhost
@@ -11,7 +11,8 @@ default: &default
 # (otherwise, an exception is thrown, and this file is overridden by Heroku anyway)
 test:
   <<: *default
-  database: archicebus_test
+  database: quana_test
+  host: postgres
   username: postgres
 
 development: 

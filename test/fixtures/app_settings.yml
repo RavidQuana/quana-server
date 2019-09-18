@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: app_settings
+#
+#  id                   :bigint           not null, primary key
+#  key                  :string           not null
+#  value                :string
+#  data_type            :integer          default("string")
+#  description          :string(4096)
+#  is_client_accessible :boolean          default(FALSE)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#
+
 app_version:
   key: app_version
   value: '0.1'

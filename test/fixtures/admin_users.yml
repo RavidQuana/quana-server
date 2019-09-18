@@ -5,6 +5,7 @@
 #  id                        :bigint           not null, primary key
 #  first_name                :string           not null
 #  last_name                 :string           not null
+#  thumbnail                 :string
 #  admin_role_id             :integer
 #  email                     :string           default(""), not null
 #  encrypted_password        :string           default(""), not null

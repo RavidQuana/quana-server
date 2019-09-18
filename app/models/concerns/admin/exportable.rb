@@ -18,8 +18,24 @@ module Admin
 
         send(:define_method, :index) do
           index! do |format|
-            format.csv { stream_csv }
-            format.xlsx {
+            format.csv { 
+                # Tell Rack to stream the content
+                headers.delete("Content-Length")
+                # Don't cache anything from this generated endpoint
+                headers["Cache-Control"] = "no-cache"
+                # Tell the browser this is a CSV file
+                headers["Content-Type"] = "text/csv"
+                # Make the file download with a specific filename
+                headers["Content-Disposition"] = "attachment; filename=\"example.csv\""
+                # Don't buffer when going through proxy servers
+                headers["X-Accel-Buffering"] = "no"
+                # Set an Enumerator as the body
+                self.response_body = resource.stream_csv_report(collection)
+                # Set the status to success
+                response.status = 200
+                #stream_csv
+            }
+            format.xlsx { 
               filters = @search.conditions.map {
                   |condition| ActiveAdmin::Filters::ActiveFilter.new(base.config, condition.dup)
               }
