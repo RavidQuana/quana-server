@@ -12,7 +12,6 @@ default: &default
 test:
   <<: *default
   database: archicebus_test
-  host: postgres
   username: postgres
 
 development: 
