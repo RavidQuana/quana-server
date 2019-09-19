@@ -1,6 +1,8 @@
 class DataExporter
 	include Sidekiq::Worker
-  	sidekiq_options queue: 'data', retry: false
+    sidekiq_options queue: 'data', retry: false
+      
+    
 
 	def perform(email, resource, ids, includes, filters)
 		begin

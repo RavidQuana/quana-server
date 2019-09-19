@@ -38,6 +38,28 @@ module Exportable
         end
       end
     end
+    
+    def stream_csv_report_exportable(query, exportable_data)
+      #query_options = "WITH CSV HEADER"
+      # Note that if you have a custom select in your query
+      # you may need to generate the header yourself. e.g.
+      # => stream.write "Created Date,Ordered Date,Price,# of Items"
+      # => query_options = "WITH CSV" # note the lack of 'HEADER'
+      query = query.joins(exportable_data[:joins]) if exportable_data[:joins].present?
+      query = query.select(exportable_data[:columns].map{|column|
+        if column.is_a? Symbol
+          table_name + "." + column.to_s
+        else
+          column
+        end
+      })
+      pp query.to_sql
+      Enumerator.new do |yielder|
+        self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
+          yielder << row_from_db
+        end
+      end
+    end
 
     def exportables
       @exportables || [{

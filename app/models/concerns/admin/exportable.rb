@@ -27,11 +27,11 @@ module Admin
                 # Tell the browser this is a CSV file
                 headers["Content-Type"] = "text/csv"
                 # Make the file download with a specific filename
-                headers["Content-Disposition"] = "attachment; filename=\"example.csv\""
+                headers["Content-Disposition"] = "attachment; filename=\"data.csv\""
                 # Don't buffer when going through proxy servers
                 headers["X-Accel-Buffering"] = "no"
                 # Set an Enumerator as the body
-                self.response_body = resource.stream_csv_report(collection)
+                self.response_body = resource.stream_csv_report_exportable(collection, resource.exportables.first)
                 # Set the status to success
                 response.status = 200
                 #stream_csv
@@ -57,18 +57,32 @@ module Admin
               end
             }
             format.xlsx { 
+              # Tell Rack to stream the content
+              headers.delete("Content-Length")
+              # Don't cache anything from this generated endpoint
+              headers["Cache-Control"] = "no-cache"
+              # Tell the browser this is a CSV file
+              headers["Content-Type"] = "text/csv"
+              # Make the file download with a specific filename
+              headers["Content-Disposition"] = "attachment; filename=\"data.xlsx\""
+              # Don't buffer when going through proxy servers
+              headers["X-Accel-Buffering"] = "no"
+              # Set an Enumerator as the body
+
+
               filters = @search.conditions.map {
-                  |condition| ActiveAdmin::Filters::ActiveFilter.new(base.config, condition.dup)
+                |condition| ActiveAdmin::Filters::ActiveFilter.new(base.config, condition.dup)
               }
               filter_data = filters.map {|filter| {
                   key: filter.label,
                   value: filter.values.map {|v| v.try(:id) || v}.join(', ')
               }}
 
-              DataExporter.perform_async(@current_admin_user.email, resource_name, collection.map(&:id),
-                                         collection.includes_values, filter_data)
-              flash[:notice] = I18n.t('active_admin.data_export.success', email: @current_admin_user.email)
-              redirect_to request.referer
+              xlsx_stream = collection.includes(collection.includes_values).to_xlsx(filter_data)
+
+              self.response_body = xlsx_stream
+              # Set the status to success
+              response.status = 200
             }
           end
         end

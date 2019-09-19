@@ -32,6 +32,38 @@
 #because we dont create/destroy with models but directly with db (aka bulk insert/delete)
 class DataRecord < ApplicationRecord
     include Exportable
+    exportable [
+		{
+			name: I18n.t('activerecord.models.data_record.other'),
+			columns: [
+                "materials.name",
+                :read_id,
+                :file_id,
+                :food_label,
+                :card,
+                :secs_elapsed,
+                :ard_state,
+                :msec,
+                :si,
+                :clean_duration,
+                :qcm_respond,
+                :qcm_1,
+                :qcm_2,
+                :qcm_3,
+                :qcm_4,
+                :qcm_5,
+                :qcm_6,
+                :qcm_7,
+                :ht_status,
+                :humidiy,
+                :temp,
+                :fan_type,
+            ],
+            joins: [
+                :material
+            ]
+	 	}
+	]
 
     belongs_to :sample
     has_one :material, through: :sample
