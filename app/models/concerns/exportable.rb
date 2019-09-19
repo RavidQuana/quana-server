@@ -40,10 +40,10 @@ module Exportable
     end
 
     def exportables
-      @exportables || {
+      @exportables || [{
           name: I18n.t('active_admin.data_export.data'),
           columns: column_names
-      }
+      }]
     end
 
     def exportable(exportables)
