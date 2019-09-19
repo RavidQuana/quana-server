@@ -1,5 +1,13 @@
 {
   "name": "archicebus",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "https://github.com/rails/webpacker.git",
+    "core-js": "^3.2.1",
+    "rails-erb-loader": "^5.5.2",
+    "regenerator-runtime": "^0.13.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.8.1"
+  }
 }

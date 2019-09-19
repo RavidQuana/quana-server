@@ -254,6 +254,12 @@ he:
       notification_type:
         one: סוג
         other: סוגי התראות 
+      sample:  
+        one: דגימה
+        other: דגימות
+      data_record:  
+        one: שורת דגימה
+        other: מידע דגימות
     attributes:
       admin_user:
         id: מזהה
