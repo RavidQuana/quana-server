@@ -9,7 +9,7 @@ ActiveAdmin.register DataRecord do
 
 	actions :all
 
-	filter :idvv
+	filter :id
     filter :sample_id
     filter :material_id
 

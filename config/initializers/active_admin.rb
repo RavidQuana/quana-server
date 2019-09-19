@@ -266,7 +266,7 @@ ActiveAdmin.setup do |config|
 	#   end
 
 	config.namespace :admin do |admin|
-		admin.download_links = [:xlsx, :csv]
+		admin.download_links = [:xlsx, :csv, :zip]
 	end
 
 

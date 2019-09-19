@@ -14,5 +14,8 @@
 class Sample < ApplicationRecord
     belongs_to :material
     belongs_to :user, optional: true
-    has_many :data_points
+
+    def data
+        raise "no data"
+    end
 end

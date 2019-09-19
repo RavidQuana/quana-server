@@ -228,6 +228,8 @@ he:
   attributes: #shared
     id: מזהה
     name: שם
+    type: סוג
+    status: סטאטוס
     created_at: נוצר ב
     updated_at: עודכן ב
   activerecord:
@@ -260,6 +262,9 @@ he:
       data_record:  
         one: שורת דגימה
         other: מידע דגימות
+      material:
+        one: חומר
+        other: חומרים
     attributes:
       admin_user:
         id: מזהה

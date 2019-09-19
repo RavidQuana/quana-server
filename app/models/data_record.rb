@@ -27,18 +27,22 @@
 #  fan_type       :string           not null
 #
 
+#This structure is a simple raw data table
+#make sure you dont add stuff like after_create/after_destroy 
+#because we dont create/destroy with models but directly with db (aka bulk insert/delete)
 class DataRecord < ApplicationRecord
     include Exportable
 
     belongs_to :sample
     has_one :material, through: :sample
 
-    def self.insert_csv(file_or_string, sample_id)
+    def self.insert_csv(file_or_string, sample)
+        raise "sample id is null" if sample.nil? || sample.id.nil?
         require 'rcsv'
         csv_data = Enumerator.new do |y|
 			Rcsv.parse(file_or_string, headers: :skip).each{|row|
 				y << {
-                    sample_id: sample_id,
+                    sample_id: sample.id,
                     read_id: row[0],
                     file_id: row[1],
                     food_label: row[2],
@@ -63,7 +67,7 @@ class DataRecord < ApplicationRecord
 				}
 			}
         end
-        DataRecord.insert_all(csv_data.to_a)
+        DataRecord.insert_all!(csv_data.to_a)
     end
 
 

@@ -109,3 +109,4 @@ group :test do
 end
 
 gem 'rcsv'
+gem 'zip_tricks'

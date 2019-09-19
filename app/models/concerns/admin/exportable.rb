@@ -1,6 +1,7 @@
 module Admin
   module Exportable
     extend ActiveSupport::Concern
+    include ActionController::Live # required for streaming
 
     def self.included(base)
       resource = base.config.resource_class.name.constantize
@@ -34,6 +35,26 @@ module Admin
                 # Set the status to success
                 response.status = 200
                 #stream_csv
+            }
+            format.zip { 
+              begin
+                # Set a reasonable content type
+                response.headers['Content-Type'] = 'application/zip'
+                # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
+                response.headers['X-Accel-Buffering'] = 'no'
+                # Create a wrapper for the write call that quacks like something you
+                # can << to, used by ZipTricks
+                w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
+                ZipTricks::Streamer.open(w) { |zip| 
+                  zip.write_deflated_file('data.csv') do |sink|
+                    resource.stream_csv_report(collection).lazy.each{|row|
+                      sink.write(row)
+                    }
+                  end
+                }
+              ensure
+                response.stream.close
+              end
             }
             format.xlsx { 
               filters = @search.conditions.map {
