@@ -18,3 +18,32 @@
 @import "admin/select2";
 @import "admin/authentication";
 @import "active_admin_scoped_collection_actions";
+
+
+.member_link_scope {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    background-color: #4a2c7b;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    -webkit-transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+    -o-transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+    transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+    cursor: pointer;
+    width: 100%;
+    padding: 0 12px;
+    font-size: 15px;
+    font-weight: 500;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    height: 30px;
+  }

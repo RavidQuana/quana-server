@@ -29,13 +29,13 @@
 //= require active_admin_scoped_collection_actions
 //= require chartkick
 //= require Chart.bundle
+//= require redirect
 
 
 $(function () {
     $('.download-trigger').click(function (e) {
         var data = JSON.parse($(this).attr("data"));
         var url = window.location.pathname + '/batch_action' + window.location.search
-
 
         var gdata = $('#main_content form').serializeArray().reduce(function (obj, item) {
             if (item.name[item.name.length - 2] == "[" && item.name[item.name.length - 1] == "]") {
@@ -56,7 +56,6 @@ $(function () {
             batch_action: data.batch_action,
             'collection_selection[]': gdata['collection_selection[]']
         }
-        sending = true;
-        window.location.href = url + "&authenticity_token=" + data.auth_token + "&batch_action=" + data.batch_action;
+        $.redirect(url, form_data);
     })
 });

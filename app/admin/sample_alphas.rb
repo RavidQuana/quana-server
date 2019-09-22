@@ -25,25 +25,6 @@ ActiveAdmin.register SampleAlpha do
 		#link_to 'View on site', download_samples_admin_samples_path(request.parameters[:q])
 	end
 	
-	member_action :download_csv, method: :get do
-		begin
-			 # Don't cache anything from this generated endpoint
-			 response.headers["Cache-Control"] = "no-cache"
-			 # Tell the browser this is a CSV file
-			 response.headers["Content-Type"] = "text/csv"
-			 # Make the file download with a specific filename
-			 response.headers["Content-Disposition"] = "attachment; filename=\"#{resource.file_name}\""
-			 # Don't buffer when going through proxy servers
-			 response.headers["X-Accel-Buffering"] = "no"
-			 # Set an Enumerator as the body
-			 resource.data_type.stream_csv_report(resource.data).lazy.each{|row|
-				response.stream.write(row)
-			 }
-		ensure
-			response.stream.close
-		end
-	end
-
 	index do
 		selectable_column
 		id_column
@@ -55,7 +36,7 @@ ActiveAdmin.register SampleAlpha do
 		column :file_name
 		
         actions defaults: true do |instance|
-			item "הורד", public_send("download_csv_admin_#{instance.class.model_name.param_key}_path", instance.id), class: "member_link"
+			item "הורד", public_send("download_csv_admin_sample_path", instance.id), class: "member_link"
 		end
 	end
 

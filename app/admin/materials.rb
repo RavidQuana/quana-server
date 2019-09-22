@@ -8,7 +8,7 @@ ActiveAdmin.register Material do
 	actions :all
 
 	filter :id
-	filter :name
+    filter :name
 	
 	member_action :download_zip, method: :get do
 		
@@ -39,7 +39,7 @@ ActiveAdmin.register Material do
 			params.permit! 
 		end  
 
-		def download_zip
+        def download_zip
 			scoped_collection_records = resource.samples
 			begin
 			 # Set a reasonable content type

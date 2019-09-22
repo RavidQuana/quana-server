@@ -1,4 +1,6 @@
 he:
+  active_admin_scoped_collection_actions:
+    sidebar_msg: "פעולות"
   best_in_place:
     cancel: ביטול
     ok: אישור
@@ -259,6 +261,9 @@ he:
       sample:  
         one: דגימה
         other: דגימות
+      sample_alpha:  
+        one: דגימה
+        other: דגימות
       data_record:  
         one: שורת דגימה
         other: מידע דגימות
@@ -340,6 +345,22 @@ he:
         send_sms: שלח מסרון?
       material:
         samples_count: כמות דגימות
+      sample:
+        material: חומר
+        device: מכשיר
+        user: יוזר
+        files: קבצי CSV
+        data_records: מידע
+        data: מידע
+        file_name: שם קובץ
+      sample_alpha:
+        material: חומר
+        device: מכשיר
+        user: יוזר
+        files: קבצי CSV
+        data_records: מידע
+        data: מידע
+        file_name: שם קובץ
     scopes:
       all: הכל
       hidden: מוסתר    
