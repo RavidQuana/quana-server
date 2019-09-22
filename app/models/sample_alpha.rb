@@ -1,4 +1,6 @@
 class SampleAlpha < Sample
+    include Exportable
+    
     has_many :data_records, dependent: :delete_all, foreign_key: :sample_id
 
     accepts_nested_attributes_for :data_records, :allow_destroy => true

@@ -31,6 +31,9 @@ ActiveAdmin.register Material do
 		end
 	end
 
+	
+	index download_links: [:csv, :zip]
+
 	controller do
 		def permitted_params
 			params.permit! 
@@ -64,6 +67,8 @@ ActiveAdmin.register Material do
 		end
 
 		def download_zip_combined
+			scoped_collection_records = resource.samples
+			
 			begin
 			 # Set a reasonable content type
 			 response.headers['Content-Type'] = 'application/zip'

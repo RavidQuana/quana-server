@@ -23,21 +23,22 @@ module Admin
         send(:define_method, :index) do
           index! do |format|
             format.csv { 
-                # Tell Rack to stream the content
-                headers.delete("Content-Length")
+              begin
                 # Don't cache anything from this generated endpoint
-                headers["Cache-Control"] = "no-cache"
+                response.headers["Cache-Control"] = "no-cache"
                 # Tell the browser this is a CSV file
-                headers["Content-Type"] = "text/csv"
+                response.headers["Content-Type"] = "text/csv"
                 # Make the file download with a specific filename
-                headers["Content-Disposition"] = "attachment; filename=\"data.csv\""
+                response.headers["Content-Disposition"] = "attachment; filename=\"data.csv\""
                 # Don't buffer when going through proxy servers
-                headers["X-Accel-Buffering"] = "no"
+                response.headers["X-Accel-Buffering"] = "no"
                 # Set an Enumerator as the body
-                self.response_body = resource.stream_csv_report_exportable(collection, resource.exportables.first)
-                # Set the status to success
-                response.status = 200
-                #stream_csv
+                resource.stream_csv_report(collection).lazy.each{|row|
+                  response.stream.write(row)
+                }
+              ensure
+                response.stream.close
+              end
             }
             format.zip { 
               begin

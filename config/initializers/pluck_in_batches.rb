@@ -43,7 +43,7 @@ class ActiveRecord::Relation
       loop do
         items = self.where(table[primary_key].gteq(batch_start))
                     .limit(batch_size)
-                    .order(table[primary_key].asc)
+                    .reorder(table[primary_key].asc)
                     .pluck(*select_columns)
         
         break if items.empty?

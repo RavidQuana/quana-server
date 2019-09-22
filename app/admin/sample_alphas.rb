@@ -27,21 +27,18 @@ ActiveAdmin.register SampleAlpha do
 	
 	member_action :download_csv, method: :get do
 		begin
-			 # Tell Rack to stream the content
-			 headers.delete("Content-Length")
 			 # Don't cache anything from this generated endpoint
-			 headers["Cache-Control"] = "no-cache"
+			 response.headers["Cache-Control"] = "no-cache"
 			 # Tell the browser this is a CSV file
-			 headers["Content-Type"] = "text/csv"
+			 response.headers["Content-Type"] = "text/csv"
 			 # Make the file download with a specific filename
-			 headers["Content-Disposition"] = "attachment; filename=\"#{resource.file_name}\""
+			 response.headers["Content-Disposition"] = "attachment; filename=\"#{resource.file_name}\""
 			 # Don't buffer when going through proxy servers
-			 headers["X-Accel-Buffering"] = "no"
+			 response.headers["X-Accel-Buffering"] = "no"
 			 # Set an Enumerator as the body
-			 self.response_body = resource.data_type.stream_csv_report_exportable(resource.data, resource.data_type.exportables.first)
-			 # Set the status to success
-			 response.status = 200
-			 #stream_csv
+			 resource.data_type.stream_csv_report(resource.data).lazy.each{|row|
+				response.stream.write(row)
+			 }
 		ensure
 			response.stream.close
 		end
@@ -57,8 +54,8 @@ ActiveAdmin.register SampleAlpha do
 
 		column :file_name
 		
-		actions defaults: true do |instance|
-			item "הורד", download_csv_admin_sample_path(instance), class: "member_link"
+        actions defaults: true do |instance|
+			item "הורד", public_send("download_csv_admin_#{instance.class.model_name.param_key}_path", instance.id), class: "member_link"
 		end
 	end
 
@@ -98,7 +95,6 @@ ActiveAdmin.register SampleAlpha do
 					column :temp
 					column :fan_type
                 end
-                pp sample_alpha.data_records
 
                 min_max = sample_alpha.data_records.map{|data| [
                     data.qcm_1,
