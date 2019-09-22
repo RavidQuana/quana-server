@@ -42,7 +42,7 @@ module Archicebus
 
     	# enable 2fa for selected environments
     	config.two_factor = ActiveSupport::OrderedOptions.new
-    	config.two_factor.enabled = [:production]
+    	config.two_factor.enabled = []
     	
 		# don't log 2fa otps
 		Rails.application.config.filter_parameters += [:otp_attempt]

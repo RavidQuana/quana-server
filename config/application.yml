@@ -33,7 +33,7 @@ development:
 staging:
   <<: *defaults
 
-  server_domain: 'archicebus-staging.herokuapp.com'
+  server_domain: 'quana-server-staging.herokuapp.com'
 
   # AWS S3
   aws_s3_region:
@@ -42,7 +42,7 @@ staging:
 production:
   <<: *defaults
 
-  server_domain: 'archicebus-production.herokuapp.com'
+  server_domain: 'quana-server-production.herokuapp.com'
 
   # AWS S3
   aws_s3_region:
