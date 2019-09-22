@@ -41,57 +41,62 @@ ActiveAdmin.register Material do
 
         def download_zip
 			scoped_collection_records = resource.samples
-			begin
+			
 			 # Set a reasonable content type
 			 response.headers['Content-Type'] = 'application/zip'
 			 # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
 			 response.headers['X-Accel-Buffering'] = 'no'
 			 # Create a wrapper for the write call that quacks like something you
-			 response.headers["Content-Disposition"] = "attachment; filename=\"material-#{resource.id}.zip\""
-			w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
-				ZipTricks::Streamer.open(w) { |zip| 
-				scoped_collection_records.pluck_in_batches(:id, :type, :file_name, batch_size: 500) {|batch| 
-					batch.each{|id, type, file_name|
-						sample_type = type.constantize
-						zip.write_deflated_file(file_name) { |sink|
-							sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
-								sink.write(row)
-							}
-						}
-					}
-				}
-			}
-			ensure
-				response.stream.close
-			end
+             response.headers["Content-Disposition"] = "attachment; filename=\"material-#{resource.id}.zip\""
+             
+         
+             self.response_body = Enumerator.new do |yielder|
+                 w = ZipTricks::BlockWrite.new { |chunk| 
+                   yielder << chunk 
+                 }
+                 ZipTricks::Streamer.open(w) { |zip| 
+                    scoped_collection_records.pluck_in_batches(:id, :type, :file_name, batch_size: 500) {|batch| 
+                        batch.each{|id, type, file_name|
+                            sample_type = type.constantize
+                            zip.write_deflated_file(file_name) { |sink|
+                                sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
+                                    sink.write(row)
+                                }
+                            }
+                        }
+                    }
+                }
+             end
+
 		end
 
 		def download_zip_combined
 			scoped_collection_records = resource.samples
 			
-			begin
 			 # Set a reasonable content type
 			 response.headers['Content-Type'] = 'application/zip'
 			 # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
 			 response.headers['X-Accel-Buffering'] = 'no'
 			 response.headers["Content-Disposition"] = "attachment; filename=\"material-combined-#{resource.id}.zip\""
-			 # Create a wrapper for the write call that quacks like something you
-			w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
-			ZipTricks::Streamer.open(w) { |zip| 
-				zip.write_deflated_file("combined.csv") { |sink|
-					scoped_collection_records.pluck_in_batches(:id, :type, batch_size: 2000) {|batch| 
-						batch.each{|id, type|
-							sample_type = type.constantize
-							sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
-								sink.write(row)
-							}
-						}
-					}
-				}
-			}
-			ensure
-				response.stream.close
-			end
+             # Create a wrapper for the write call that quacks like something you
+             
+             self.response_body = Enumerator.new do |yielder|
+                w = ZipTricks::BlockWrite.new { |chunk| 
+                  yielder << chunk 
+                }
+                ZipTricks::Streamer.open(w) { |zip| 
+                    zip.write_deflated_file("combined.csv") { |sink|
+                        scoped_collection_records.pluck_in_batches(:id, :type, batch_size: 2000) {|batch| 
+                            batch.each{|id, type|
+                                sample_type = type.constantize
+                                sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
+                                    sink.write(row)
+                                }
+                            }
+                        }
+                    }
+                }
+            end
 		end
 	end   
 end

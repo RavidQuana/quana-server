@@ -92,19 +92,14 @@ ActiveAdmin.register Sample do
 	end
 	
 	member_action :download_csv, method: :get do
-		begin
-			 # Don't cache anything from this generated endpoint
-			 response.headers["Cache-Control"] = "no-cache"
-			 # Tell the browser this is a CSV file
-			 response.headers["Content-Type"] = "text/csv"
-			 # Make the file download with a specific filename
-			 response.headers["Content-Disposition"] = "attachment; filename=\"#{resource.file_name}\""
-			 # Don't buffer when going through proxy servers
-			 response.headers["X-Accel-Buffering"] = "no"
-			 # Set an Enumerator as the body
-			 resource.data_type.stream_csv_report(resource.data).lazy.each{|row|
-				response.stream.write(row)
-			 }
+        begin
+            # Set a reasonable content type
+            response.headers['Content-Type'] = 'application/zip'
+            # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
+            response.headers['X-Accel-Buffering'] = 'no'
+            # Create a wrapper for the write call that quacks like something you
+            # can << to, used by ZipTricks
+            self.response_body = resource.data_type.stream_csv_report(resource.data)
 		ensure
 			response.stream.close
 		end
