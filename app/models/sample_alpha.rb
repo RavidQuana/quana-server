@@ -20,4 +20,8 @@ class SampleAlpha < Sample
     def data_type
         DataRecord
     end
+    
+    def self.test_data
+        (0..10000).each{|i| SampleAlpha.create!(file_name:"test_#{i}.csv", material: Material.last, device: "Test").insert_csv(File.open('./test/test.csv')) }
+    end
 end
