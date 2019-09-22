@@ -39,6 +39,9 @@ ActiveAdmin.register DataRecord do
         column :humidiy
         column :temp
         column :fan_type
+
+        actions defaults: true do |instance|
+		end
 	end
 
 	controller do

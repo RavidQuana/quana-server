@@ -12,10 +12,16 @@
 #
 
 class Sample < ApplicationRecord
+    include Exportable
+
     belongs_to :material
     belongs_to :user, optional: true
 
     def data
         raise "no data"
+    end
+
+    def file_id
+        data.first.file_id
     end
 end

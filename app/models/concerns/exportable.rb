@@ -32,11 +32,12 @@ module Exportable
       # you may need to generate the header yourself. e.g.
       # => stream.write "Created Date,Ordered Date,Price,# of Items"
       # => query_options = "WITH CSV" # note the lack of 'HEADER'
-      Enumerator.new do |yielder|
-        self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
-          yielder << row_from_db
-        end
-      end
+     # Enumerator.new do |yielder|
+      #  self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
+     #     yielder << row_from_db
+      #  end
+     # end
+     stream_csv_report_exportable(query, exportables.first)
     end
     
     def stream_csv_report_exportable(query, exportable_data)
@@ -53,7 +54,6 @@ module Exportable
           column
         end
       })
-      pp query.to_sql
       Enumerator.new do |yielder|
         self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
           yielder << row_from_db

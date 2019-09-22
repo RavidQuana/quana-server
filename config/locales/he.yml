@@ -338,6 +338,8 @@ he:
         client_action_id: פעולה
         send_push: שלח בדחיפה?
         send_sms: שלח מסרון?
+      material:
+        samples_count: כמות דגימות
     scopes:
       all: הכל
       hidden: מוסתר    

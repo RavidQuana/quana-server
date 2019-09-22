@@ -1,5 +1,4 @@
-ActiveAdmin.register Sample do
-	menu url: -> { admin_samples_path(locale: I18n.locale) } 
+ActiveAdmin.register SampleAlpha do
 
 	include Admin::Translatable
 	include Admin::Exportable
@@ -62,6 +61,46 @@ ActiveAdmin.register Sample do
 		end
 	end
 
+	show do 
+		panel I18n.t('active_admin.details', model: I18n.t('activerecord.models.sample.one')) do
+			attributes_table_for sample do
+			  	row :id
+			  	row :device
+				row :material
+				row :file_name
+			  	row :created_at
+				row :updated_at 
+				  
+				table_for sample.data do
+					column :id do |instance|
+						link_to instance.id, public_send("admin_#{sample.data_type.model_name.param_key}_path", instance.id)
+					end
+					column :read_id
+					column :file_id
+					column :food_label
+					column :card
+					column :secs_elapsed
+					column :ard_state
+					column :msec
+					column :si
+					column :clean_duration
+					column :qcm_respond
+					column :qcm_1
+					column :qcm_2
+					column :qcm_3
+					column :qcm_4
+					column :qcm_5
+					column :qcm_6
+					column :qcm_7
+					column :ht_status
+					column :humidiy
+					column :temp
+					column :fan_type
+				end
+			end
+		end   
+	end
+
 	form do |f|
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
 			f.input :material
@@ -70,7 +109,7 @@ ActiveAdmin.register Sample do
 			f.input :files, as: :file, :input_html => { :multiple => true }
 
 			f.inputs do
-				f.has_many :data, heading: 'Data Records',
+				f.has_many :data_recods, heading: 'Data Records',
 							allow_destroy: true,
 							new_record: false do |a|
 					a.input :read_id

@@ -37,3 +37,10 @@
 .idea/
 *.iml
 out/
+/config/master.key
+
+/config/credentials/staging.key
+
+/config/credentials/development.key
+
+/config/credentials/production.key

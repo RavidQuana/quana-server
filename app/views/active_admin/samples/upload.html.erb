@@ -1,0 +1,48 @@
+<ol style=" display: flex;
+            flex-direction: column-reverse;
+">
+<li style="
+    flex: 0 0 auto;
+    direction: ltr;
+    background-color: white;
+    margin: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    text-align: left;"
+    >
+<% 
+    imported = 0
+    errors = 0
+    @uploads.each{|file, sample| 
+        message = nil
+        if sample.kind_of?(Exception)
+            errors += 1
+            message = "<u>Error: #{sample.message}</u>"
+        else 
+            message = "OK"
+            imported += 1;    
+        end
+    %>
+    <p> <b><%= file.original_filename %></b>: <%= raw message %> </p>
+    <% } %>
+</li>
+
+<li style="
+    flex: 0 0 auto;
+    direction: ltr;
+    background-color: white;
+    margin: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    text-align: left;"
+>
+    <h1><u>DONE!</u></h1>
+
+    <b>Any Files with errors will have to bee reuploaded again</b>
+
+    <p> <b>Imported</b>: <%= imported %> </p>
+    <p> <b>Errors</b>: <%= errors %> </p>
+</li>
+<ol>

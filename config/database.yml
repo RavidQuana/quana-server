@@ -12,7 +12,7 @@ default: &default
 test:
   <<: *default
   database: postgres
-  host: postgres
+  host: localhost
   username: postgres
   password: postgres
 

@@ -1,7 +1,6 @@
 module Admin
   module Exportable
     extend ActiveSupport::Concern
-    include ActionController::Live # required for streaming
 
     def self.included(base)
       resource = base.config.resource_class.name.constantize
@@ -9,6 +8,8 @@ module Admin
 
       # patch index action
       base.send(:controller) do
+        include( ActionController::Live )
+
         send(:before_action, only: :index) do |controller|
           if controller.request.format.html?
             @per_page = params[:pagination] unless params[:pagination].blank?
@@ -16,6 +17,8 @@ module Admin
             @per_page = resource.count
           end
         end
+
+      
 
         send(:define_method, :index) do
           index! do |format|
@@ -51,6 +54,57 @@ module Admin
                       sink.write(row)
                     }
                   end
+                }
+              ensure
+                response.stream.close
+              end
+            }
+            format.zip_records { 
+              begin
+               # Set a reasonable content type
+               response.headers['Content-Type'] = 'application/zip'
+               # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
+               response.headers['X-Accel-Buffering'] = 'no'
+               # Create a wrapper for the write call that quacks like something you
+               response.headers["Content-Disposition"] = "attachment; filename=\"samples.zip\""
+              w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
+                ZipTricks::Streamer.open(w) { |zip| 
+                collection.pluck_in_batches(:id, :type, :file_name, batch_size: 500) {|batch| 
+                  batch.each{|id, type, file_name|
+                    sample_type = type.constantize
+                    zip.write_deflated_file(file_name) { |sink|
+                      sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
+                        sink.write(row)
+                      }
+                    }
+                  }
+                }
+              }
+              ensure
+                response.stream.close
+              end
+            }
+            format.zip_records_combined { 
+              begin
+               # Set a reasonable content type
+               response.headers['Content-Type'] = 'application/zip'
+               # Make sure nginx buffering is suppressed - see https://github.com/WeTransfer/zip_tricks/issues/48
+               response.headers['X-Accel-Buffering'] = 'no'
+               # Create a wrapper for the write call that quacks like something you
+               response.headers["Content-Disposition"] = "attachment; filename=\"samples.zip\""
+
+                w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
+                ZipTricks::Streamer.open(w) { |zip| 
+                  zip.write_deflated_file("combined.csv") { |sink|
+                    collection.pluck_in_batches(:id, :type, batch_size: 2000) {|batch| 
+                      batch.each{|id, type|
+                        sample_type = type.constantize
+                        sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
+                          sink.write(row)
+                        }
+                      }
+                    }
+                  }
                 }
               ensure
                 response.stream.close

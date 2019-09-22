@@ -101,6 +101,4 @@ class DataRecord < ApplicationRecord
         end
         DataRecord.insert_all!(csv_data.to_a)
     end
-
-
 end
