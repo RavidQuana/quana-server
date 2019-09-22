@@ -24,4 +24,9 @@ class Sample < ApplicationRecord
     def file_id
         data.first.file_id
     end
+
+    def files=(val)
+        #dummy function to make stuff work
+        #do not remove
+    end
 end
