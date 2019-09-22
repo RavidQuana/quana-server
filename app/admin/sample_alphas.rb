@@ -96,31 +96,33 @@ ActiveAdmin.register SampleAlpha do
 					column :fan_type
                 end
 
-                min_max = sample_alpha.data_records.map{|data| [
-                    data.qcm_1,
-                    data.qcm_2,
-                    data.qcm_3,
-                    data.qcm_4,
-                    data.qcm_5,
-                    data.qcm_6,
-                    data.qcm_7]}.flatten.minmax { |a, b| a <=> b }
-
-                space = (min_max[1] - min_max[0]) * 0.1
-
-                div line_chart [
-                    {name: "qcm_1", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1] }},
-                    {name: "qcm_2", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2] }},
-                    {name: "qcm_3", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3] }},
-                    {name: "qcm_4", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4] }},
-                    {name: "qcm_5", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5] }},
-                    {name: "qcm_6", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6] }},
-                    {name: "qcm_7", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7] }}
-                ], min: min_max[0]-space, max: min_max[1]+space
-
-                div line_chart [
-                    {name: "humidity", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.humidiy] }},
-                    {name: "temp", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
-                ]
+                if sample_alpha.data_records.count > 0 
+                    min_max = sample_alpha.data_records.map{|data| [
+                        data.qcm_1,
+                        data.qcm_2,
+                        data.qcm_3,
+                        data.qcm_4,
+                        data.qcm_5,
+                        data.qcm_6,
+                        data.qcm_7]}.flatten.minmax { |a, b| a <=> b }
+    
+                    space = (min_max[1] - min_max[0]) * 0.1
+    
+                    div line_chart [
+                        {name: "qcm_1", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1] }},
+                        {name: "qcm_2", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2] }},
+                        {name: "qcm_3", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3] }},
+                        {name: "qcm_4", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4] }},
+                        {name: "qcm_5", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5] }},
+                        {name: "qcm_6", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6] }},
+                        {name: "qcm_7", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7] }}
+                    ], min: min_max[0]-space, max: min_max[1]+space
+    
+                    div line_chart [
+                        {name: "humidity", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.humidiy] }},
+                        {name: "temp", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
+                    ]
+                end
             end
             
            
@@ -168,22 +170,26 @@ ActiveAdmin.register SampleAlpha do
 	end
 
 	controller do
-		def create(*args)	
-			@uploads = params['sample_alpha']['files'].lazy.map{|file|
-				begin
-					sample = nil
-					SampleAlpha.transaction do 
-						sample_meta = permitted_params['sample_alpha'].to_h
-						sample_meta[:file_name] = file.original_filename
-						sample = SampleAlpha.create!(sample_meta)
-						sample.insert_csv(file.tempfile)
-					end
-					next file, sample
-				rescue => e 
-					next file, e
-				end
-			}
-			render 'active_admin/samples/upload', layout: 'active_admin' and return
+        def create(*args)	
+            if params['sample_alpha']['files'].present?
+                @uploads = params['sample_alpha']['files'].lazy.map{|file|
+                    begin
+                        sample = nil
+                        SampleAlpha.transaction do 
+                            sample_meta = permitted_params['sample_alpha'].to_h
+                            sample_meta[:file_name] = file.original_filename
+                            sample = SampleAlpha.create!(sample_meta)
+                            sample.insert_csv(file.tempfile)
+                        end
+                        next file, sample
+                    rescue => e 
+                        next file, e
+                    end
+                }
+                render 'active_admin/samples/upload', layout: 'active_admin' and return
+            else    
+                super
+            end
 		end
 
 		def update(*args)
