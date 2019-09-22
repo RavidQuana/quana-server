@@ -62,46 +62,6 @@ ActiveAdmin.register Sample do
 		end
 	end
 
-	form do |f|
-		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
-			f.input :material
-			f.input :user
-			f.input :device 
-			f.input :files, as: :file, :input_html => { :multiple => true }
-
-			f.inputs do
-				f.has_many :data, heading: 'Data Records',
-							allow_destroy: true,
-							new_record: false do |a|
-					a.input :read_id
-					a.input :file_id
-					a.input :food_label
-					a.input :card
-					a.input :secs_elapsed
-					a.input :ard_state
-					a.input :msec
-					a.input :si
-					a.input :clean_duration
-					a.input :qcm_respond
-					a.input :qcm_1
-					a.input :qcm_2
-					a.input :qcm_3
-					a.input :qcm_4
-					a.input :qcm_5
-					a.input :qcm_6
-					a.input :qcm_7
-					a.input :ht_status
-					a.input :humidiy
-					a.input :temp
-					a.input :fan_type
-				end
-		end
-
-		end
-
-		f.actions
-	end
-
 	controller do
 		def create(*args)	
 			@uploads = params['sample']['files'].lazy.map{|file|
@@ -121,20 +81,12 @@ ActiveAdmin.register Sample do
 			render 'active_admin/samples/upload', layout: 'active_admin' and return
 		end
 
-		def update(*args)
-			sample = nil
-			SampleAlpha.transaction do 
-				id = params['sample']['id']
-				Sample.find(id).update_attributes!(permitted_params)
-				params['sample']['files'].each{|file|
-					sample = SampleAlpha.create!(permitted_params['sample'])
-					sample.insert_csv(file.tempfile)
-				}
-				redirect_to collection_url(locale: I18n.locale) and return
-			end
+		def show()
+			redirect_to public_send("admin_#{resource.model_name.param_key}_path", resource)
+		end
 
-			flash.now[:error] = sample.errors.full_messages.join(', ')
-			render :new
+		def edit()
+			redirect_to public_send("edit_admin_#{resource.model_name.param_key}_path", resource)
 		end
 
 		def permitted_params

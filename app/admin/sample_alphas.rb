@@ -1,4 +1,5 @@
 ActiveAdmin.register SampleAlpha do
+    menu :if => proc{ false }   
 
 	include Admin::Translatable
 	include Admin::Exportable
@@ -62,8 +63,8 @@ ActiveAdmin.register SampleAlpha do
 	end
 
 	show do 
-		panel I18n.t('active_admin.details', model: I18n.t('activerecord.models.sample.one')) do
-			attributes_table_for sample do
+		panel I18n.t('active_admin.details', model: I18n.t('activerecord.models.sample_alpha.one')) do
+			attributes_table_for sample_alpha do
 			  	row :id
 			  	row :device
 				row :material
@@ -71,9 +72,9 @@ ActiveAdmin.register SampleAlpha do
 			  	row :created_at
 				row :updated_at 
 				  
-				table_for sample.data do
+				table_for sample_alpha.data_records do
 					column :id do |instance|
-						link_to instance.id, public_send("admin_#{sample.data_type.model_name.param_key}_path", instance.id)
+						link_to instance.id, public_send("admin_#{sample_alpha.data_type.model_name.param_key}_path", instance.id)
 					end
 					column :read_id
 					column :file_id
@@ -96,8 +97,37 @@ ActiveAdmin.register SampleAlpha do
 					column :humidiy
 					column :temp
 					column :fan_type
-				end
-			end
+                end
+                pp sample_alpha.data_records
+
+                min_max = sample_alpha.data_records.map{|data| [
+                    data.qcm_1,
+                    data.qcm_2,
+                    data.qcm_3,
+                    data.qcm_4,
+                    data.qcm_5,
+                    data.qcm_6,
+                    data.qcm_7]}.flatten.minmax { |a, b| a <=> b }
+
+                space = (min_max[1] - min_max[0]) * 0.1
+
+                div line_chart [
+                    {name: "qcm_1", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1] }},
+                    {name: "qcm_2", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2] }},
+                    {name: "qcm_3", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3] }},
+                    {name: "qcm_4", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4] }},
+                    {name: "qcm_5", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5] }},
+                    {name: "qcm_6", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6] }},
+                    {name: "qcm_7", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7] }}
+                ], min: min_max[0]-space, max: min_max[1]+space
+
+                div line_chart [
+                    {name: "humidity", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.humidiy] }},
+                    {name: "temp", data: sample_alpha.data_records.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
+                ]
+            end
+            
+           
 		end   
 	end
 
@@ -109,7 +139,7 @@ ActiveAdmin.register SampleAlpha do
 			f.input :files, as: :file, :input_html => { :multiple => true }
 
 			f.inputs do
-				f.has_many :data_recods, heading: 'Data Records',
+				f.has_many :data_records, heading: 'Data Records',
 							allow_destroy: true,
 							new_record: false do |a|
 					a.input :read_id
@@ -143,11 +173,11 @@ ActiveAdmin.register SampleAlpha do
 
 	controller do
 		def create(*args)	
-			@uploads = params['sample']['files'].lazy.map{|file|
+			@uploads = params['sample_alpha']['files'].lazy.map{|file|
 				begin
 					sample = nil
 					SampleAlpha.transaction do 
-						sample_meta = permitted_params['sample'].to_h
+						sample_meta = permitted_params['sample_alpha'].to_h
 						sample_meta[:file_name] = file.original_filename
 						sample = SampleAlpha.create!(sample_meta)
 						sample.insert_csv(file.tempfile)
@@ -163,12 +193,12 @@ ActiveAdmin.register SampleAlpha do
 		def update(*args)
 			sample = nil
 			SampleAlpha.transaction do 
-				id = params['sample']['id']
-				Sample.find(id).update_attributes!(permitted_params)
-				params['sample']['files'].each{|file|
-					sample = SampleAlpha.create!(permitted_params['sample'])
-					sample.insert_csv(file.tempfile)
-				}
+				id = params['id']
+				SampleAlpha.find(id).update!(permitted_params['sample_alpha'])
+				params['sample_alpha']['files'].each{|file|
+					#sample = SampleAlpha.create!(permitted_params['sample'])
+					#sample.insert_csv(file.tempfile)
+				} if params['sample_alpha']['files'].present?
 				redirect_to collection_url(locale: I18n.locale) and return
 			end
 
@@ -177,7 +207,8 @@ ActiveAdmin.register SampleAlpha do
 		end
 
 		def permitted_params
-			params.permit(sample: [:material_id, :user_id, :device])
+            #params.permit(sample_alpha: [:material_id, :user_id, :device, :data_records_attributes])
+            params.permit!
 		end  
 
 		def scoped_collection

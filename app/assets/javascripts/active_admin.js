@@ -27,7 +27,8 @@
 //= require admin/bip
 //= require admin/validations
 //= require active_admin_scoped_collection_actions
-
+//= require chartkick
+//= require Chart.bundle
 
 
 $(function () {
