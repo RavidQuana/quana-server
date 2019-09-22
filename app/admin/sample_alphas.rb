@@ -137,7 +137,7 @@ ActiveAdmin.register SampleAlpha do
 			f.inputs do
 				f.has_many :data_records, heading: 'Data Records',
 							allow_destroy: true,
-							new_record: false do |a|
+							new_record: true do |a|
 					a.input :read_id
 					a.input :file_id
 					a.input :food_label

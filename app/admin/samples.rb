@@ -60,22 +60,8 @@ ActiveAdmin.register Sample do
 
 
 	controller do
-		def create(*args)	
-			@uploads = params['sample']['files'].lazy.map{|file|
-				begin
-					sample = nil
-					SampleAlpha.transaction do 
-						sample_meta = permitted_params['sample'].to_h
-						sample_meta[:file_name] = file.original_filename
-						sample = SampleAlpha.create!(sample_meta)
-						sample.insert_csv(file.tempfile)
-					end
-					next file, sample
-				rescue => e 
-					next file, e
-				end
-			}
-			render 'active_admin/samples/upload', layout: 'active_admin' and return
+		def new(*args)	
+			redirect_to public_send("new_admin_sample_alpha_path")
 		end
 
 		def show()
