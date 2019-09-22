@@ -59,16 +59,5 @@ module Archicebus
 			end
 		end
 
-		# monkeypatch the credentials method to support multi-environment credentials
-		def credentials
-			if Rails.env.production?
-				super
-			else
-				encrypted(
-					"config/credentials.#{Rails.env.downcase}.yml.enc",
-					key_path: "config/#{Rails.env.downcase}.key"
-				)
-			end
-		end
 	end
 end
