@@ -36,7 +36,7 @@ class DataRecord < ApplicationRecord
 		{
 			name: I18n.t('activerecord.models.data_record.other'),
 			columns: [
-                "materials.name",
+                :material,
                 :read_id,
                 :file_id,
                 :food_label,
@@ -60,14 +60,14 @@ class DataRecord < ApplicationRecord
                 :fan_type,
             ],
             joins: [
-                :material
+                
             ]
 	 	}
 	]
 
     belongs_to :sample
-    has_one :material, through: :sample
-
+    has_one :brand, through: :sample
+    
     def self.insert_csv(file_or_string, sample)
         raise "sample id is null" if sample.nil? || sample.id.nil?
         require 'rcsv'

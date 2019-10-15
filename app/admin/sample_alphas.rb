@@ -5,13 +5,11 @@ ActiveAdmin.register SampleAlpha do
 	include Admin::Exportable
 	include Admin::Scopable 
 
-    includes(:material)
-
+  
 	actions :all
 
 	filter :id
 	filter :material
-
 	
 	index download_links: [:csv, :zip, :zip_records, :zip_records_combined]
 
@@ -31,7 +29,7 @@ ActiveAdmin.register SampleAlpha do
         
         column :material
         column :user
-		column :device
+		column :scanner
 
 		column :file_name
 		
@@ -44,7 +42,7 @@ ActiveAdmin.register SampleAlpha do
 		panel I18n.t('active_admin.details', model: I18n.t('activerecord.models.sample_alpha.one')) do
 			attributes_table_for sample_alpha do
 			  	row :id
-			  	row :device
+			  	row :scanner
 				row :material
 				row :file_name
 			  	row :created_at
@@ -200,7 +198,7 @@ ActiveAdmin.register SampleAlpha do
 		end  
 
 		def scoped_collection
-			super.includes :material
+			super
 		end      
 	end   
 end

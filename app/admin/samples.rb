@@ -5,12 +5,9 @@ ActiveAdmin.register Sample do
 	include Admin::Exportable
 	include Admin::Scopable 
 
-    includes(:material)
-
 	actions :all
 
 	filter :id
-    filter :material
     filter :device
     filter :file_name
 
@@ -113,7 +110,6 @@ ActiveAdmin.register Sample do
 	index download_links: [:csv, :zip] do
 		selectable_column
 		id_column
-        
         column :material
         column :user
 		column :device
@@ -142,11 +138,11 @@ ActiveAdmin.register Sample do
 		end
 
 		def permitted_params
-			params.permit(sample: [:material_id, :user_id, :device])
+			params.permit(sample: [:user_id, :device])
 		end  
 
 		def scoped_collection
-			super.includes :material
+			super.includes :protocol
 		end      
 	end   
 end
