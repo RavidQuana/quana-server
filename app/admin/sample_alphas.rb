@@ -112,9 +112,14 @@ ActiveAdmin.register SampleAlpha do
 
 	form do |f|
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
-			f.input :material
-			f.input :user
-			f.input :device 
+			f.input :user, as: :select2
+			f.input :hardware, as: :select2
+			f.input :brand, as: :select2
+			f.input :protocol, as: :select2
+			f.input :card, as: :select2
+			f.input :tags, as: :select2, multiple: true
+			f.input :repetition
+			f.input :note
 			f.input :files, as: :file, :input_html => { :multiple => true }
 
 			f.inputs do

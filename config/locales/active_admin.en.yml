@@ -23,6 +23,7 @@ en:
       main: "Main"
       dashboard: "Main"
       system: "Systems"    
+      notifications: "Notifications"
     view: "View"
     edit: "Edit"
     delete: "Delete"

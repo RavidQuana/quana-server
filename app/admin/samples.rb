@@ -123,7 +123,9 @@ ActiveAdmin.register Sample do
 		actions defaults: true do |instance|
 			item "הורד", public_send("download_csv_admin_sample_path", instance.id), class: "member_link"
 		end
-	end
+  end
+  
+  
 
 
 	controller do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_21_201746) do
+ActiveRecord::Schema.define(version: 2019_10_15_161138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,17 @@ ActiveRecord::Schema.define(version: 2019_09_21_201746) do
     t.index ["key"], name: "index_app_settings_on_key"
   end
 
+  create_table "brands", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "note"
+    t.index ["name"], name: "index_brands_on_name"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.string "name", null: false
+    t.index ["name"], name: "index_cards_on_name"
+  end
+
   create_table "client_actions", force: :cascade do |t|
     t.string "name"
     t.string "required_linkable_type"
@@ -150,6 +161,11 @@ ActiveRecord::Schema.define(version: 2019_09_21_201746) do
     t.index ["owner_id", "owner_type"], name: "index_devices_on_owner"
   end
 
+  create_table "hardwares", force: :cascade do |t|
+    t.integer "scanner_id", null: false
+    t.string "version", null: false
+  end
+
   create_table "materials", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -197,6 +213,18 @@ ActiveRecord::Schema.define(version: 2019_09_21_201746) do
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
   end
 
+  create_table "protocols", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+  end
+
+  create_table "sample_tags", force: :cascade do |t|
+    t.integer "sample_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["sample_id"], name: "index_sample_tags_on_sample_id"
+    t.index ["tag_id"], name: "index_sample_tags_on_tag_id"
+  end
+
   create_table "samples", force: :cascade do |t|
     t.string "type", null: false
     t.integer "material_id", null: false
@@ -205,9 +233,24 @@ ActiveRecord::Schema.define(version: 2019_09_21_201746) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "file_name", default: "", null: false
+    t.integer "protocol_id"
+    t.integer "brand_id"
+    t.integer "hardware_id"
+    t.integer "card_id"
+    t.string "note"
+    t.integer "repetition", default: 0, null: false
     t.index ["material_id"], name: "index_samples_on_material_id"
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"
+  end
+
+  create_table "scanners", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.index ["name"], name: "index_tags_on_name"
   end
 
   create_table "users", force: :cascade do |t|

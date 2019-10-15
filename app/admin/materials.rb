@@ -79,7 +79,7 @@ ActiveAdmin.register Material do
 			w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
 			ZipTricks::Streamer.open(w) { |zip| 
 				zip.write_deflated_file("combined.csv") { |sink|
-					scoped_collection_records.pluck_in_batches(:id, :type, batch_size: 2000) {|batch| 
+					scoped_collection_records.pluck_in_batches(:id, :type, batch_size: 5000) {|batch| 
 						batch.each{|id, type|
 							sample_type = type.constantize
 							sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
