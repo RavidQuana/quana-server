@@ -1,14 +1,14 @@
 # encoding: utf-8
 
 defaults: &defaults
-  project_name: 'Archicebus'
+  project_name: 'Quana'
 
   api_page_size: 20
   autocomplete_results_count: 20
 
   # SMS Client
   sms_client_type:
-  sms_client_sender_id: 'Archicebus'
+  sms_client_sender_id: 'Quana'
 
   default_country_code: 'IL'
 
@@ -28,7 +28,7 @@ development:
 
   # AWS S3
   aws_s3_region: eu-west-1
-  aws_s3_bucket: archicebus-dev
+  aws_s3_bucket: quana
 
 staging:
   <<: *defaults

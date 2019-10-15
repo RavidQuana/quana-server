@@ -13,7 +13,7 @@ module Archicebus
 
 		# set server encoding
 		config.encoding = 'utf-8'
-		config.i18n.default_locale = :he
+		config.i18n.default_locale = :en
 		config.i18n.fallbacks = false
 		config.i18n.available_locales = [:he, :en]
 
@@ -49,7 +49,7 @@ module Archicebus
 
 		# use rack::attack
 		config.middleware.use Rack::Attack
-
+		
 		config.middleware.insert_before 0, Rack::Cors do
 			allow do
 				origins 'localhost:3000', '127.0.0.1:3000'

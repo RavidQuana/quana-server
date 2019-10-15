@@ -1,5 +1,5 @@
 {
-  "name": "archicebus",
+  "name": "quana",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "https://github.com/rails/webpacker.git",
