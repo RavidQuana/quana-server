@@ -115,11 +115,12 @@ ActiveAdmin.register SampleAlpha do
 			f.input :brand, as: :select2
 			f.input :protocol, as: :select2
 			f.input :card, as: :select2
+			f.input :material
 			f.input :tags, as: :select2, multiple: true
 			f.input :repetition
 			f.input :note
 			f.input :files, as: :file, :input_html => { :multiple => true }
-
+				
 			f.inputs do
 				f.has_many :data_records, heading: 'Data Records',
 							allow_destroy: true,

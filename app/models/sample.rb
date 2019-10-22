@@ -4,11 +4,18 @@
 #
 #  id          :bigint           not null, primary key
 #  type        :string           not null
-#  material_id :integer          not null
 #  user_id     :integer
 #  device      :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  file_name   :string           default(""), not null
+#  protocol_id :integer
+#  brand_id    :integer
+#  hardware_id :integer
+#  card_id     :integer
+#  note        :string
+#  repetition  :integer          default(0), not null
+#  material    :string           default("Material"), not null
 #
 
 class Sample < ApplicationRecord
