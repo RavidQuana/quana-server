@@ -5,7 +5,7 @@ default: &default
   host: localhost
   password: postgres
   username: postgres
-  pool: 50
+  pool: 5
 
 # list all supported environments here, to allow editing of the corresponding credentials file in dev mode
 # (otherwise, an exception is thrown, and this file is overridden by Heroku anyway)
