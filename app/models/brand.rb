@@ -8,7 +8,8 @@
 #
 
 class Brand < ApplicationRecord
-    has_many :samples
+    has_many :products
+    has_many :samples, through: :products
 
     def samples_count
         self.samples.count
