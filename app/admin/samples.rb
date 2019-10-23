@@ -109,12 +109,14 @@ ActiveAdmin.register Sample do
 
 	index download_links: [:csv, :zip] do
 		selectable_column
-		id_column
-        column :material
-        column :user
-		column :device
-
-		column :file_name
+    id_column
+    column :brand
+    column :product
+    column :material
+    column :sampler_type
+		column :sampler
+    column :file_name
+    column :note
 		
 		actions defaults: true do |instance|
 			item "הורד", public_send("download_csv_admin_sample_path", instance.id), class: "member_link"

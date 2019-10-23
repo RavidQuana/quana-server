@@ -1,11 +1,11 @@
 # == Schema Information
 #
-# Table name: scanners
+# Table name: sampler_types
 #
 #  id   :bigint           not null, primary key
 #  name :string           not null
 #
 
-class Scanner < ApplicationRecord
+class SamplerType < ApplicationRecord
     has_many :hardwares
 end

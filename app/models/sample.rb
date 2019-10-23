@@ -14,19 +14,21 @@
 #  hardware_id :integer
 #  card_id     :integer
 #  note        :string
-#  repetition  :integer          default(0), not null
 #  material    :string           default("Material"), not null
+#  fan_speed   :integer          default(0), not null
+#  product_id  :integer          not null
 #
 
 class Sample < ApplicationRecord
     include Exportable
 
     belongs_to :user, optional: true
-    belongs_to :protocol, optional: true
-    belongs_to :brand, optional: true
-    belongs_to :hardware, optional: true
-    belongs_to :card, optional: true
-    has_one :scanner, through: :hardware
+    belongs_to :protocol
+    belongs_to :product
+    belongs_to :sampler
+    belongs_to :card
+    has_one :sampler_type, through: :sampler
+    has_one :brand, through: :product
 
     has_many :sample_tags
     has_many :tags, through: :sample_tags

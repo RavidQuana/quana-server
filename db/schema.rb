@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_161409) do
+ActiveRecord::Schema.define(version: 2019_10_23_165026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,16 +121,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
 
   create_table "data_records", force: :cascade do |t|
     t.integer "sample_id", null: false
-    t.string "read_id", null: false
-    t.string "file_id", null: false
-    t.string "food_label", null: false
-    t.integer "card", null: false
     t.decimal "secs_elapsed", precision: 10, scale: 4, null: false
-    t.string "ard_state", null: false
-    t.decimal "msec", precision: 10, scale: 4, null: false
-    t.decimal "si", precision: 10, scale: 4, null: false
-    t.decimal "clean_duration", precision: 10, scale: 4, null: false
-    t.integer "qcm_respond", null: false
     t.integer "qcm_1", null: false
     t.integer "qcm_2", null: false
     t.integer "qcm_3", null: false
@@ -138,10 +129,8 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
     t.integer "qcm_5", null: false
     t.integer "qcm_6", null: false
     t.integer "qcm_7", null: false
-    t.integer "ht_status"
     t.integer "humidiy"
     t.integer "temp"
-    t.string "fan_type", null: false
     t.index ["sample_id"], name: "index_data_records_on_sample_id"
   end
 
@@ -159,11 +148,6 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
     t.datetime "updated_at", null: false
     t.index ["device_token"], name: "index_devices_on_device_token"
     t.index ["owner_id", "owner_type"], name: "index_devices_on_owner"
-  end
-
-  create_table "hardwares", force: :cascade do |t|
-    t.integer "scanner_id", null: false
-    t.string "version", null: false
   end
 
   create_table "notification_types", force: :cascade do |t|
@@ -207,6 +191,15 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "brand_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["name"], name: "index_products_on_name"
+  end
+
   create_table "protocols", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", null: false
@@ -219,6 +212,15 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
     t.index ["tag_id"], name: "index_sample_tags_on_tag_id"
   end
 
+  create_table "sampler_types", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "samplers", force: :cascade do |t|
+    t.integer "sampler_type_id", null: false
+    t.string "name", null: false
+  end
+
   create_table "samples", force: :cascade do |t|
     t.string "type", null: false
     t.integer "user_id"
@@ -227,18 +229,14 @@ ActiveRecord::Schema.define(version: 2019_10_15_161409) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "file_name", default: "", null: false
     t.integer "protocol_id"
-    t.integer "brand_id"
-    t.integer "hardware_id"
+    t.integer "sampler_id"
     t.integer "card_id"
     t.string "note"
-    t.integer "repetition", default: 0, null: false
     t.string "material", default: "Material", null: false
+    t.integer "fan_speed", default: 0, null: false
+    t.integer "product_id", null: false
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"
-  end
-
-  create_table "scanners", force: :cascade do |t|
-    t.string "name", null: false
   end
 
   create_table "tags", force: :cascade do |t|

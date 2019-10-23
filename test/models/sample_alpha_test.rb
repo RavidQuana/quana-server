@@ -14,8 +14,9 @@
 #  hardware_id :integer
 #  card_id     :integer
 #  note        :string
-#  repetition  :integer          default(0), not null
 #  material    :string           default("Material"), not null
+#  fan_speed   :integer          default(0), not null
+#  product_id  :integer          not null
 #
 
 require 'test_helper'
@@ -26,23 +27,24 @@ class SampleAlphaTest < ActiveSupport::TestCase
 	class SampleAlphaTests < SampleAlphaTest
 
         setup do
-            @brand = Brand.create!(name: "Test")
+			@brand = Brand.create!(name: "Test")
+			@product = Product.create!(name: "Test", brand: @brand)
+			@sampler_type = SamplerType.create!(name: "Test")
+			@sampler = Sampler.create!(name: "Test", sampler_type: @sampler_type)
 			@sample = SampleAlpha.create!(
-					brand: @brand,
-					material: "Material Test",
-					device: 'Test Device'
+					product: @product,
+					sampler: @sampler,
+					material: "Material Test"
 			)
 		end 
 
 		test "sample without material" do
-			assert SampleAlpha.new(
-                device: 'Test Device'
-            ).invalid?
+			assert SampleAlpha.new().invalid?
         end
         
         test "import record data" do
 			@sample.insert_csv(File.open("./test/test.csv"))
-			assert DataRecord.count == 26
+			assert DataRecord.count == 58
 			DataRecord.delete_all
         end
 	end

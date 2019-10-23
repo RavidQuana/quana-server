@@ -1,5 +1,5 @@
-ActiveAdmin.register Hardware do
-	menu url: -> { admin_hardwares_path(locale: I18n.locale) } 
+ActiveAdmin.register Sampler do
+	menu url: -> { admin_samplers_path(locale: I18n.locale) } 
 
 	include Admin::Translatable
 	include Admin::Exportable
@@ -12,8 +12,8 @@ ActiveAdmin.register Hardware do
 
     form do |f|
 		f.inputs do
-			f.input :scanner, as: :select2
-			f.input :version   
+			f.input :name
+			f.input :sampler_type, as: :select2
 		end
 		
 		f.actions

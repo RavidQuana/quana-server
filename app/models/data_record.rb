@@ -36,17 +36,7 @@ class DataRecord < ApplicationRecord
 		{
 			name: I18n.t('activerecord.models.data_record.other'),
 			columns: [
-                :material,
-                :read_id,
-                :file_id,
-                :food_label,
-                :card,
                 :secs_elapsed,
-                :ard_state,
-                :msec,
-                :si,
-                :clean_duration,
-                :qcm_respond,
                 :qcm_1,
                 :qcm_2,
                 :qcm_3,
@@ -54,10 +44,8 @@ class DataRecord < ApplicationRecord
                 :qcm_5,
                 :qcm_6,
                 :qcm_7,
-                :ht_status,
-                :humidiy,
                 :temp,
-                :fan_type,
+                :humidiy,
             ],
             joins: [
                 
@@ -72,30 +60,20 @@ class DataRecord < ApplicationRecord
         raise "sample id is null" if sample.nil? || sample.id.nil?
         require 'rcsv'
         csv_data = Enumerator.new do |y|
-			Rcsv.parse(file_or_string, headers: :skip).each{|row|
+            Rcsv.parse(file_or_string, headers: :skip).each_with_index{|row, index|
+                next if index <= 3
 				y << {
                     sample_id: sample.id,
-                    read_id: row[0],
-                    file_id: row[1],
-                    food_label: row[2],
-                    card: row[3],
-                    secs_elapsed: row[4],
-                    ard_state: row[5],
-                    msec: row[6],
-                    si: row[7],
-                    clean_duration: row[8],
-                    qcm_respond: row[9],
-                    qcm_1: row[10],
-                    qcm_2: row[11],
-                    qcm_3: row[12],
-                    qcm_4: row[13],
-                    qcm_5: row[14],
-                    qcm_6: row[15],
-                    qcm_7: row[16],
-                    ht_status: row[17],
-                    humidiy: row[18],
-                    temp: row[19],
-                    fan_type: row[20],
+                    secs_elapsed: row[0],
+                    qcm_1: row[1],
+                    qcm_2: row[2],
+                    qcm_3: row[3],
+                    qcm_4: row[4],
+                    qcm_5: row[5],
+                    qcm_6: row[6],
+                    qcm_7: row[7],
+                    temp: row[8],
+                    humidiy: row[9]
 				}
 			}
         end

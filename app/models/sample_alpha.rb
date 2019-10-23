@@ -14,8 +14,9 @@
 #  hardware_id :integer
 #  card_id     :integer
 #  note        :string
-#  repetition  :integer          default(0), not null
 #  material    :string           default("Material"), not null
+#  fan_speed   :integer          default(0), not null
+#  product_id  :integer          not null
 #
 
 class SampleAlpha < Sample

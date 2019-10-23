@@ -1,5 +1,5 @@
-ActiveAdmin.register Scanner do
-	menu url: -> { admin_scanners_path(locale: I18n.locale) } 
+ActiveAdmin.register SamplerType do
+	menu url: -> { admin_sampler_types_path(locale: I18n.locale) } 
 
 	include Admin::Translatable
 	include Admin::Exportable
