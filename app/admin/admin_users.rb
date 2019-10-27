@@ -37,7 +37,7 @@ ActiveAdmin.register AdminUser do
 			f.input :first_name
 			f.input :last_name
 			f.input :email
-			f.input :thumbnail, as: :s3_file
+			#f.input :thumbnail, as: :s3_file
 			f.input :password
 			f.input :password_confirmation
 			f.input :admin_role, as: :select2, collection: f.object.admin_role.try(:select2_item) || [], 
