@@ -100,8 +100,8 @@ ActiveAdmin.register SampleBeta do
                     ], points: false
     
 					div line_chart [
-                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_i - data[0].humidiy.to_i] }},
-                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_i - data[0].temp.to_i] }},
+                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_f - data[0].humidiy.to_f] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_f - data[0].temp.to_f] }},
 					], points: false
                 end
             end
