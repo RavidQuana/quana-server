@@ -123,15 +123,52 @@ ActiveAdmin.register Sample do
 		end
   end
   
-  
-
-
-	controller do
-		def new(*args)	
-			redirect_to public_send("new_admin_sample_alpha_path")
+  form do |f|
+		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
+			f.input :sampler, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/sampler' } } } }
+			f.input :product, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/product' } } } }
+			f.input :material
+			f.input :protocol, as: :select2
+			f.input :card, as: :select2
+			f.input :tags, as: :select2, multiple: true
+			f.input :note
+			f.input :files, as: :file, :input_html => { :multiple => true }
 		end
 
-		def show()
+		f.actions
+	end
+
+	controller do
+    def create(*args)	
+        if params['sample']['files'].present?
+            @uploads = params['sample']['files'].lazy.map{|file|
+                begin
+                    type = Sample.detect_format(file.tempfile)
+                    #rewind the file to read it again
+                    file.tempfile.rewind
+
+                    sample = nil
+                    type.transaction do 
+                        sample_meta = permitted_params['sample'].to_h
+                        sample_meta[:file_name] = file.original_filename
+                        sample = type.create!(sample_meta)
+                        sample.insert_csv(file.tempfile)
+                    end
+                    next file, sample
+                rescue => e 
+                    next file, e
+                end
+            }
+            render 'active_admin/samples/upload', layout: 'active_admin' and return
+        else    
+            super
+        end
+    end
+
+    def show()
+      pp "######################"
+      pp resource.model_name.param_key
+      pp public_send("admin_#{resource.model_name.param_key}_path", resource)
 			redirect_to public_send("admin_#{resource.model_name.param_key}_path", resource)
 		end
 
@@ -140,7 +177,7 @@ ActiveAdmin.register Sample do
 		end
 
 		def permitted_params
-			params.permit(sample: [:user_id, :device])
+			params.permit!
 		end  
 
 		def scoped_collection

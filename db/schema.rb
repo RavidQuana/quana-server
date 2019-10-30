@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_165026) do
+ActiveRecord::Schema.define(version: 2019_10_30_145421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,19 @@ ActiveRecord::Schema.define(version: 2019_10_23_165026) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_app_settings_on_key"
+  end
+
+  create_table "beta_data_records", force: :cascade do |t|
+    t.integer "sample_id", null: false
+    t.decimal "secs_elapsed", precision: 10, scale: 4, null: false
+    t.integer "qcm_1", null: false
+    t.integer "qcm_2", null: false
+    t.integer "qcm_3", null: false
+    t.integer "qcm_4", null: false
+    t.integer "qcm_5", null: false
+    t.decimal "humidiy", precision: 10, scale: 4
+    t.decimal "temp", precision: 10, scale: 4
+    t.index ["sample_id"], name: "index_beta_data_records_on_sample_id"
   end
 
   create_table "brands", force: :cascade do |t|
@@ -233,7 +246,6 @@ ActiveRecord::Schema.define(version: 2019_10_23_165026) do
     t.integer "card_id"
     t.string "note"
     t.string "material", default: "Material", null: false
-    t.integer "fan_speed", default: 0, null: false
     t.integer "product_id", null: false
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"

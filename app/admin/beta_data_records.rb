@@ -1,5 +1,5 @@
-ActiveAdmin.register DataRecord do
-	menu url: -> { admin_data_records_path(locale: I18n.locale) } 
+ActiveAdmin.register BetaDataRecord do
+	menu url: -> { admin_beta_data_records_path(locale: I18n.locale) } 
 
 	include Admin::Translatable
 	include Admin::Exportable
@@ -24,8 +24,6 @@ ActiveAdmin.register DataRecord do
         column :qcm_3
         column :qcm_4
         column :qcm_5
-        column :qcm_6
-        column :qcm_7
         column :temp
         column :humidiy
 

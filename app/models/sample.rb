@@ -45,4 +45,18 @@ class Sample < ApplicationRecord
         #dummy function to make stuff work
         #do not remove
     end
+
+    def self.detect_format(file_or_string) 
+        require 'rcsv'
+        Rcsv.parse(file_or_string, headers: :skip).each_with_index{|row, index|
+            if index == 0 
+                return SampleAlpha if row[0] == "Time" 
+            end
+            if index == 0
+                return SampleBeta if row[0] == "TimeCount" 
+            end
+            break if index > 1
+        }
+        return nil
+    end
 end
