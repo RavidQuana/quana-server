@@ -82,12 +82,12 @@ ActiveAdmin.register SampleBeta do
                         {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3] }},
                         {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4] }},
                         {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5] }},
-                    ], min: min_max[0]-space, max: min_max[1]+space
+                    ], min: min_max[0]-space, max: min_max[1]+space, points: false
     
                     div line_chart [
                         {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy] }},
                         {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
-					]
+					], points: false
 
 					h1 "Relative Graphs"
 					
@@ -97,12 +97,12 @@ ActiveAdmin.register SampleBeta do
                         {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3.to_i - data[0].qcm_3.to_i] }},
                         {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4.to_i - data[0].qcm_4.to_i] }},
                         {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5.to_i - data[0].qcm_5.to_i] }},
-                    ]
+                    ], points: false
     
 					div line_chart [
                         {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_i - data[0].humidiy.to_i] }},
                         {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_i - data[0].temp.to_i] }},
-					]
+					], points: false
                 end
             end
             
