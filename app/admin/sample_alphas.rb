@@ -78,7 +78,9 @@ ActiveAdmin.register SampleAlpha do
                         row.qcm_7]}.flatten.minmax { |a, b| a <=> b }
     
                     space = (min_max[1] - min_max[0]) * 0.1
-    
+	
+					h1 "Absolute Graphs"
+
                     div line_chart [
                         {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1] }},
                         {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2] }},
@@ -92,7 +94,25 @@ ActiveAdmin.register SampleAlpha do
                     div line_chart [
                         {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy] }},
                         {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
+					]
+
+					h1 "Relative Graphs"
+					
+					div line_chart [
+                        {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1 - data[0].qcm_1] }},
+                        {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2 - data[0].qcm_2] }},
+                        {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3 - data[0].qcm_3] }},
+                        {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4 - data[0].qcm_4] }},
+                        {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5 - data[0].qcm_5] }},
+                        {name: "qcm_6", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6 - data[0].qcm_6] }},
+                        {name: "qcm_7", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7 - data[0].qcm_7] }}
                     ]
+    
+					div line_chart [
+                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy - data[0].humidiy] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp - data[0].temp] }},
+					]
+
                 end
             end
             
