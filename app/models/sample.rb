@@ -33,6 +33,27 @@ class Sample < ApplicationRecord
     has_many :sample_tags
     has_many :tags, through: :sample_tags
 
+    def self.MigrateDummy1
+        BetaDataRecord.transaction do 
+            DataRecord.all.each{|d|
+                BetaDataRecord.create!(
+                    sample_id: d.sample_id,
+                    secs_elapsed: d.secs_elapsed,
+                    qcm_1: d.qcm_1,
+                    qcm_2: d.qcm_2,
+                    qcm_3: d.qcm_3,
+                    qcm_4: d.qcm_4,
+                    qcm_5: d.qcm_5,
+                    temp: d.qcm_7,
+                    humidiy: d.qcm_7,
+                )
+            }
+    
+            Sample.all.update_all(type: "SampleBeta")
+            DataRecord.all.delete_all
+        end
+    end
+
     def data
         raise "no data"
     end
