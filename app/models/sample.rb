@@ -50,7 +50,7 @@ class Sample < ApplicationRecord
             }
     
             Sample.all.update_all(type: "SampleBeta")
-            DataRecord.all.delete_all
+            #DataRecord.all.delete_all
         end
     end
 
