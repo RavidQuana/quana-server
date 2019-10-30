@@ -99,18 +99,18 @@ ActiveAdmin.register SampleAlpha do
 					h1 "Relative Graphs"
 					
 					div line_chart [
-                        {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1 - data[0].qcm_1.to_i] }},
-                        {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2 - data[0].qcm_2.to_i] }},
-                        {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3 - data[0].qcm_3.to_i] }},
-                        {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4 - data[0].qcm_4.to_i] }},
-                        {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5 - data[0].qcm_5.to_i] }},
-                        {name: "qcm_6", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6 - data[0].qcm_6.to_i] }},
-                        {name: "qcm_7", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7 - data[0].qcm_7.to_i] }}
+                        {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1.to_i - data[0].qcm_1.to_i] }},
+                        {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2.to_i - data[0].qcm_2.to_i] }},
+                        {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3.to_i - data[0].qcm_3.to_i] }},
+                        {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4.to_i - data[0].qcm_4.to_i] }},
+                        {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5.to_i - data[0].qcm_5.to_i] }},
+                        {name: "qcm_6", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_6.to_i - data[0].qcm_6.to_i] }},
+                        {name: "qcm_7", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_7.to_i - data[0].qcm_7.to_i] }}
                     ]
     
 					div line_chart [
-                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy - data[0].humidiy.to_i] }},
-                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp - data[0].temp.to_i] }},
+                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_i - data[0].humidiy.to_i] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_i - data[0].temp.to_i] }},
 					]
                 end
             end
