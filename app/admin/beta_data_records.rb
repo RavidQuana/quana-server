@@ -10,9 +10,8 @@ ActiveAdmin.register BetaDataRecord do
 	actions :all
 
 	filter :id
-    filter :sample_id
-    filter :material_id
-
+	filter :sample_id
+	
 	index do
 		selectable_column
 		id_column

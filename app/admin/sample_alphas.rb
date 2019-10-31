@@ -9,7 +9,6 @@ ActiveAdmin.register SampleAlpha do
 	actions :all
 
 	filter :id
-	filter :material
 	
 	index download_links: [:csv, :zip, :zip_records, :zip_records_combined]
 
@@ -27,10 +26,9 @@ ActiveAdmin.register SampleAlpha do
 		selectable_column
 		id_column
         
-        column :material
         column :user
 		column :sampler
-
+		column :card
 		column :file_name
 		
         actions defaults: true do |instance|
@@ -41,10 +39,12 @@ ActiveAdmin.register SampleAlpha do
 	show do 
 		panel I18n.t('active_admin.details', model: I18n.t('activerecord.models.sample_alpha.one')) do
 			attributes_table_for sample_alpha do
-			  	row :id
+				row :id
+				row :sampler_type
 				row :sampler
+				row :brand
 				row :product
-				row :material
+				row :card
 				row :file_name
 			  	row :created_at
 				row :updated_at 
@@ -123,7 +123,6 @@ ActiveAdmin.register SampleAlpha do
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
 			f.input :sampler, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/sampler' } } } }
 			f.input :product, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/product' } } } }
-			f.input :material
 			f.input :protocol, as: :select2
 			f.input :card, as: :select2
 			f.input :tags, as: :select2, multiple: true
@@ -192,7 +191,6 @@ ActiveAdmin.register SampleAlpha do
 		end
 
 		def permitted_params
-            #params.permit(sample_alpha: [:material_id, :user_id, :device, :data_records_attributes])
             params.permit!
 		end  
 

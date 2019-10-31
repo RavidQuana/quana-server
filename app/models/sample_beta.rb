@@ -43,6 +43,6 @@ class SampleBeta < Sample
     end
     
     def self.test_data(n)
-        (0..n).each{|i| BetaSampleAlpha.create!(file_name:"test_#{i}.csv", brand: Brand.last, material: "Material", device: "Test").insert_csv(File.open('./test/test_beta.csv')) }
+        (0..n).each{|i| BetaSampleAlpha.create!(file_name:"test_#{i}.csv", brand: Brand.last, device: "Test").insert_csv(File.open('./test/test_beta.csv')) }
     end
 end

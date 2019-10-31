@@ -113,12 +113,13 @@ ActiveAdmin.register Sample do
     column :brand 
     column :product
     column :sampler_type
-		column :sampler
+    column :sampler
+    column :card
     column :file_name
     column :tags do |instance|
         meta_tags instance.tags, :name
     end
-      
+
     column :note
 		
 		actions defaults: true do |instance|
@@ -130,7 +131,6 @@ ActiveAdmin.register Sample do
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.app_settings.one')) do
 			f.input :sampler, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/sampler' } } } }
 			f.input :product, as: :select2, input_html: { data: { select2: { ajax: { url: '/admin/autocomplete/product' } } } }
-			f.input :material
 			f.input :protocol, as: :select2
 			f.input :card, as: :select2
 			f.input :tags, as: :select2, multiple: true

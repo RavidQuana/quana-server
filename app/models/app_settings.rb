@@ -38,7 +38,7 @@ class AppSettings < ApplicationRecord
 
 	def value=(v)
 		write_attribute(:value, v)
-		Rails.cache.write("settings/#{key}", v)
+		Rails.cache.write("settings/#{key}", cast_to_type(v))
 	end
 
 	private

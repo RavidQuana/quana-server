@@ -11,7 +11,6 @@ ActiveAdmin.register DataRecord do
 
 	filter :id
     filter :sample_id
-    filter :material_id
 
 	index do
 		selectable_column
