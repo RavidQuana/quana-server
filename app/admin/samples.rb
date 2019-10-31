@@ -110,12 +110,15 @@ ActiveAdmin.register Sample do
 	index download_links: [:csv, :zip] do
 		selectable_column
     id_column
-    column :brand
+    column :brand 
     column :product
-    column :material
     column :sampler_type
 		column :sampler
     column :file_name
+    column :tags do |instance|
+        meta_tags instance.tags, :name
+    end
+      
     column :note
 		
 		actions defaults: true do |instance|
@@ -166,9 +169,6 @@ ActiveAdmin.register Sample do
     end
 
     def show()
-      pp "######################"
-      pp resource.model_name.param_key
-      pp public_send("admin_#{resource.model_name.param_key}_path", resource)
 			redirect_to public_send("admin_#{resource.model_name.param_key}_path", resource)
 		end
 
