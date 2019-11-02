@@ -34,9 +34,11 @@ class DataRecord < ApplicationRecord
     include Exportable
     exportable [
 		{
-			name: I18n.t('activerecord.models.data_record.other'),
-			columns: [
-                :secs_elapsed,
+            name: I18n.t('activerecord.models.data_record.other'),
+            header: [
+                :sample,
+                :time,
+                :card,
                 :qcm_1,
                 :qcm_2,
                 :qcm_3,
@@ -46,15 +48,36 @@ class DataRecord < ApplicationRecord
                 :qcm_7,
                 :temp,
                 :humidiy,
+                :tags
+            ],
+			columns: [
+                :sample_id,
+                :secs_elapsed,
+                "cards.id",
+                :qcm_1,
+                :qcm_2,
+                :qcm_3,
+                :qcm_4,
+                :qcm_5,
+                :qcm_6,
+                :qcm_7,
+                :temp,
+                :humidiy,
+                "array(select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
             ],
             joins: [
-                
-            ]
+                :card
+            ],
+            order: {
+                secs_elapsed: :asc
+            }
 	 	}
 	]
 
     belongs_to :sample
     has_one :brand, through: :sample
+    has_many :tags, through: :sample
+    has_one :card, through: :sample
     
     def self.insert_csv(file_or_string, sample)
         raise "sample id is null" if sample.nil? || sample.id.nil?

@@ -26,7 +26,7 @@ module Exportable
       end
     end
   
-    def stream_csv_report(query)
+    def stream_csv_report(query, header = true)
       #query_options = "WITH CSV HEADER"
       # Note that if you have a custom select in your query
       # you may need to generate the header yourself. e.g.
@@ -37,10 +37,10 @@ module Exportable
      #     yielder << row_from_db
       #  end
      # end
-     stream_csv_report_exportable(query, exportables.first)
+     stream_csv_report_exportable(query, exportables.first, header)
     end
     
-    def stream_csv_report_exportable(query, exportable_data)
+    def stream_csv_report_exportable(query, exportable_data, header = true)
       #query_options = "WITH CSV HEADER"
       # Note that if you have a custom select in your query
       # you may need to generate the header yourself. e.g.
@@ -54,7 +54,19 @@ module Exportable
           column
         end
       })
+      query = query.order(exportable_data[:order]) if exportable_data[:order].present?
+      pp query.to_sql
+
+      exportable_data[:header] = false if header == false
+      if exportable_data[:header] != false 
+        header = exportable_data[:header] || []
+        header = exportable_data[:columns].each_with_index.map{|column, index|
+            header[index] || column
+        }.join(",") + "\n"  
+      end
+
       Enumerator.new do |yielder|
+        yielder << header if exportable_data[:header] != false 
         self.stream_query_rows(query.to_sql, "WITH CSV") do |row_from_db|
           yielder << row_from_db
         end

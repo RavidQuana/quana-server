@@ -8,8 +8,15 @@ ActiveAdmin.register Sample do
 	actions :all
 
 	filter :id
-    filter :device
-    filter :file_name
+  filter :device
+  filter :file_name
+  filter :product, as: :select2_multiselect
+  filter :brand, as: :select2_multiselect
+  filter :protocol, as: :select2_multiselect
+  filter :sampler, as: :select2_multiselect
+  filter :card, as: :select2_multiselect
+  filter :tags, as: :select2_multiselect
+  filter :note
 
     #need to always show batch actions
     config.batch_actions = true
@@ -62,13 +69,15 @@ ActiveAdmin.register Sample do
              response.headers["Content-Disposition"] = "attachment; filename=\"samples_combined.zip\""
              w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
              ZipTricks::Streamer.open(w) { |zip| 
+               first = true
                zip.write_deflated_file("combined.csv") { |sink|
                 samples.pluck_in_batches(:id, :type, batch_size: 2000) {|batch| 
                    batch.each{|id, type|
                      sample_type = type.constantize
-                     sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
+                     sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id), first).lazy.each{|row|
                        sink.write(row)
                      }
+                     first = false
                    }
                  }
                }

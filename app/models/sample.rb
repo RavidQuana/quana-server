@@ -33,6 +33,9 @@ class Sample < ApplicationRecord
     has_many :sample_tags
     has_many :tags, through: :sample_tags
 
+    scope :no_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) = 0") }
+    scope :has_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) > 0") }
+
     def self.MigrateDummy1
         #BetaDataRecord.all.delete_all
         BetaDataRecord.transaction do 

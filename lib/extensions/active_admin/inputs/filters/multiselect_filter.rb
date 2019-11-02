@@ -3,7 +3,12 @@ module ActiveAdmin
 		module Filters
 			module MultiselectFilter
 				def input_name
-					searchable_method_name + '_in'
+					#return super if options[:id].present?
+					if options[:not]
+						searchable_method_name + '_not_in'
+					else 
+						searchable_method_name + '_in'
+					end
 				end
 
 				def searchable_method_name
@@ -17,12 +22,35 @@ module ActiveAdmin
 				end
 
 				def input_html_options_name
-					"#{object_name}[#{input_name}][]"
+					if searchable_has_many_through?
+						"#{object_name}[#{input_name}]"
+					else	
+						"#{object_name}[#{input_name}][]"
+					end
 				end
 
 				def reflection_searchable?
 				  reflection && !reflection.polymorphic?
 				end  				
+			end
+		end
+	end
+end
+
+module ActiveAdmin
+	module Filters
+	  	module ResourceExtension
+			# Add a filter for this resource. If filters are not enabled, this method
+			# will raise a RuntimeError
+			#
+			# @param [Symbol] attribute The attribute to filter on
+			# @param [Hash] options The set of options that are passed through to
+			#                       ransack for the field definition.
+			def add_filterxxx(attribute, options = {})
+				raise Disabled unless filters_enabled?
+				key = options[:id] || attribute.to_sym
+				options[:attribute] = attribute.to_sym
+				(@filters ||= {})[key] = options
 			end
 		end
 	end

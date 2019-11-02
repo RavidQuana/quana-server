@@ -15,7 +15,7 @@ module Formtastic
 						multiple: true,
 						data: {
 							select2: {
-								allowClear: false
+								allowClear: true
 							}
 						}
 					})

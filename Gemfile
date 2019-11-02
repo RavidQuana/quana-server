@@ -98,6 +98,8 @@ gem 'twilio-ruby'
 gem 'fcm'
 gem 'houston'
 
+gem 'solargraph', group: :development
+
 group :test do
   gem 'bundler-audit' # check for vulnerabilities with '$ bundle audit check --update'
   gem 'brakeman' # check for security issues with '$ brakeman'
