@@ -32,6 +32,7 @@ class Sample < ApplicationRecord
 
     has_many :sample_tags
     has_many :tags, through: :sample_tags
+    has_many :tags2, through: :sample_tags, source: :tag
 
     scope :no_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) = 0") }
     scope :has_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) > 0") }

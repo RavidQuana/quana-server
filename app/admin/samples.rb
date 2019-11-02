@@ -16,6 +16,7 @@ ActiveAdmin.register Sample do
   filter :sampler, as: :select2_multiselect
   filter :card, as: :select2_multiselect
   filter :tags, as: :select2_multiselect
+  filter :tags2, label: "Not in Tags", as: :select2_multiselect, not: true
   filter :note
 
     #need to always show batch actions
