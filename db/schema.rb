@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_17_123434) do
+ActiveRecord::Schema.define(version: 2019_11_17_134841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,6 +250,18 @@ ActiveRecord::Schema.define(version: 2019_11_17_123434) do
     t.index ["user_id"], name: "index_samples_on_user_id"
   end
 
+  create_table "symptom_categories", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "symptoms", force: :cascade do |t|
+    t.bigint "symptom_category_id"
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["symptom_category_id"], name: "index_symptoms_on_symptom_category_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.index ["name"], name: "index_tags_on_name"
@@ -262,6 +274,11 @@ ActiveRecord::Schema.define(version: 2019_11_17_123434) do
     t.boolean "requires_local_auth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "gender", default: 0, null: false
+    t.datetime "last_activity_at"
   end
 
+  add_foreign_key "symptoms", "symptom_categories"
 end

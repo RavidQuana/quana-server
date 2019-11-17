@@ -11,6 +11,7 @@ module V1
 				] do
 					meta = {
 						settings: AppSettings.client_accessible.map { |setting| V1::Entities::Utils::AppSetting.represent(setting) },
+						symptom_categories: SymptomCategory.all.map {|category| V1::Entities::SymptomCategories::Base.represent(category) }
 					}
 
 					render_success meta
