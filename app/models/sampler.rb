@@ -2,9 +2,9 @@
 #
 # Table name: samplers
 #
-#  id         :bigint           not null, primary key
-#  scanner_id :integer          not null
-#  name       :string           not null
+#  id              :bigint           not null, primary key
+#  sampler_type_id :integer          not null
+#  name            :string           not null
 #
 
 class Sampler < ApplicationRecord

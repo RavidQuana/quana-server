@@ -10,12 +10,9 @@
 #  updated_at  :datetime         not null
 #  file_name   :string           default(""), not null
 #  protocol_id :integer
-#  brand_id    :integer
-#  hardware_id :integer
+#  sampler_id  :integer
 #  card_id     :integer
 #  note        :string
-#  material    :string           default("Material"), not null
-#  fan_speed   :integer          default(0), not null
 #  product_id  :integer          not null
 #
 

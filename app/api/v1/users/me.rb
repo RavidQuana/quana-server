@@ -10,14 +10,14 @@ module V1
 				end
 
 				#-----[GET]/users/me-----
-				# desc "Return the current user's profile",
-				#     entity: User::Entity
-				# get '/', http_codes: [
-				# 	{ code: RESPONSE_CODES[:ok], model: User::Entity },
-				# 	{ code: RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' }
-				# ] do
-				# 	render_success @current_user, User::Entity
-				# end
+				desc "Return the current user's profile",
+				    entity: V1::Entities::Users::Base
+				get '/', http_codes: [
+					{ code: RESPONSE_CODES[:ok], model: V1::Entities::Users::Base },
+					{ code: RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' }
+				] do
+					render_success @current_user, V1::Entities::Users::Base
+				end
 
 				#-----[POST]/users/me-----
 				# desc "Update the current user's profile",

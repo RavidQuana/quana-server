@@ -23,6 +23,14 @@ namespace :db do
 				last_name: 'Monkey',
 				admin_role: AdminRole.find_by(name: 'administrator')
 		  )
+
+		  AdminUser.create(
+				email: 'oded@monkeytech.co.il', 
+				password: 'Kofkof12', 
+				first_name: 'Awesome', 
+				last_name: 'Monkey',
+				admin_role: AdminRole.find_by(name: 'administrator')
+		  )
 	  	end	  	
 	end
 end
