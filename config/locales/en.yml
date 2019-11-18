@@ -12,6 +12,9 @@ en:
     address:
       html: Copyright &copy; 2019 %{app_name}, All Rights Reserved.
   sms:
+    auth:
+      user:
+        body: 'Welcome to Quana! Your code is %{code}.'
     devise:
       otp:
         body: Welcome to %{app_name}. Your code is %{code}.

@@ -17,10 +17,13 @@
 #
 
 class User < ApplicationRecord
+
+    include CodeValidatable
+
     has_secure_token
     has_many :samples
     has_many :user_symptoms
     has_many :symptoms, through: :user_symptoms
-    enum status: {pending: 0, active: 1, suspended: 2}
+    enum status: {pending_verification: 0, active: 1, suspended: 2}
     enum gender: {male: 0, female: 1, other: 2}
 end

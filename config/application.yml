@@ -7,8 +7,16 @@ defaults: &defaults
   autocomplete_results_count: 20
 
   # SMS Client
-  sms_client_type:
-  sms_client_sender_id: 'Quana'
+  sms_client_type: 'twilio'
+  sms_client_sender_id: '+12056062179'
+
+  # Code Validation
+  code_length: 4
+  max_tries_count: 3
+  max_codes_per_user: 3
+
+  qa_code:  '1234'  
+  qa_phone: '+97299999999'
 
   default_country_code: 'IL'
 

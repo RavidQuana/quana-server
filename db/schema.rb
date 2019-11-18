@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_121211) do
+ActiveRecord::Schema.define(version: 2019_11_18_132813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activation_codes", force: :cascade do |t|
+    t.integer "owner_id", null: false
+    t.string "owner_type", null: false
+    t.string "code", null: false
+    t.integer "tries_count", default: 0, null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_activation_codes_on_code"
+    t.index ["expires_at"], name: "index_activation_codes_on_expires_at"
+    t.index ["owner_id", "owner_type"], name: "index_activation_codes_on_owner"
+  end
 
   create_table "admin_managed_resources", force: :cascade do |t|
     t.string "class_name", null: false
@@ -306,7 +319,6 @@ ActiveRecord::Schema.define(version: 2019_11_18_121211) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "birth_date", null: false
     t.boolean "requires_local_auth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -317,6 +329,7 @@ ActiveRecord::Schema.define(version: 2019_11_18_121211) do
     t.string "first_name"
     t.string "last_name"
     t.string "phone_number", null: false
+    t.datetime "birth_date"
   end
 
   add_foreign_key "symptoms", "symptom_categories"

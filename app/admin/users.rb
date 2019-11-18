@@ -14,7 +14,6 @@ ActiveAdmin.register User do
 	index do
 		selectable_column
 		id_column
-		column :user_name
 		column :phone_number
 		actions defaults: true do |instance|
 		end    
@@ -35,10 +34,10 @@ ActiveAdmin.register User do
 		panel I18n.t('user.details', model: I18n.t('activerecord.models.sample_alpha.one')) do
 			attributes_table_for user do
 				row :id
-				row :user_name
 				row :phone_number
 				row :birth_date
 				row :token
+				row :status
 				row :requires_local_auth
 			end
 		end
