@@ -4,8 +4,8 @@ module V1
 
 			class Base < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }
-				expose :user_name, documentation: { type: 'String' }
-				expose :phone_number, documentation: { type: 'String' }
+				expose :first_name, documentation: { type: 'String' }
+				expose :last_name, documentation: { type: 'String' }
 			end
 
 		end

@@ -114,3 +114,5 @@ gem 'rcsv'
 gem 'zip_tricks'
 gem 'active_admin_scoped_collection_actions'
 gem 'chartkick'
+gem "audited", "~> 4.9"
+

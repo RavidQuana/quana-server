@@ -12,4 +12,5 @@
 
 class Symptom < ApplicationRecord
     belongs_to :symptom_category
+    has_many :user_symptoms
 end

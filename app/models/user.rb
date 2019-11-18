@@ -3,8 +3,6 @@
 # Table name: users
 #
 #  id                  :bigint           not null, primary key
-#  user_name           :string           not null
-#  phone_number        :string           not null
 #  birth_date          :datetime         not null
 #  requires_local_auth :boolean
 #  created_at          :datetime         not null
@@ -13,11 +11,16 @@
 #  status              :integer          default("pending"), not null
 #  gender              :integer          default("male"), not null
 #  last_activity_at    :datetime
+#  first_name          :string
+#  last_name           :string
+#  phone_number        :string           not null
 #
 
 class User < ApplicationRecord
     has_secure_token
     has_many :samples
+    has_many :user_symptoms
+    has_many :symptoms, through: :user_symptoms
     enum status: {pending: 0, active: 1, suspended: 2}
     enum gender: {male: 0, female: 1, other: 2}
 end

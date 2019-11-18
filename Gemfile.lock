@@ -102,6 +102,8 @@ GEM
     ast (2.4.0)
     attr_encrypted (3.1.0)
       encryptor (~> 3.0.0)
+    audited (4.9.0)
+      activerecord (>= 4.2, < 6.1)
     autoprefixer-rails (9.6.1.1)
       execjs
     aws-eventstream (1.0.3)
@@ -553,6 +555,7 @@ DEPENDENCIES
   activeadmin
   annotate
   arctic_admin
+  audited (~> 4.9)
   aws-sdk-s3
   axlsx (= 3.0.0.pre)
   axlsx_rails
