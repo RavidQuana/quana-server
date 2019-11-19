@@ -5,6 +5,8 @@ require 'minitest/reporters'
 MiniTest::Reporters.use!
 
 class ActiveSupport::TestCase
+  include Rack::Test::Methods
+
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
@@ -14,7 +16,9 @@ class ActiveSupport::TestCase
   end
 
   setup do
-    # shared setup
+      # default HTTP headers
+      @user = users(:oded)
+      header "X-Auth-Token", @user.token
   end
 
   def parse_response
