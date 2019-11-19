@@ -5,8 +5,20 @@ module UserHelpers
     helpers do
 
       params :user_attributes do
-
+        optional :first_name, type: String, allow_blank: false, desc: "The user's first name"
+        optional :last_name, type: String, allow_blank: false, desc: "The user's last name"
+        optional :birth_date, type: Date, coerce_with: ->(v) { Date.strptime(v, "%m/%d/%Y") rescue false }, desc: "The user's birthdate"
+        optional :treatment_ids, type: Array[Integer], desc: "An array of valid treatment ids"
+        optional :user_symptoms, type: Array[JSON] do
+          use :user_symptom_attributes
+        end
       end
+      
+      params :user_symptom_attributes do 
+				optional :id, type: Integer, desc: "A valid user symptom id"
+				optional :symptom_id, type: Integer, allow_blank: false, desc: "A valid symptom id"
+				optional :severity, type: Integer, allow_blank: false, desc: "Severity value"
+			end
 
       params :device_attributes do
         optional :device_token, type: String, desc: "The user's device token"

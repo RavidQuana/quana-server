@@ -11,13 +11,35 @@ module V1
 
 				#-----[GET]/users/me-----
 				desc "Return the current user's profile",
-				    entity: V1::Entities::Users::Base
+				    entity: V1::Entities::Users::Full
 				get '/', http_codes: [
 					{ code: RESPONSE_CODES[:ok], model: V1::Entities::Users::Base },
 					{ code: RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' }
 				] do
 					render_success @current_user, V1::Entities::Users::Base
 				end
+
+					#-----[POST]/users/me-----
+			        desc "Update the current user's profile",
+			        	consumes: ['multipart/form-data', 'application/json'],
+			            entity: V1::Entities::Users::Base       
+			        params do
+			        	use :user_attributes
+			        end
+			        post '/', http_codes: [
+			        	{ code: API::RESPONSE_CODES[:ok], message: 'ok', model: V1::Entities::Users::Base },
+			        	{ code: API::RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' },
+			        	{ code: API::RESPONSE_CODES[:bad_request], message: 'Validation failed' },
+			        	{ code: API::RESPONSE_CODES[:internal_server_error], message: 'Failed to update user profile' }
+					] do
+						pp "Vova"
+		        		@current_user.assign_attributes(
+							@filtered_params.except(:user_symptoms).merge({
+	        					user_symptoms_attributes: @filtered_params[:user_symptoms] || []
+	        				})
+	        			)
+						validate_and_save @current_user, V1::Entities::Users::Full , :save!   	
+			        end
 
 				#-----[POST]/users/me-----
 				# desc "Update the current user's profile",
