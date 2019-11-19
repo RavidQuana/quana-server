@@ -26,4 +26,9 @@ class User < ApplicationRecord
     has_many :symptoms, through: :user_symptoms
     enum status: {pending_verification: 0, active: 1, suspended: 2}
     enum gender: {male: 0, female: 1, other: 2}
+
+    def should_register
+        self.first_name.nil?
+    end
+
 end
