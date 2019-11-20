@@ -15,5 +15,5 @@ class UserSymptom < ApplicationRecord
     audited only: :severity
     belongs_to :user
     belongs_to :symptom
-    has_many :usage_symptom_influances
+    has_many :usage_symptom_influences
 end

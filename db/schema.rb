@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_111334) do
+ActiveRecord::Schema.define(version: 2019_11_20_130938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -308,14 +308,14 @@ ActiveRecord::Schema.define(version: 2019_11_20_111334) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "usage_symptom_influances", force: :cascade do |t|
+  create_table "usage_symptom_influences", force: :cascade do |t|
     t.bigint "usage_id"
     t.bigint "user_symptom_id"
-    t.integer "influance", null: false
+    t.integer "influence", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["usage_id"], name: "index_usage_symptom_influances_on_usage_id"
-    t.index ["user_symptom_id"], name: "index_usage_symptom_influances_on_user_symptom_id"
+    t.index ["usage_id"], name: "index_usage_symptom_influences_on_usage_id"
+    t.index ["user_symptom_id"], name: "index_usage_symptom_influences_on_user_symptom_id"
   end
 
   create_table "usages", force: :cascade do |t|
