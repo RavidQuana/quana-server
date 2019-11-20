@@ -1,19 +1,19 @@
 # == Schema Information
 #
-# Table name: usage_symptom_influances
+# Table name: usage_symptom_influences
 #
 #  id              :bigint           not null, primary key
 #  usage_id        :bigint
 #  user_symptom_id :bigint
-#  influance       :integer          not null
+#  influence       :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-class UsageSymptomInfluance < ApplicationRecord  
+class UsageSymptomInfluence < ApplicationRecord  
     belongs_to :usage
     belongs_to :user_symptom
 
-    enum influance: {worse: 0, same: 1, better: 2}
+    enum influence: {worse: 0, same: 1, better: 2}
 
 end

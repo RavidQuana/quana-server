@@ -15,7 +15,7 @@ module BaseHelpers
 
       def current_user
         return nil if headers['X-Auth-Token'].blank?
-        @current_user ||= User.active.find_by(token: headers['X-Auth-Token'])
+        @current_user ||= User.permitted.find_by(token: headers['X-Auth-Token'])
       end
 
       def restrict_access
@@ -73,7 +73,7 @@ module BaseHelpers
               end
       end
 
-      
+
       def validate_and_save(instance, entity, commit_using=:save)
         _e = nil
         success = false

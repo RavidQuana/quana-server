@@ -1,6 +1,11 @@
 module V1
 	module Entities
 		module Users
+
+			class Auth < Grape::Entity
+				expose :id, documentation: { type: 'Integer' }
+				expose :status, documentation: { type: 'String' }
+			end
 			class Base < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }
 				expose :first_name, documentation: { type: 'String' }
@@ -14,7 +19,6 @@ module V1
 				expose :user_symptoms, with: 'V1::Entities::UserSymptoms::Base', documentation: { 
 						type: 'UserSymptoms', is_array: true }
 			end	
-
 		end
 	end
 end

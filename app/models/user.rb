@@ -29,11 +29,12 @@ class User < ApplicationRecord
     has_many :treatments, through: :user_treatments
     has_many :usages
 
+    scope :permitted, -> {where(status: [:active, :pending_details]) }
 
 
     
 
-    enum status: {pending_verification: 0, active: 1, suspended: 2}
+    enum status: {pending_verification: 0, pending_details: 1,  active: 2, suspended: 3}
     enum gender: {male: 0, female: 1, other: 2}
 
     def should_register

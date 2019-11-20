@@ -36,7 +36,9 @@ module V1
 							@filtered_params.except(:user_symptoms).merge({
 	        					user_symptoms_attributes: @filtered_params[:user_symptoms] || []
 	        				})
-	        			)
+						)
+						
+						@current_user.assign_attributes(status: :active) if @current_user.pending_details? && @current_user.first_name.present?
 						validate_and_save @current_user, V1::Entities::Users::Full , :save!   	
 			        end
 
