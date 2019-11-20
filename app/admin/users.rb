@@ -21,7 +21,8 @@ ActiveAdmin.register User do
 
 	form do |f|
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.admin_user.one')) do
-			f.input :user_name
+			f.input :first_name
+			f.input :last_name
 			f.input :phone_number
 			f.input :birth_date , as: :date_time_picker, datepicker_options: { timepicker: false, format: 'Y-m-d H:i' }
 			f.input :requires_local_auth
