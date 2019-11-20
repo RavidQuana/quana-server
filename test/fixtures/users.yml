@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                  :bigint           not null, primary key
+#  requires_local_auth :boolean
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  token               :string           not null
+#  status              :integer          default("pending_verification"), not null
+#  gender              :integer          default("male"), not null
+#  last_activity_at    :datetime
+#  first_name          :string
+#  last_name           :string
+#  phone_number        :string           not null
+#  birth_date          :datetime
+#
+
 oded:
   first_name: oded
   last_name: shoshan

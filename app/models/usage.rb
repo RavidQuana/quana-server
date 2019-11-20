@@ -1,19 +1,17 @@
 # == Schema Information
 #
-# Table name: user_symptoms
+# Table name: usages
 #
 #  id         :bigint           not null, primary key
 #  user_id    :bigint
-#  symptom_id :bigint
-#  severity   :integer
+#  product_id :bigint
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-
-class UserSymptom < ApplicationRecord
-    audited only: :severity
+class Usage < ApplicationRecord  
     belongs_to :user
-    belongs_to :symptom
+    belongs_to :product
     has_many :usage_symptom_influances
+
 end

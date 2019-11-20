@@ -15,6 +15,8 @@ class Product < ApplicationRecord
 
     belongs_to :brand
     has_many :samples
+    has_many :usages
+
 
     def to_s
         "#{self.brand.name} #{self.name}"

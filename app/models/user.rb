@@ -27,6 +27,8 @@ class User < ApplicationRecord
     has_many :symptoms, through: :user_symptoms
     has_many :user_treatments
     has_many :treatments, through: :user_treatments
+    has_many :usages
+
 
 
     

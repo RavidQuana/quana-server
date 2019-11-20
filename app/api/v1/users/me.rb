@@ -32,7 +32,6 @@ module V1
 			        	{ code: API::RESPONSE_CODES[:bad_request], message: 'Validation failed' },
 			        	{ code: API::RESPONSE_CODES[:internal_server_error], message: 'Failed to update user profile' }
 					] do
-						pp "Vova"
 		        		@current_user.assign_attributes(
 							@filtered_params.except(:user_symptoms).merge({
 	        					user_symptoms_attributes: @filtered_params[:user_symptoms] || []
