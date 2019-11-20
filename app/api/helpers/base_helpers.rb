@@ -72,6 +72,54 @@ module BaseHelpers
                   render_error(API::RESPONSE_CODES[:bad_request], 'Invalid phone number or country code') 
               end
       end
+
+      
+      def validate_and_save(instance, entity, commit_using=:save)
+        _e = nil
+        success = false
+
+        begin
+          success = instance.send(commit_using)
+        rescue => e
+          _e = e
+        end
+        
+        unless success
+          errors_for(instance, _e) do |errors|
+            block_given? ? yield(errors) : [] 
+          end
+          end
+
+          entity ? render_success(instance, entity) : render_success(nil)
+      end
+
+      def audit_and_save(instance, entity, commit_using=:save)
+        Audited.audit_class.as_user(@current_user) do
+          validate_and_save(instance, entity, commit_using) do |errors|
+            block_given? ? yield(errors) : [] 
+          end
+        end
+      end
+
+      def errors_for(instance, e=nil)
+          if instance.errors.any?
+            # use this optional block to perform any custom validations and update the data array 
+            data = block_given? ? yield(instance.errors) : [] 
+
+            render_error(
+              API::RESPONSE_CODES[:bad_request], 
+              "Validation failed: #{instance.errors.full_messages.join(', ')}",
+              data
+            )
+          else
+            resource_name = instance.class.name.titleize.downcase
+            render_error(
+              API::RESPONSE_CODES[:internal_server_error], 
+              "Failed to update #{resource_name}",
+              !Rails.env.production? && e && e.message
+            )
+          end		  		
+      end 
     end
   end
 end

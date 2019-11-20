@@ -12,7 +12,7 @@ default: &default
 test:
   <<: *default
   database: quana_test
-  host: postgres
+  host: localhost
   username: postgres
   password: postgres
 

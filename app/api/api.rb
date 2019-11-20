@@ -14,6 +14,7 @@ class API < Grape::API
 
   after_validation do
     status RESPONSE_CODES[:ok]
+    @filtered_params = declared(params, include_missing: false)
     set_locale
   end
 
