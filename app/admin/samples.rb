@@ -115,7 +115,7 @@ ActiveAdmin.register Sample do
 		ensure
 			response.stream.close
 		end
-    end
+  end
 
 	index download_links: [:csv, :zip] do
 		selectable_column
@@ -191,7 +191,7 @@ ActiveAdmin.register Sample do
 		end  
 
 		def scoped_collection
-			super.includes :protocol
+			super.includes :protocol, :card, :brand, :product, :tags, :sampler, :sampler_type
 		end      
 	end   
 end
