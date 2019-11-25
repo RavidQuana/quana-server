@@ -28,6 +28,7 @@ ActiveAdmin.register Sample do
         if params[:collection_selection].present?
             samples = Sample.where(id: params[:collection_selection][0].values)
         end
+        samples = samples.distinct
         
         begin
              # Set a reasonable content type
@@ -60,7 +61,8 @@ ActiveAdmin.register Sample do
             pp params[:collection_selection]
             samples = Sample.where(id: params[:collection_selection][0].values)
         end
-        
+        samples = samples.distinct
+          
         begin
              # Set a reasonable content type
              response.headers['Content-Type'] = 'application/zip'
