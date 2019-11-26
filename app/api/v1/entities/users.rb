@@ -13,6 +13,7 @@ module V1
 			end
 
 			class Full < Base
+				expose :status, documentation: { type: 'String' }
 				expose :birth_date, documentation: { type: 'DateTime' }
 				expose :treatments, with: 'V1::Entities::Enums::Treatment', documentation: { 
 					type: 'Treatment', is_array: true }
