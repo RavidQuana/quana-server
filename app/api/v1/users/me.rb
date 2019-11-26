@@ -13,10 +13,10 @@ module V1
 				desc "Return the current user's profile",
 				    entity: V1::Entities::Users::Full
 				get '/', http_codes: [
-					{ code: RESPONSE_CODES[:ok], model: V1::Entities::Users::Base },
+					{ code: RESPONSE_CODES[:ok], model: V1::Entities::Users::Full },
 					{ code: RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' }
 				] do
-					render_success @current_user, V1::Entities::Users::Base
+					render_success @current_user, V1::Entities::Users::Full
 				end
 
 					#-----[POST]/users/me-----
