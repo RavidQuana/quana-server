@@ -6,6 +6,8 @@ module V1
 
 		mount V1::Users::Main
 		mount V1::Utils::Main
+		mount V1::Usages::Main
+
 
 		unless Rails.env.production?
 			add_swagger_documentation \
