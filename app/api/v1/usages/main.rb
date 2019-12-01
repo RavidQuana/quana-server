@@ -8,7 +8,7 @@ module V1
 					restrict_access
 				end
 				#-----[GET]/utils/meta-----
-				desc 'Return settings, enums and other static content', security: -> {[]}
+				desc 'Return settings, enums and other static content'
 				params do
 					use :usage_attributes
 				end
