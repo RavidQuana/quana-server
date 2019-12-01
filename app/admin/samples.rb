@@ -28,7 +28,6 @@ ActiveAdmin.register Sample do
         if params[:collection_selection].present?
             samples = Sample.where(id: params[:collection_selection][0].values)
         end
-        samples = samples.distinct
         
         begin
              # Set a reasonable content type
@@ -61,8 +60,7 @@ ActiveAdmin.register Sample do
             pp params[:collection_selection]
             samples = Sample.where(id: params[:collection_selection][0].values)
         end
-        samples = samples.distinct
-          
+        
         begin
              # Set a reasonable content type
              response.headers['Content-Type'] = 'application/zip'
@@ -117,7 +115,7 @@ ActiveAdmin.register Sample do
 		ensure
 			response.stream.close
 		end
-  end
+    end
 
 	index download_links: [:csv, :zip] do
 		selectable_column
@@ -193,7 +191,7 @@ ActiveAdmin.register Sample do
 		end  
 
 		def scoped_collection
-			super.includes :protocol, :card, :brand, :product, :tags, :sampler, :sampler_type
+			super.includes :protocol
 		end      
 	end   
 end

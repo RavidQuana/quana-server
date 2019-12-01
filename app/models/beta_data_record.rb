@@ -46,8 +46,7 @@ class BetaDataRecord < ApplicationRecord
                 :qcm_5,
                 :temp,
                 :humidiy,
-               # "array( select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
-               "array( #{SampleTag.where("sample_id = #{table_name}.sample_id").joins(:tag).select('tags.name').to_sql} )"
+                "array(select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
             ],
             joins: [
                 :card

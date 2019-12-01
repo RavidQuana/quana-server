@@ -21,12 +21,12 @@ module ActiveAdmin
 					end
 				end
 
-				def multiple_by_association?
-					false
-				end
-				
 				def input_html_options_name
-					"#{object_name}[#{input_name}][]"
+					if searchable_has_many_through?
+						"#{object_name}[#{input_name}]"
+					else	
+						"#{object_name}[#{input_name}][]"
+					end
 				end
 
 				def reflection_searchable?
