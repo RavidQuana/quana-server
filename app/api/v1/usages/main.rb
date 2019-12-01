@@ -2,6 +2,7 @@ module V1
 	module Usages
 		class Main < Grape::API
 			include BaseHelpers
+			include UsageHelpers
 
 			namespace :usages do
 				after_validation do
