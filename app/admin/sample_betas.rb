@@ -120,8 +120,10 @@ ActiveAdmin.register SampleBeta do
 			f.input :note
 			f.input :files, as: :file, :input_html => { :multiple => true }
 
+
+=begin disabled for now
 			f.inputs do
-				f.has_many :data_records, heading: 'Data Records',
+				f.has_many :beta_data_records, heading: 'Data Records',
 							allow_destroy: true,
 							new_record: true do |a|
 					a.input :secs_elapsed
@@ -133,7 +135,8 @@ ActiveAdmin.register SampleBeta do
 					a.input :temp
 					a.input :humidiy
 				end
-		end
+			end
+=end
 
 		end
 

@@ -129,6 +129,7 @@ ActiveAdmin.register SampleAlpha do
 			f.input :note
 			f.input :files, as: :file, :input_html => { :multiple => true }
 
+=begin disabled for now
 			f.inputs do
 				f.has_many :data_records, heading: 'Data Records',
 							allow_destroy: true,
@@ -144,7 +145,8 @@ ActiveAdmin.register SampleAlpha do
 					a.input :temp
 					a.input :humidiy
 				end
-		end
+			end
+=end			
 
 		end
 
