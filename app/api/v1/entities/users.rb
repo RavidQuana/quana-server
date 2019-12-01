@@ -25,6 +25,9 @@ module V1
 					type: 'Treatment', is_array: true }
 				expose :user_symptoms, with: 'V1::Entities::UserSymptoms::Base', documentation: { 
 						type: 'UserSymptoms', is_array: true }
+
+				expose :last_usages, with: 'V1::Entities::Usages::Full', documentation: { 
+						type: 'Usage', is_array: true }
 			end	
 		end
 	end

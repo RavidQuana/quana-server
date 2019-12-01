@@ -45,4 +45,8 @@ class User < ApplicationRecord
         self.first_name.nil?
     end
 
+    def last_usages
+        self.usages.order(create_at: :desc).limit(3)
+    end
+
 end
