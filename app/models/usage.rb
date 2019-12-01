@@ -12,6 +12,6 @@
 class Usage < ApplicationRecord  
     belongs_to :user
     belongs_to :product
-    has_many :usage_symptom_influances
+    has_many :usage_symptom_influences
 
 end

@@ -7,6 +7,10 @@ module UserHelpers
       params :user_attributes do
         optional :first_name, type: String, allow_blank: false, desc: "The user's first name"
         optional :last_name, type: String, allow_blank: false, desc: "The user's last name"
+        optional :cannabis_use_years, type: Integer, allow_blank: false, desc: "The user's canabbis user in years"
+        optional :cannabis_use_monthes, type: Integer, allow_blank: false, desc: "The user's canabbis user in monthes"
+        optional :cannabis_use_frequency, type: String, allow_blank: false, desc: "The user's canabbis use frequency"
+        optional :blood_sugar_medications, type: Boolean, allow_blank: false, desc: "The user's takes blood sugar medication"
         optional :birth_date, type: Date, coerce_with: ->(v) { Date.strptime(v, "%m/%d/%Y") rescue false }, desc: "The user's birthdate"
         optional :treatment_ids, type: Array[Integer], desc: "An array of valid treatment ids"
         optional :user_symptoms, type: Array[JSON] do

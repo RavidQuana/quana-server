@@ -2,18 +2,22 @@
 #
 # Table name: users
 #
-#  id                  :bigint           not null, primary key
-#  requires_local_auth :boolean
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  token               :string           not null
-#  status              :integer          default("pending_verification"), not null
-#  gender              :integer          default("male"), not null
-#  last_activity_at    :datetime
-#  first_name          :string
-#  last_name           :string
-#  phone_number        :string           not null
-#  birth_date          :datetime
+#  id                      :bigint           not null, primary key
+#  requires_local_auth     :boolean
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  token                   :string           not null
+#  status                  :integer          default("pending_verification"), not null
+#  gender                  :integer          default("male"), not null
+#  last_activity_at        :datetime
+#  first_name              :string
+#  last_name               :string
+#  phone_number            :string           not null
+#  birth_date              :datetime
+#  cannabis_use_years      :integer          default(0), not null
+#  cannabis_use_monthes    :integer          default(0), not null
+#  cannabis_use_frequency  :string
+#  blood_sugar_medications :boolean          default(FALSE), not null
 #
 
 class User < ApplicationRecord
