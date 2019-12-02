@@ -22,6 +22,15 @@ module V1
 					validate_and_save usage, V1::Entities::Usages::Full , :save!   	
 				end
 
+				#-----[GET]/usages/-----
+				desc 'get user usages'
+				get '/', http_codes: [
+					{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
+				] do
+		        	render_success @current_user.usages.order(created_at: :desc), 
+						V1::Entities::Usages::Full			
+				end
+
 				route_param :usage_id do
 					after_validation do
 					  get_usage
