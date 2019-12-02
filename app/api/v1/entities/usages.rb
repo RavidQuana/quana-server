@@ -13,7 +13,9 @@ module V1
 				expose :product, with: 'V1::Entities::Enums::Product', documentation: { 
 					type: 'Product'}		
 				expose :usage_symptom_influences, with: 'V1::Entities::UsageSymptomInfluences::Base', documentation: { 
-						type: 'UsageSymptomInfluence'}		
+						type: 'UsageSymptomInfluence'}
+				expose :side_effects, with: 'V1::Entities::Enums::SideEffect', documentation: { 
+							type: 'SideEffect', is_array: true }		
 			end	
 		end
 	end

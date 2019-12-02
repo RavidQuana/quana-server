@@ -14,6 +14,7 @@ module V1
 						symptom_categories: SymptomCategory.all.map {|category| V1::Entities::SymptomCategories::Base.represent(category) },
 						treatments: Treatment.all.map {|treatment| V1::Entities::Treatments::Base.represent(treatment) },
 						products: Product.all.map {|product| V1::Entities::Enums::Product.represent(product) }
+						side_effects: SideEffect.all.map {|side_effect| V1::Entities::Enums::SideEffect.represent(side_effect) }
 
 
 					}

@@ -12,8 +12,14 @@
 class Usage < ApplicationRecord  
     belongs_to :user
     belongs_to :product
+   
     has_many :usage_symptom_influences
     accepts_nested_attributes_for :usage_symptom_influences, allow_destroy: true, reject_if: :all_blank
+  
+    has_many :usage_side_effects
+    has_many :side_effects, through: :usage_side_effects
+
+
 
 
 end

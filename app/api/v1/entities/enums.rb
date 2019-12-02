@@ -9,6 +9,10 @@ module V1
 				expose :id, documentation: { type: 'Integer' }
 				expose :name, documentation: { type: 'String' }
 			end	
+			class SideEffect < Grape::Entity
+				expose :id, documentation: { type: 'Integer' }
+				expose :name, documentation: { type: 'String' }
+			end	
 			class Product < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }
 				expose :name, documentation: { type: 'String' }
