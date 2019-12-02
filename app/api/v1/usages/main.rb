@@ -42,6 +42,8 @@ module V1
 						requires :usage_symptoms_influence, type: Array[JSON] do
 							use :usage_symptom_influence_attributes
 						  end
+						optional :side_effect_ids, type: Array[Integer], desc: "An array of valid side effect ids"
+
 					end
 					post '/', http_codes: [
 						{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
