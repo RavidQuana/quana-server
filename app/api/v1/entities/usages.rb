@@ -11,7 +11,9 @@ module V1
 
 			class Full < Base
 				expose :product, with: 'V1::Entities::Enums::Product', documentation: { 
-					type: 'Product'}				
+					type: 'Product'}		
+				expose :usage_symptom_influences, with: 'V1::Entities::UsageSymptomInfluences::Base', documentation: { 
+						type: 'UsageSymptomInfluence'}		
 			end	
 		end
 	end
