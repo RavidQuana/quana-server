@@ -13,7 +13,7 @@ module V1
 						settings: AppSettings.client_accessible.map { |setting| V1::Entities::Utils::AppSetting.represent(setting) },
 						symptom_categories: SymptomCategory.all.map {|category| V1::Entities::SymptomCategories::Base.represent(category) },
 						treatments: Treatment.all.map {|treatment| V1::Entities::Treatments::Base.represent(treatment) },
-						products: Product.all.map {|product| V1::Entities::Enums::Product::Base.represent(product) }
+						products: Product.all.map {|product| V1::Entities::Enums::Product.represent(product) }
 
 
 					}

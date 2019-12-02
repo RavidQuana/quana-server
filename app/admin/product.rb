@@ -14,6 +14,10 @@ ActiveAdmin.register Product do
     form do |f|
 		f.inputs do
 			f.input :name 
+			f.input :pros 
+			f.input :cons 
+			f.input :has_mold 
+
 			f.input :brand, as: :select2
 		end
 		
