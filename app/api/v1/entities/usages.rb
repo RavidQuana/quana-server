@@ -4,6 +4,8 @@ module V1
 
 			class Base < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }
+				expose :created_at, documentation: { type: 'DateTime' }
+
 
 			end
 
