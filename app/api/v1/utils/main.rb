@@ -17,8 +17,6 @@ module V1
 
 
 					}
-						type: 'Treatment', is_array: true }
-
 					render_success meta
 				end
 			end
