@@ -15,5 +15,6 @@ class UserSymptom < ApplicationRecord
     audited only: :severity
     belongs_to :user
     belongs_to :symptom
+    validates :symptom_id, uniqueness: {scope: :user_id}
     has_many :usage_symptom_influences
 end
