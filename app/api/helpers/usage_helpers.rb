@@ -7,10 +7,7 @@ module UsageHelpers
       params :usage_attributes do
         requires  :product_id, type: Integer, allow_blank: false, desc: "The usage product id"
 
-        end
-      end
-
-      
+        end      
       params :usage_symptom_influance_attributes do 
 				optional :user_symptom_id, type: Integer, allow_blank: false, desc: "A valid symptom id"
 				optional :influance, type: Integer, allow_blank: false, desc: "influance value"
