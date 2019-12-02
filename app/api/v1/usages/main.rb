@@ -30,8 +30,8 @@ module V1
 					#-----[POST]/usages/:usage_id-----
 					desc 'create a new user usage'
 					params do
-						requires :usage_symptoms_influance, type: Array[JSON] do
-							use :usage_symptom_influance_attributes
+						requires :usage_symptoms_influence, type: Array[JSON] do
+							use :usage_symptom_influence_attributes
 						  end
 					end
 					post '/', http_codes: [
@@ -40,8 +40,8 @@ module V1
 					
 					
 						@usage.assign_attributes(
-							@filtered_params.except(:usage_symptoms_influance).merge({
-	        					usage_symptom_influences_attributes: @filtered_params[:usage_symptoms_influance] || []
+							@filtered_params.except(:usage_symptoms_influence).merge({
+	        					usage_symptom_influences_attributes: @filtered_params[:usage_symptoms_influence] || []
 	        				})
 						)						
 						validate_and_save @usage, V1::Entities::Usages::Full , :save!   

@@ -8,9 +8,9 @@ module UsageHelpers
         requires  :product_id, type: Integer, allow_blank: false, desc: "The usage product id"
 
       end      
-      params :usage_symptom_influance_attributes do 
+      params :usage_symptom_influence_attributes do 
 				optional :user_symptom_id, type: Integer, allow_blank: false, desc: "A valid symptom id"
-				optional :influance, type: Integer, allow_blank: false, desc: "influance value"
+				optional :influence, type: Integer, allow_blank: false, desc: "influance value"
 			end
 
       def get_usage
