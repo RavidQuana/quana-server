@@ -8,8 +8,8 @@ module V1
 			end
 
 			class Full < Base
-				expose :product_id, documentation: { type: 'Integer' }
-				
+				expose :product, with: 'V1::Entities::Enums::Product', documentation: { 
+					type: 'Product'}				
 			end	
 		end
 	end

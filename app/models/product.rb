@@ -7,6 +7,9 @@
 #  brand_id   :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  pros       :string
+#  cons       :string
+#  has_mold   :boolean          default(FALSE), not null
 #
 
 class Product < ApplicationRecord
