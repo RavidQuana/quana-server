@@ -23,4 +23,8 @@ Rails.application.routes.draw do
 		get '/swagger', to: 'swagger#index'
 		get 'admin/autocomplete/:resource', to: 'admin_utils#autocomplete'
 	end
+
+	
+	get '/ml/samples', to: 'ml#samples', as: 'export_samples'
+	get '/ml/version', to: 'ml#version'
 end
