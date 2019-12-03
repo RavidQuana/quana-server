@@ -85,4 +85,13 @@ class Sample < ApplicationRecord
         }
         return nil
     end
+
+    def temp_file
+        require 'tempfile'
+        file = Tempfile.new('sample.csv')
+        self.data_type.stream_csv_report(resource.data).lazy.each{|row|
+            file.write(row)
+        }
+        file
+    end
 end

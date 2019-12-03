@@ -50,6 +50,23 @@ class MlController < ActionController::Base
         render json: { version: MLVersion.active.first }, status: :ok
     end
 
+    def self.classify_sample(sample)
+        file = sample.temp_file
+        begin
+            response = RestClient.post("http://localhost:3000/classify",  :sample => file, {accept: :json, "x-api-key": "Test"}
+            if response.code != 200 
+                    return false
+            end
+        ensure
+           file.close
+           file.unlink 
+        end
+
+        json = JSON.parse(response.body)
+       
+        #deal with json
+    end
+
     def self.update_versions
         response = RestClient.get("http://localhost:3000/versions", {content_type: :json, accept: :json, "x-api-key": "Test"}
         if response.code != 200 
