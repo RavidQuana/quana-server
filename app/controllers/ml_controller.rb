@@ -1,8 +1,11 @@
 class MlController < ActionController::Base
     before_action :check_api_key
 
+    API_KEY = ENV["ML_API_KEY"] || "Test"
+    API_HOST = ENV["ML_URL"] || "http://localhost:3000"
+
     def check_api_key
-        if request.headers["x-api-key"] == (ENV["ML_API_KEY"] || "Test")
+        if request.headers["x-api-key"] == API_KEY
             #everything is fine
         else
             render json: {}, status: 401
@@ -53,9 +56,26 @@ class MlController < ActionController::Base
     def self.classify_sample(sample)
         file = sample.temp_file
         begin
-            response = RestClient.post("http://localhost:3000/classify",  :sample => file, {accept: :json, "x-api-key": "Test"}
+            response = RestClient.post("#{API_HOST}/classify",  payload: {sample: file}, headers: {accept: :json, "x-api-key": API_KEY})
             if response.code != 200 
-                    return false
+                return false
+            end
+        ensure
+           file.close
+           file.unlink 
+        end
+
+        json = JSON.parse(response.body)
+       
+        #deal with json
+    end
+    
+    def self.train(q)
+        file = sample.temp_file
+        begin
+            response = RestClient.post("#{API_HOST}/train",  payload: {samples: export_samples_url(q)}, headers: {accept: :json, "x-api-key": API_KEY})
+            if response.code != 200 
+                return false
             end
         ensure
            file.close
@@ -68,7 +88,7 @@ class MlController < ActionController::Base
     end
 
     def self.update_versions
-        response = RestClient.get("http://localhost:3000/versions", {content_type: :json, accept: :json, "x-api-key": "Test"}
+        response = RestClient.get("#{API_HOST}/versions", {content_type: :json, accept: :json, "x-api-key": API_KEY})
         if response.code != 200 
             return false
         end
