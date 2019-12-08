@@ -15,10 +15,10 @@
 
 class UserSymptom < ApplicationRecord
     audited only: :severity
-    scope :not_deleted, ->  {where(deleted_at: nil)} 
+    scope :active, ->  {where(deleted_at: nil)} 
     belongs_to :user
     belongs_to :symptom
-    validates :symptom_id, uniqueness: {scope: :user_id, conditions: -> {not_deleted}}#,  unless: :deleted?
+    validates :symptom_id, uniqueness: {scope: :user_id, conditions: -> {active}}#,  unless: :deleted?
     has_many :usage_symptom_influences
 
     

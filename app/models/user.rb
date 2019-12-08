@@ -26,7 +26,7 @@ class User < ApplicationRecord
 
     has_secure_token
     has_many :samples
-    has_many :user_symptoms, -> { not_deleted } 
+    has_many :user_symptoms, -> { active } 
     accepts_nested_attributes_for :user_symptoms, allow_destroy: true, reject_if: :all_blank
     has_many :symptoms, through: :user_symptoms
     has_many :user_treatments
