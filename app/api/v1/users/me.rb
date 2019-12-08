@@ -63,6 +63,24 @@ module V1
 							end
 						end
 					end
+
+					namespace :user_treatments do
+						route_param :user_treatment_id do
+							#-----[POST]/usages/:usage_id-----
+							desc 'delete user treatment'
+							delete '/', http_codes: [
+								{ code: API::RESPONSE_CODES[:ok], message: 'ok' },
+								{ code: API::RESPONSE_CODES[:bad_request], message: 'Invalid slot id' },
+								{ code: API::RESPONSE_CODES[:bad_request], message: 'Slot cannot be cancelled (has pending orders)' },
+								{ code: API::RESPONSE_CODES[:internal_server_error], message: 'Failed to cancel slot' }
+							] do
+								user_treatment = @current_user.user_treatments.find_by(id: params[:user_treatment_id])
+								render_error(API::RESPONSE_CODES[:bad_request], 'Invalid user symptom id') unless user_treatment.present?
+								user_treatment.deleted_at = Time.current 
+								validate_and_save user_treatment, nil, :save!
+							end
+						end
+					end
 			end
 		end
 	end
