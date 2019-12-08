@@ -21,8 +21,8 @@ module V1
 				expose :cannabis_use_frequency, documentation: { type: 'String' }
 				expose :blood_sugar_medications, documentation: { type: 'Boolean' }
 
-				expose :treatments, with: 'V1::Entities::Enums::Treatment', documentation: { 
-					type: 'Treatment', is_array: true }
+				expose :user_treatments, with: 'V1::Entities::UserTreatment::Base', documentation: { 
+					type: 'UserTreatment', is_array: true }
 				expose :user_symptoms, with: 'V1::Entities::UserSymptoms::Base', documentation: { 
 						type: 'UserSymptoms', is_array: true }
 
