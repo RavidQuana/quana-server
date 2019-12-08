@@ -40,29 +40,29 @@ module V1
 						
 						@current_user.assign_attributes(status: :active) if @current_user.pending_details? && @current_user.first_name.present?
 						validate_and_save @current_user, V1::Entities::Users::Full , :save!   	
-			        end
-
-				#-----[POST]/users/me-----
-				# desc "Update the current user's profile",
-				# 	consumes: ['multipart/form-data', 'application/json'],
-				#     entity: User::Entity
-				# params do
-				# 	use :user_attributes
-				# 	use :device_attributes
-				# end
-				# post '/', http_codes: [
-				# 	{ code: RESPONSE_CODES[:ok], model: User::Entity },
-				# 	{ code: RESPONSE_CODES[:unauthorized], message: 'Invalid or expired user token' },
-				# 	{ code: RESPONSE_CODES[:internal_server_error], message: 'Could not update user profile' }
-				# ] do
-				# 	@current_user.assign_attributes({  }.reject { |k, v| !params.has_key?(k) })
-				# 	render_error(RESPONSE_CODES[:internal_server_error], 'Could not update user profile') unless @current_user.save
-				# 	attach_device
-
-				# 	@current_user.reload
-
-				# 	render_success @current_user, User::Entity
-				# end
+					end
+					
+					namespace :user_symptoms do
+						route_param :user_symptom_id do
+							#-----[POST]/usages/:usage_id-----
+							desc 'delete user symptom'
+							params do
+								requires :delete_reason, type: String		
+							end
+							delete '/', http_codes: [
+								{ code: API::RESPONSE_CODES[:ok], message: 'ok' },
+								{ code: API::RESPONSE_CODES[:bad_request], message: 'Invalid slot id' },
+								{ code: API::RESPONSE_CODES[:bad_request], message: 'Slot cannot be cancelled (has pending orders)' },
+								{ code: API::RESPONSE_CODES[:internal_server_error], message: 'Failed to cancel slot' }
+							] do
+								user_symptom = @current_user.user_symptoms.find_by(id: params[:user_symptom_id])
+								render_error(API::RESPONSE_CODES[:bad_request], 'Invalid user symptom id') unless user_symptom.present?
+								user_symptom.deleted_at = Time.current 
+								user_symptom.delete_reason =  params[:delete_reason]
+								validate_and_save user_symptom, nil, :save!
+							end
+						end
+					end
 			end
 		end
 	end
