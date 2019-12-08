@@ -89,7 +89,7 @@ class Sample < ApplicationRecord
     def temp_file
         require 'tempfile'
         file = Tempfile.new('sample.csv')
-        self.data_type.stream_csv_report(resource.data).lazy.each{|row|
+        self.data_type.stream_csv_report(self.data).lazy.each{|row|
             file.write(row)
         }
         file

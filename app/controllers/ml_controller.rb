@@ -1,8 +1,12 @@
 class MlController < ActionController::Base
+    class << self
+        include Rails.application.routes.url_helpers
+    end
+
     before_action :check_api_key
 
     API_KEY = ENV["ML_API_KEY"] || "Test"
-    API_HOST = ENV["ML_URL"] || "http://localhost:3000"
+    API_HOST = ENV["ML_URL"] || "http://localhost:8000"
 
     def check_api_key
         if request.headers["x-api-key"] == API_KEY
@@ -50,13 +54,14 @@ class MlController < ActionController::Base
     end 
 
     def version
-        render json: { version: MLVersion.active.first }, status: :ok
+        #render json: { version: MLVersion.active.first }, status: :ok
+        render json: {version: "samples_2019_12_08_19-24-47"}, status: :ok
     end
 
     def self.classify_sample(sample)
         file = sample.temp_file
         begin
-            response = RestClient.post("#{API_HOST}/classify",  payload: {sample: file}, headers: {accept: :json, "x-api-key": API_KEY})
+            response = RestClient.post("#{API_HOST}/classify",  {sample: file}, headers: {accept: :json, "x-api-key": API_KEY})
             if response.code != 200 
                 return false
             end
@@ -71,15 +76,9 @@ class MlController < ActionController::Base
     end
     
     def self.train(q)
-        file = sample.temp_file
-        begin
-            response = RestClient.post("#{API_HOST}/train",  payload: {samples: export_samples_url(q)}, headers: {accept: :json, "x-api-key": API_KEY})
-            if response.code != 200 
-                return false
-            end
-        ensure
-           file.close
-           file.unlink 
+        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
+        if response.code != 200 
+            return false
         end
 
         json = JSON.parse(response.body)
