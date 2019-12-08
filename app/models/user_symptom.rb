@@ -2,17 +2,20 @@
 #
 # Table name: user_symptoms
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint
-#  symptom_id :bigint
-#  severity   :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :bigint           not null, primary key
+#  user_id       :bigint
+#  symptom_id    :bigint
+#  severity      :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  deleted_at    :datetime
+#  delete_reason :string
 #
 
 
 class UserSymptom < ApplicationRecord
     audited only: :severity
+    default_scope where.not(deleted_at: nil)
     belongs_to :user
     belongs_to :symptom
     validates :symptom_id, uniqueness: {scope: :user_id}
