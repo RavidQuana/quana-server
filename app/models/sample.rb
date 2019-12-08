@@ -92,6 +92,8 @@ class Sample < ApplicationRecord
         self.data_type.stream_csv_report(self.data).lazy.each{|row|
             file.write(row)
         }
+        file.flush
+        file.rewind
         file
     end
 end
