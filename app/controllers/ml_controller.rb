@@ -54,12 +54,11 @@ class MlController < ActionController::Base
     end 
 
     def self.current_version
-        "samples_2019_12_08_19-24-47"
+        MLVersion.active.first.name
     end
 
     def version
-        #render json: { version: MLVersion.active.first }, status: :ok
-        render json: {version: MlController.current_version}, status: :ok
+        render json: { version: MLVersion.active.first.name }, status: :ok
     end
 
     def self.classify_sample(sample)
