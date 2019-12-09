@@ -54,11 +54,11 @@ class MlController < ActionController::Base
     end 
 
     def self.current_version
-        MLVersion.active.first.name
+        MLVersion.active.order(updated_at: :desc).first.name
     end
 
     def version
-        render json: { version: MLVersion.active.first.name }, status: :ok
+        render json: { version: MLVersion.current_version }, status: :ok
     end
 
     def self.classify_sample(sample)
