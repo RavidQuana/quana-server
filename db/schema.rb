@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_145421) do
+ActiveRecord::Schema.define(version: 2019_12_08_235724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,14 @@ ActiveRecord::Schema.define(version: 2019_10_30_145421) do
     t.index ["owner_id", "owner_type"], name: "index_devices_on_owner"
   end
 
+  create_table "ml_versions", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_ml_versions_on_name"
+  end
+
   create_table "notification_types", force: :cascade do |t|
     t.string "name"
     t.jsonb "body_pattern", default: {}
@@ -245,7 +253,6 @@ ActiveRecord::Schema.define(version: 2019_10_30_145421) do
     t.integer "sampler_id"
     t.integer "card_id"
     t.string "note"
-    t.string "material", default: "Material", null: false
     t.integer "product_id", null: false
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"

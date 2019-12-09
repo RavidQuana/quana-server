@@ -45,6 +45,7 @@ ActiveAdmin.register SampleBeta do
 				row :product
 				row :card
 				row :file_name
+				row :classification
 			  	row :created_at
 				row :updated_at 
 

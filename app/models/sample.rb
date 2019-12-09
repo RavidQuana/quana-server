@@ -63,6 +63,11 @@ class Sample < ApplicationRecord
         raise "no data"
     end
 
+
+    def classification
+        MlController.classify_sample(self)
+    end
+
     def file_id
         data.first.file_id
     end

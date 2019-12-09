@@ -77,7 +77,7 @@ class MlController < ActionController::Base
 
         json = JSON.parse(response.body)
        
-        #deal with json
+        return json
     end
     
     def self.train(q)
@@ -97,13 +97,11 @@ class MlController < ActionController::Base
             return false
         end
         json = JSON.parse(response.body)
-        json[:versions].each{|version|
-            ml_ver = MLVersion.find_by(version: version[:name])
-            if !ml_ver.present? 
-                MLVersion.create!(version)
-            else
-                ml_ver.update!(version)
+        json.each{|version|
+            if !MLVersion.where(name: version).exists?
+                MLVersion.create!(name: version)
             end 
-        }
+        }   
+        MLVersion.where.not(name: json).delete_all
     end
 end

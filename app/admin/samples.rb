@@ -89,6 +89,11 @@ ActiveAdmin.register Sample do
            response.stream.close
        end
     end
+
+
+  scoped_collection_action :train, method: :post, class: 'download-trigger member_link_scope',  title: "שלח ללמידה" do
+    MlController.train(params[:q])
+  end
 	
 	collection_action :download_samples, method: :post do
 		pp collection
