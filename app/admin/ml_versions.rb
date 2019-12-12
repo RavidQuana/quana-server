@@ -4,7 +4,7 @@ ActiveAdmin.register MLVersion do
 	include Admin::Translatable
 	include Admin::Scopable 
 
-	actions :all
+	actions :all, except: [:edit]
 
 	filter :id
     filter :name
@@ -17,16 +17,25 @@ ActiveAdmin.register MLVersion do
 		MlController.update_versions()
 		redirect_to collection_path, notice: "Versions updated."
 	end
+
+	member_action :activate, method: :get do
+		MLVersion.all.update_all(status: :ready)
+		resource.active!
+		redirect_to collection_path, notice: "Activated."
+  	end
 	
 	index do
 		selectable_column
 		id_column
 		column :name 
+		column :status
 		column :query
 		#column :query_humanize
 		column :created_at
-		actions defaults: true do |instance| 
-		end       
+
+		actions defaults: true do |instance|
+			item "Activate", public_send("activate_admin_ml_version_path", instance.id), class: "member_link"
+		end     
 	end
 
     form do |f|
