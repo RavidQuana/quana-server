@@ -16,7 +16,18 @@ ActiveAdmin.register MLVersion do
     scoped_collection_action :update_versions, method: :post, class: 'download-trigger member_link_scope',  title: "עדכן" do
 		MlController.update_versions()
 		redirect_to collection_path, notice: "Versions updated."
-    end
+	end
+	
+	index do
+		selectable_column
+		id_column
+		column :name 
+		column :query
+		#column :query_humanize
+		column :created_at
+		actions defaults: true do |instance| 
+		end       
+	end
 
     form do |f|
 		f.inputs do
