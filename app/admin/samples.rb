@@ -92,6 +92,7 @@ ActiveAdmin.register Sample do
 
 
   scoped_collection_action :train, method: :post, class: 'download-trigger member_link_scope',  title: "שלח ללמידה" do
+    params.permit!
     MlController.train(params[:q])
     redirect_to collection_path, notice: "Processing request sent."
   end

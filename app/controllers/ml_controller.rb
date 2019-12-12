@@ -18,7 +18,7 @@ class MlController < ActionController::Base
 
     def samples 
         if params["q"].present?
-            samples = Sample.ransack(params["q"])
+            samples = Sample.ransack(params["q"]).result
         else
             samples = Sample.all
         end
@@ -80,7 +80,7 @@ class MlController < ActionController::Base
     end
     
     def self.train(q)
-        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
+        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
         if response.code != 200 
             return false
         end
@@ -88,6 +88,10 @@ class MlController < ActionController::Base
         json = JSON.parse(response.body)
        
         #deal with json
+    end
+
+    def permitted_params
+        params.permit!
     end
 
     def self.update_versions
