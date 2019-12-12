@@ -69,6 +69,9 @@ class MlController < ActionController::Base
             if response.code != 200 
                 return false
             end
+        rescue StandardError => e
+            pp e
+            return false
         ensure
            file.close
            file.unlink 
