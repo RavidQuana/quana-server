@@ -86,7 +86,14 @@ class MlController < ActionController::Base
         end
 
         json = JSON.parse(response.body)
-       
+        pp json
+
+        if json['id'].present?
+            ml_version = MLVersion.find_by(name: json['id'])
+            if !ml_version.present?
+                MLVersion.create(name: json['id'], query: q.to_s)
+            end
+        end
         #deal with json
     end
 
