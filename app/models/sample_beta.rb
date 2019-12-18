@@ -30,8 +30,8 @@ class SampleBeta < Sample
         self.beta_data_records
     end
 
-    def insert_csv(file_or_string)
-        BetaDataRecord.insert_csv(file_or_string, self)
+    def insert_sample(file_or_string)
+        BetaDataRecord.insert_sample(file_or_string, self)
     end
 
     def self.data_type
@@ -43,6 +43,6 @@ class SampleBeta < Sample
     end
     
     def self.test_data(n)
-        (0..n).each{|i| BetaSampleAlpha.create!(file_name:"test_#{i}.csv", brand: Brand.last, device: "Test").insert_csv(File.open('./test/test_beta.csv')) }
+        (0..n).each{|i| BetaSampleAlpha.create!(file_name:"test_#{i}.csv", brand: Brand.last, device: "Test").insert_sample(File.open('./test/test_beta.csv')) }
     end
 end

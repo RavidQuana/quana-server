@@ -163,7 +163,7 @@ ActiveAdmin.register SampleAlpha do
                             sample_meta = permitted_params['sample_alpha'].to_h
                             sample_meta[:file_name] = file.original_filename
                             sample = SampleAlpha.create!(sample_meta)
-                            sample.insert_csv(file.tempfile)
+                            sample.insert_sample(file.tempfile)
                         end
                         next file, sample
                     rescue => e 
@@ -183,7 +183,7 @@ ActiveAdmin.register SampleAlpha do
 				SampleAlpha.find(id).update!(permitted_params['sample_alpha'])
 				params['sample_alpha']['files'].each{|file|
 					#sample = SampleAlpha.create!(permitted_params['sample'])
-					#sample.insert_csv(file.tempfile)
+					#sample.insert_sample(file.tempfile)
 				} if params['sample_alpha']['files'].present?
 				redirect_to collection_url(locale: I18n.locale) and return
 			end

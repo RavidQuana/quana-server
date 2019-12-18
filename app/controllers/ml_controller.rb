@@ -3,6 +3,9 @@ class MlController < ActionController::Base
         include Rails.application.routes.url_helpers
     end
 
+    #skip auth token because its API and not ActiveAdmin
+    skip_before_action :verify_authenticity_token
+
     before_action :check_api_key
 
     API_KEY = ENV["ML_API_KEY"] || "Test"
@@ -14,6 +17,19 @@ class MlController < ActionController::Base
         else
             render json: {}, status: 401
         end
+    end
+
+    def upload_sample
+        #pp params
+        #pp params["file"]
+        #pp params["upload"]
+        #pp params["body"]
+        if !params["sample"].present?
+            render json: {}, status: 400
+            return
+        end 
+        pp params[:sample].tempfile
+        render json: {}, status: 200
     end
 
     def samples 
@@ -80,7 +96,7 @@ class MlController < ActionController::Base
         json = JSON.parse(response.body)
        
         return json
-    end
+    end 
     
     def self.train(q)
         response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})

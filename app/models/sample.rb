@@ -78,16 +78,31 @@ class Sample < ApplicationRecord
     end
 
     def self.detect_format(file_or_string) 
-        require 'rcsv'
-        Rcsv.parse(file_or_string, headers: :skip).each_with_index{|row, index|
-            if index == 0 
-                return SampleAlpha if row[0] == "Time" 
-            end
-            if index == 0
-                return SampleBeta if row[0] == "TimeCount" 
-            end
-            break if index > 1
-        }
+        begin 
+            require 'rcsv'
+            Rcsv.parse(file_or_string, headers: :skip).each_with_index{|row, index|
+                if index == 0 
+                    return SampleAlpha if row[0] == "Time" 
+                end
+                if index == 0
+                    return SampleBeta if row[0] == "TimeCount" 
+                end
+                break if index > 1
+            }
+        rescue => e
+            
+        end
+
+        if file_or_string.is_a?(String)
+            file_or_string = StringIO.new(file_or_string)
+        end
+        file_or_string.set_encoding("ASCII-8BIT")
+        header = file_or_string.read(5)
+
+        if header[5] == 0x06
+            return SampleGamma
+        end
+
         return nil
     end
 

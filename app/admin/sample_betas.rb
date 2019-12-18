@@ -154,7 +154,7 @@ ActiveAdmin.register SampleBeta do
                             sample_meta = permitted_params['sample_beta'].to_h
                             sample_meta[:file_name] = file.original_filename
                             sample = SampleBeta.create!(sample_meta)
-                            sample.insert_csv(file.tempfile)
+                            sample.insert_sample(file.tempfile)
                         end
                         next file, sample
                     rescue => e 
@@ -174,7 +174,7 @@ ActiveAdmin.register SampleBeta do
 				SampleBeta.find(id).update!(permitted_params['sample_beta'])
 				params['sample_beta']['files'].each{|file|
 					#sample = SampleBeta.create!(permitted_params['sample'])
-					#sample.insert_csv(file.tempfile)
+					#sample.insert_sample(file.tempfile)
 				} if params['sample_beta']['files'].present?
 				redirect_to collection_url(locale: I18n.locale) and return
 			end

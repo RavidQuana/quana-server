@@ -76,7 +76,7 @@ class BetaDataRecord < ApplicationRecord
     has_many :tags, through: :sample
     has_one :card, through: :sample
     
-    def self.insert_csv(file_or_string, sample)
+    def self.insert_sample(file_or_string, sample)
         raise "sample id is null" if sample.nil? || sample.id.nil?
         require 'rcsv'
         csv_data = Enumerator.new do |y|
@@ -95,7 +95,7 @@ class BetaDataRecord < ApplicationRecord
 				}
 			}
         end
-        BetaDataRecord.insert_all!(csv_data.to_a)
+        return BetaDataRecord.insert_all!(csv_data.to_a)
     end
 end
 

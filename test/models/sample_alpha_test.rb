@@ -22,30 +22,60 @@
 require 'test_helper'
 
 class SampleAlphaTest < ActiveSupport::TestCase
-	include Rack::Test::Methods
+	
 
 	class SampleAlphaTests < SampleAlphaTest
 
         setup do
+			Brand.delete_all
+			Product.delete_all
+			SamplerType.delete_all
+			Sampler.delete_all
+			Protocol.delete_all
+			SampleAlpha.delete_all
+			SampleBeta.delete_all
+			Card.delete_all
+
 			@brand = Brand.create!(name: "Test")
 			@product = Product.create!(name: "Test", brand: @brand)
 			@sampler_type = SamplerType.create!(name: "Test")
 			@sampler = Sampler.create!(name: "Test", sampler_type: @sampler_type)
-			@sample = SampleAlpha.create!(
-					product: @product,
-					sampler: @sampler,
-					material: "Material Test"
-			)
+			@protocol = Protocol.create!(name: "Test", description: "Test")
+			@card = Card.create!(name: "Test")
 		end 
 
-		test "sample without material" do
-			assert SampleAlpha.new().invalid?
-        end
-        
-        test "import record data" do
-			@sample.insert_csv(File.open("./test/test.csv"))
-			assert DataRecord.count == 58
-			DataRecord.delete_all
+		test "Alpha Sample Import" do
+			file = File.open("./test/test_alpha.csv")
+			sample_class = Sample.detect_format(file)
+			assert_equal(sample_class, SampleAlpha)
+
+			sample = sample_class.create!(
+				protocol: @protocol,
+				product: @product,
+				sampler: @sampler,
+				card: @card)
+
+			file.rewind
+			sample.insert_sample(file)
+			assert_equal(sample.data.count, 57)
+			sample.data.delete_all
+		end
+		
+		test "Beta Sample Import" do
+			file = File.open("./test/test_beta.csv")
+			sample_class = Sample.detect_format(file)
+			assert_equal(sample_class, SampleBeta)
+
+			sample = sample_class.create!(
+				protocol: @protocol,
+				product: @product,
+				sampler: @sampler,
+				card: @card)
+
+			file.rewind
+			sample.insert_sample(file)
+			assert_equal(sample.data.count, 57)
+			sample.data.delete_all
         end
 	end
 

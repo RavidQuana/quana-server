@@ -30,11 +30,11 @@
 #This structure is a simple raw data table
 #make sure you dont add stuff like after_create/after_destroy 
 #because we dont create/destroy with models but directly with db (aka bulk insert/delete)
-class DataRecord < ApplicationRecord
+class GammaDataRecord < ApplicationRecord
     include Exportable
     exportable [
 		{
-            name: I18n.t('activerecord.models.data_record.other'),
+            name: I18n.t('activerecord.models.gamma_data_record.other'),
             header: [
                 :sample,
                 :time,
@@ -44,8 +44,6 @@ class DataRecord < ApplicationRecord
                 :qcm_3,
                 :qcm_4,
                 :qcm_5,
-                :qcm_6,
-                :qcm_7,
                 :temp,
                 :humidiy,
                 :tags
@@ -59,11 +57,10 @@ class DataRecord < ApplicationRecord
                 :qcm_3,
                 :qcm_4,
                 :qcm_5,
-                :qcm_6,
-                :qcm_7,
                 :temp,
                 :humidiy,
-                "array(select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
+               # "array( select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
+               "array( #{SampleTag.where("sample_id = #{table_name}.sample_id").joins(:tag).select('tags.name').to_sql} )"
             ],
             joins: [
                 :card
@@ -81,25 +78,8 @@ class DataRecord < ApplicationRecord
     
     def self.insert_sample(file_or_string, sample)
         raise "sample id is null" if sample.nil? || sample.id.nil?
-        require 'rcsv'
-        csv_data = Enumerator.new do |y|
-            Rcsv.parse(file_or_string, headers: :skip).each_with_index{|row, index|
-                next if index <= 3
-				y << {
-                    sample_id: sample.id,
-                    secs_elapsed: row[0],
-                    qcm_1: row[1],
-                    qcm_2: row[2],
-                    qcm_3: row[3],
-                    qcm_4: row[4],
-                    qcm_5: row[5],
-                    qcm_6: row[6],
-                    qcm_7: row[7],
-                    temp: row[8],
-                    humidiy: row[9]
-				}
-			}
-        end
-        return DataRecord.insert_all!(csv_data.to_a)
+        raise "unimplemented"
+        return GammaDataRecord.insert_all!(csv_data.to_a)
     end
 end
+

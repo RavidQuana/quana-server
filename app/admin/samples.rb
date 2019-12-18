@@ -174,7 +174,7 @@ ActiveAdmin.register Sample do
                         sample_meta = permitted_params['sample'].to_h
                         sample_meta[:file_name] = file.original_filename
                         sample = type.create!(sample_meta)
-                        sample.insert_csv(file.tempfile)
+                        sample.insert_sample(file.tempfile)
                     end
                     next file, sample
                 rescue => e 

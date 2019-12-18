@@ -37,7 +37,7 @@ group :development do
 end
 
 # use puma as the application server
-gem 'puma'
+gem 'puma', '>= 4.3.1'
 
 # utils
 gem 'rqrcode'
@@ -52,7 +52,7 @@ gem 'best_in_place'
 gem 'underscore-rails'
 gem 'strip_attributes'
 gem 'devise-two-factor'
-gem 'rack-cors', require: 'rack/cors'
+gem 'rack-cors', '>= 1.0.4', require: 'rack/cors'
 gem 'active_admin_datetimepicker', github: 'activeadmin-plugins/active_admin_datetimepicker'
 
 # use the ActiveAdmin interface

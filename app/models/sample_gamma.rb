@@ -19,30 +19,30 @@
 #  product_id  :integer          not null
 #
 
-class SampleAlpha < Sample
+class SampleGamma < Sample
     include Exportable
     
-    has_many :data_records, dependent: :delete_all, foreign_key: :sample_id
+    has_many :beta_data_records, dependent: :delete_all, foreign_key: :sample_id
 
-    accepts_nested_attributes_for :data_records, :allow_destroy => true
+    accepts_nested_attributes_for :beta_data_records, :allow_destroy => true
 
     def data 
-        self.data_records
+        self.beta_data_records
     end
 
     def insert_sample(file_or_string)
-        DataRecord.insert_sample(file_or_string, self)
+        GammaDataRecord.insert_sample(file_or_string, self)
     end
 
     def self.data_type
-        DataRecord
+        GammaDataRecord
     end
 
     def data_type
-        DataRecord
+        GammaDataRecord
     end
     
     def self.test_data(n)
-        (0..n).each{|i| SampleAlpha.create!(file_name:"test_#{i}.csv", brand: Brand.last,  device: "Test").insert_sample(File.open('./test/test.csv')) }
+        (0..n).each{|i| SampleGamma.create!(file_name:"test_#{i}.csv", brand: Brand.last, device: "Test").insert_sample(File.open('./test/test_beta.csv')) }
     end
 end
