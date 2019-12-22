@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_08_112552) do
+ActiveRecord::Schema.define(version: 2019_12_22_110609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,13 @@ ActiveRecord::Schema.define(version: 2019_12_08_112552) do
   create_table "protocols", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", null: false
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "minimal_number_of_scans", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sample_tags", force: :cascade do |t|
