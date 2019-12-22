@@ -50,11 +50,11 @@ class User < ApplicationRecord
     end
 
     def next_rank
-        Rank.where("minimal_number_of_scans > ?", self.usages.count).order(minimal_number_of_scans: :asc).first   
+        Rank.where("minimal_number_of_scans > ?", self.number_of_reviews.order(minimal_number_of_scans: :asc).first   
     end
 
     def current_rank
-        Rank.where("minimal_number_of_scans <= ?", self.usages.count).order(minimal_number_of_scans: :asc).last   
+        Rank.where("minimal_number_of_scans <= ?", self.number_of_reviews).order(minimal_number_of_scans: :asc).last   
     end
 
     def number_of_reviews
