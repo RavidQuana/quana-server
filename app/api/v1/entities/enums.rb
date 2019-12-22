@@ -12,6 +12,12 @@ module V1
 			class SideEffect < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }
 				expose :name, documentation: { type: 'String' }
+			end
+
+			class Rank < Grape::Entity
+				expose :id, documentation: { type: 'Integer' }
+				expose :name, documentation: { type: 'String' }
+				expose :minimal_number_of_scans, documentation: { type: 'String' }
 			end	
 			class Product < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }

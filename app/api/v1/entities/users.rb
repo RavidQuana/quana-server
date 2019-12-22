@@ -28,6 +28,10 @@ module V1
 
 				expose :last_usages, with: 'V1::Entities::Usages::Full', documentation: { 
 						type: 'Usage', is_array: true }
+				expose :current_rank, with: 'V1::Entities::Enums::Rank', documentation: { 
+							type: 'Rank'}	
+				expose :next_rank, with: 'V1::Entities::Enums::Rank', documentation: { 
+							type: 'Rank'}	
 			end	
 		end
 	end

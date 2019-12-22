@@ -49,4 +49,12 @@ class User < ApplicationRecord
         self.usages.order(created_at: :desc).limit(3)
     end
 
+    def next_rank
+        Rank.where("minimal_number_of_scans > ?", self.usages.count).order(minimal_number_of_scans: :asc).first   
+    end
+
+    def current_rank
+        Rank.where("minimal_number_of_scans <= ?", self.usages.count).order(minimal_number_of_scans: :asc).last   
+    end
+
 end
