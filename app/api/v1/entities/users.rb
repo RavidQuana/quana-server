@@ -26,6 +26,8 @@ module V1
 				expose :user_symptoms, with: 'V1::Entities::UserSymptoms::Base', documentation: { 
 						type: 'UserSymptoms', is_array: true }
 
+				expose :number_of_reviews, documentation: { type: 'Integer' }
+
 				expose :last_usages, with: 'V1::Entities::Usages::Full', documentation: { 
 						type: 'Usage', is_array: true }
 				expose :current_rank, with: 'V1::Entities::Enums::Rank', documentation: { 

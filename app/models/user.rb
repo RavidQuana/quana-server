@@ -57,4 +57,8 @@ class User < ApplicationRecord
         Rank.where("minimal_number_of_scans <= ?", self.usages.count).order(minimal_number_of_scans: :asc).last   
     end
 
+    def number_of_reviews
+        self.usages.joins(:usage_symptom_influences).uniq.count
+    end
+
 end
