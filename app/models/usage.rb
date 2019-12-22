@@ -2,11 +2,12 @@
 #
 # Table name: usages
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint
-#  product_id :bigint
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                 :bigint           not null, primary key
+#  user_id            :bigint
+#  product_id         :bigint
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  safe_to_use_status :integer          default(0), not null
 #
 
 class Usage < ApplicationRecord  
@@ -18,6 +19,8 @@ class Usage < ApplicationRecord
   
     has_many :usage_side_effects
     has_many :side_effects, through: :usage_side_effects
+
+    enum safe_to_use_status: {undetermined: 0, safe: 1,  unsafe: 2}
 
 
 

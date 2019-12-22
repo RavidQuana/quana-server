@@ -46,7 +46,7 @@ class User < ApplicationRecord
     end
 
     def last_usages
-        self.usages.order(created_at: :desc).limit(3)
+        self.usages.safe.order(created_at: :desc).limit(3)
     end
 
     def next_rank
