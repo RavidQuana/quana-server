@@ -37,27 +37,11 @@ class MlController < ActionController::Base
         end
         sampler = Sampler.find_by_name("Test Device")
 
-        samples = SampleGamma.from_file(params[:sample].tempfile, sampler, :user, params[:id], product, [], params[:note])
+        records = SampleGamma.from_file(params[:sample].tempfile)
+        samples = SampleGamma.from_records(recods, sampler, :user, params[:id], product, [], params[:note])
         
 
         render json: classify_multiple(samples), status: 200
-    end
-
-    def classify_multiple(sampels)
-        classifications = []
-        samples.each{|s|
-            classifications << s.classification
-        }
-        sum = {}
-        classifications.each{|clas|
-            clas.each{|key, value|
-                sum[key] = sum.get(key, 0) + value
-            }
-        }
-        sum.each{|key, value|
-            sum[key] = value / classifications.size
-        }
-        sum
     end
 
     def upload_white_sample
@@ -87,8 +71,27 @@ class MlController < ActionController::Base
 
         sampler = Sampler.find_by_name("Test Device")
 
-        samples = SampleGamma.from_file(params[:sample].tempfile, sampler, :white, nil, product, tags, params[:note])
+        records = SampleGamma.from_file(params[:sample].tempfile)
+        samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
+
         render json: classify_multiple(samples), status: 200
+    end
+
+    def classify_multiple(sampels)
+        classifications = []
+        samples.each{|s|
+            classifications << s.classification
+        }
+        sum = {}
+        classifications.each{|clas|
+            clas.each{|key, value|
+                sum[key] = sum.get(key, 0) + value
+            }
+        }
+        sum.each{|key, value|
+            sum[key] = value / classifications.size
+        }
+        sum
     end
 
     def samples 

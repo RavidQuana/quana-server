@@ -34,7 +34,7 @@ class SampleGamma < Sample
         GammaDataRecord.insert_sample(file_or_string, self)
     end
 
-    def self.from_file(file, sampler, source, source_id, product, tags, note)
+    def self.from_file(file)
         file.set_encoding("ASCII-8BIT")
         file.rewind
 
@@ -43,15 +43,15 @@ class SampleGamma < Sample
         while !file.eof?
             #packet_id, message_id, opcode, data_len = file.read(6).unpack("vvCC")
 
-            data_len = file.read(2).unpack("C")
+            data_len = file.read(1).unpack("C").first
 
             #pp packet_id, message_id, opcode, data_len 
 
             data = file.read(data_len+1)
-            if opcode != 6
-                pp "unkown opcode"
-                next
-            end
+            #if opcode != 6
+            #    pp "unkown opcode"
+            #    next
+            #end
 
             #pp data
             
@@ -59,7 +59,7 @@ class SampleGamma < Sample
             sensor_code, sample_id, sample_size = data.unpack("CvC")
 
             #pp sensor_code, sample_id, sample_size
-
+            pp sample_size
             temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time = data.byteslice(4, sample_size).unpack("vvVVVVVV")
 
             #pp  temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time 
@@ -78,7 +78,9 @@ class SampleGamma < Sample
         end
 
         records
+    end
 
+    def self.from_records(records, sampler, source, source_id, product, tags, note)
         samples = []
         sensor_data = records.group_by{|r| r.sensor_id}
         sensor_data.each{|sensor_id, data|
