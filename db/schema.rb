@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_154851) do
+ActiveRecord::Schema.define(version: 2019_12_23_122150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,20 @@ ActiveRecord::Schema.define(version: 2019_12_12_154851) do
     t.index ["owner_id", "owner_type"], name: "index_devices_on_owner"
   end
 
+  create_table "gamma_data_records", force: :cascade do |t|
+    t.integer "sample_id", null: false
+    t.integer "secs_elapsed", null: false
+    t.integer "sensor_code", null: false
+    t.integer "qcm_1", null: false
+    t.integer "qcm_2", null: false
+    t.integer "qcm_3", null: false
+    t.integer "qcm_4", null: false
+    t.integer "qcm_5", null: false
+    t.integer "humidiy"
+    t.integer "temp"
+    t.index ["sample_id"], name: "index_gamma_data_records_on_sample_id"
+  end
+
   create_table "ml_versions", force: :cascade do |t|
     t.string "name", null: false
     t.integer "status", default: 0, null: false
@@ -219,6 +233,7 @@ ActiveRecord::Schema.define(version: 2019_12_12_154851) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["name", "brand_id"], name: "index_products_on_name_and_brand_id", unique: true
     t.index ["name"], name: "index_products_on_name"
   end
 
@@ -255,6 +270,8 @@ ActiveRecord::Schema.define(version: 2019_12_12_154851) do
     t.integer "card_id"
     t.string "note"
     t.integer "product_id", null: false
+    t.integer "source", default: 0, null: false
+    t.integer "source_id"
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"
   end

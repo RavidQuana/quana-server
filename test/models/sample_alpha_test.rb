@@ -74,8 +74,16 @@ class SampleAlphaTest < ActiveSupport::TestCase
 
 			file.rewind
 			sample.insert_sample(file)
-			assert_equal(sample.data.count, 57)
+			assert_equal(sample.data.count, 503)
 			sample.data.delete_all
+		end
+		
+		test "Gamma Sample Import" do
+			file = File.open("./test/test_gamma.bin")
+			sample_class = Sample.detect_format(file)
+			assert_equal(sample_class, SampleGamma)
+
+			SampleGamma.read_file(file)
         end
 	end
 

@@ -29,7 +29,59 @@ class MlController < ActionController::Base
             return
         end 
         pp params[:sample].tempfile
-        render json: {}, status: 200
+
+        samples = SampleGamma.from_file(params[:sample].tempfile, :white, nil, params[:note])
+        classifications = []
+        samples.each{|s|
+            classifications << s.classification
+        }
+        sum = {}
+        classifications.each{|clas|
+            clas.each{|key, value|
+                sum[key] = sum.get(key, 0) + value
+            }
+        }
+        sum.each{|key, value|
+            sum[key] = value / classifications.size
+        }
+
+        render json: {Mold: 0.0, Pesticide: 0.0}, status: 200
+    end
+
+    def upload_white_sample
+        #pp params
+        #pp params["file"]
+        #pp params["upload"]
+        #pp params["body"]
+        if !params["sample"].present?
+            render json: {}, status: 400
+            return
+        end 
+
+        begin
+            brand = Brand.find_or_create_by(name: params[:brand])
+            product = Product.find_or_create_by(brand: brand, name: params[:product])
+        rescue ActiveRecord::RecordNotUnique
+            retry
+        end
+
+        sampler = Sampler.find_by_name("Test Device")
+      
+        samples = SampleGamma.from_file(params[:sample].tempfile, sampler, :white, nil, product, params[:note])
+        classifications = []
+        samples.each{|s|
+            classifications << s.classification
+        }
+        sum = {}
+        classifications.each{|clas|
+            clas.each{|key, value|
+                sum[key] = sum.get(key, 0) + value
+            }
+        }
+        sum.each{|key, value|
+            sum[key] = value / classifications.size
+        }
+        render json: sum, status: 200
     end
 
     def samples 

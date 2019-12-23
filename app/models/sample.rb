@@ -34,6 +34,8 @@ class Sample < ApplicationRecord
     has_many :tags, through: :sample_tags
     has_many :tags2, through: :sample_tags, source: :tag
 
+    enum source: { manual: 0, white: 1, user: 2 }    
+
     scope :no_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) = 0") }
     scope :has_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) > 0") }
 
@@ -90,8 +92,14 @@ class Sample < ApplicationRecord
                 break if index > 1
             }
         rescue => e
-            
+
+        ensure   
+            if !file_or_string.is_a?(String)
+                file_or_string.rewind
+            end  
         end
+
+        return SampleGamma
 
         if file_or_string.is_a?(String)
             file_or_string = StringIO.new(file_or_string)
@@ -99,7 +107,8 @@ class Sample < ApplicationRecord
         file_or_string.set_encoding("ASCII-8BIT")
         header = file_or_string.read(5)
 
-        if header[5] == 0x06
+        op = header[4].unpack("C")[0]
+        if op == 0x06
             return SampleGamma
         end
 

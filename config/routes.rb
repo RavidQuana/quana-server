@@ -24,8 +24,8 @@ Rails.application.routes.draw do
 		get 'admin/autocomplete/:resource', to: 'admin_utils#autocomplete'
 	end
 
-	
 	put '/ml/upload_sample', to: 'ml#upload_sample', as: 'upload_sample'
+	put '/ml/upload_white_sample', to: 'ml#upload_white_sample', as: 'upload_white_sample'
 	get '/ml/samples', to: 'ml#samples', as: 'export_samples'
 	get '/ml/version', to: 'ml#version'
 end

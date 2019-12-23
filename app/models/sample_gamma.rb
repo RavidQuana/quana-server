@@ -34,6 +34,80 @@ class SampleGamma < Sample
         GammaDataRecord.insert_sample(file_or_string, self)
     end
 
+    def self.from_file(file, sampler, source, source_id, product, note)
+        file.set_encoding("ASCII-8BIT")
+        file.rewind
+
+        records = []
+
+        while !file.eof?
+            #packet_id, message_id, opcode, data_len = file.read(6).unpack("vvCC")
+
+            data_len = file.read(2).unpack("C")
+
+            #pp packet_id, message_id, opcode, data_len 
+
+            data = file.read(data_len+1)
+            if opcode != 6
+                pp "unkown opcode"
+                next
+            end
+
+            #pp data
+            
+            crc = data.last
+            sensor_code, sample_id, sample_size = data.unpack("CvC")
+
+            #pp sensor_code, sample_id, sample_size
+
+            temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time = data.byteslice(4, sample_size).unpack("vvVVVVVV")
+
+            #pp  temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time 
+
+            records << {
+                time: time,
+                sensor_id: sensor_code,
+                temp: temperture, 
+                humidity: humidity, 
+                qcm_1: qcm1, 
+                qcm_2: qcm2, 
+                qcm_3: qcm3, 
+                qcm_4: qcm4, 
+                qcm_5: qcm5, 
+            }
+        end
+
+        records
+
+        samples = []
+        sensor_data = records.group_by{|r| r.sensor_id}
+        sensor_data.each{|sensor_id, data|
+            data.sort_by!{|r| r.time}
+
+            begin
+                card = card.find_or_create_by(id: r.sensor_id) do |c|
+                    c.name = r.sensor_id
+                end
+            rescue ActiveRecord::RecordNotUnique
+                retry
+            end
+
+            sample = SampleGamma.new(file_name: "binary.bin", source: source, product: product, card: card, sampler: sampler)
+            if source_id.nil?
+                source_id = sample.source_id
+            end
+            sample.save!
+
+            data.each{|r|
+                r.sample_id = sample.id
+            }
+            BetaDataRecord.insert_all!(data)
+
+            samples << sample
+        }   
+        samples
+    end
+
     def self.data_type
         GammaDataRecord
     end
