@@ -34,7 +34,7 @@ class SampleGamma < Sample
         GammaDataRecord.insert_sample(file_or_string, self)
     end
 
-    def self.from_file(file, sampler, source, source_id, product, note)
+    def self.from_file(file, sampler, source, source_id, product, tags, note)
         file.set_encoding("ASCII-8BIT")
         file.rewind
 
@@ -85,17 +85,19 @@ class SampleGamma < Sample
             data.sort_by!{|r| r.time}
 
             begin
-                card = card.find_or_create_by(id: r.sensor_id) do |c|
-                    c.name = r.sensor_id
+                card = card.find_or_create_by(id: sensor_id) do |c|
+                    c.name = sensor_id
                 end
             rescue ActiveRecord::RecordNotUnique
                 retry
             end
 
-            sample = SampleGamma.new(file_name: "binary.bin", source: source, product: product, card: card, sampler: sampler)
+            sample = SampleGamma.create!(file_name: "binary.bin", source: source, product: product, card: card, sampler: sampler)
             if source_id.nil?
-                source_id = sample.source_id
-            end
+                source_id = sample.id
+            end 
+            sample.source_id = source_id
+            sample.tags = tags
             sample.save!
 
             data.each{|r|
