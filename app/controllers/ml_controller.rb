@@ -50,11 +50,15 @@ class MlController < ActionController::Base
         #pp params["upload"]
         pp params   
         pp params.keys
-        pp params.map{|p| p.class}
         if !params["sample"].present?
             render json: {}, status: 400
             return
         end 
+
+        sample_file = params[:sample].tempfile
+
+        pp "#############"
+        pp Base64.strict_encode64(sample_file.read)
 
         begin
             brand = Brand.find_or_create_by(name: params[:brand])
@@ -63,17 +67,27 @@ class MlController < ActionController::Base
             retry
         end
 
-        tags = params[:tags].map{|tag|
+        tags = []
+        
+        if params[:tags].present?
+            begin
+                tags = JSON.parse(params[:tags])  
+            rescue JSON::ParserError => e  
+                pp "Failed to parse tags"
+            end 
+        end
+
+        tags.map!{|tag|
             begin
                 tag = Tag.find_or_create_by(name: tag)
             rescue ActiveRecord::RecordNotUnique
                 retry
             end
-        }
+        }   
 
         sampler = Sampler.find_by_name("Test Device")
 
-        records = SampleGamma.from_file(params[:sample].tempfile)
+        records = SampleGamma.from_file(sample_file)
         samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
 
         render json: classify_multiple(samples), status: 200
