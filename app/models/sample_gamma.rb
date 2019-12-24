@@ -96,7 +96,7 @@ class SampleGamma < Sample
                     retry
                 end
                 
-                sample = SampleGamma.create!(file_name: "sample.csv", protocol: Protocol.last, source: source, product: product, card: card, sampler: sampler)
+                sample = SampleGamma.create!(file_name: "sample.csv", protocol: Protocol.last, source: source, product: product, card: card, sampler: sampler, note: note)
                 if source_id.nil?
                     source_id = sample.id
                 end 
