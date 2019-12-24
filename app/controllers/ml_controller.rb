@@ -48,7 +48,9 @@ class MlController < ActionController::Base
         #pp params
         #pp params["file"]
         #pp params["upload"]
-        #pp params["body"]
+        pp params   
+        pp params.keys
+        pp params.map{|p| p.class}
         if !params["sample"].present?
             render json: {}, status: 400
             return

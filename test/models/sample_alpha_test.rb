@@ -38,8 +38,8 @@ class SampleAlphaTest < ActiveSupport::TestCase
 
 			@brand = Brand.create!(name: "Test")
 			@product = Product.create!(name: "Test", brand: @brand)
-			@sampler_type = SamplerType.create!(name: "Test")
-			@sampler = Sampler.create!(name: "Test", sampler_type: @sampler_type)
+			@sampler_type = SamplerType.create!(name: "Test Device")
+			@sampler = Sampler.create!(name: "Test Device", sampler_type: @sampler_type)
 			@protocol = Protocol.create!(name: "Test", description: "Test")
 			@card = Card.create!(name: "Test")
 		end 
@@ -83,7 +83,11 @@ class SampleAlphaTest < ActiveSupport::TestCase
 			sample_class = Sample.detect_format(file)
 			assert_equal(sample_class, SampleGamma)
 
-			SampleGamma.read_file(file)
+			samples = SampleGamma.from_file(file)
+			assert_equal(samples, [
+				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}, 
+				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}
+			])
         end
 	end
 
