@@ -19,6 +19,8 @@ module V1
 					
 					usage = @current_user.usages.new(@filtered_params)
 						
+
+					usage.safe_to_use_status =  :safe
 					validate_and_save usage, V1::Entities::Usages::Full , :save!   	
 				end
 
@@ -54,7 +56,8 @@ module V1
 							@filtered_params.except(:usage_symptoms_influence).merge({
 	        					usage_symptom_influences_attributes: @filtered_params[:usage_symptoms_influence] || []
 	        				})
-						)						
+						)	
+						
 						validate_and_save @usage, V1::Entities::Usages::Full , :save!   
 					end
 				end
