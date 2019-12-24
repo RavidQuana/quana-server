@@ -99,17 +99,24 @@ class MlController < ActionController::Base
             c = s.classification 
             classifications << c if c.present?
         }   
-        sum = {}
+        sum = {
+            "Pesticide": 0,
+            "Mold": 0,
+            "Sativa": 0,
+            "Indica": 0,
+        }   
         classifications.each{|clas|
             clas.each{|key, value|
-                sum[key] = sum.get(key, 0) + value
+                sum[key.to_s] = sum.get(key.to_s, 0) + value
             }
         }
-        sum.each{|key, value|
-            sum[key] = value / classifications.size
-        }
+        if classifications.size > 0 
+            sum.each{|key, value|
+                sum[key] = value / classifications.size
+            }
+        end
         sum
-    end
+    end 
 
     def samples 
         if params["q"].present?
