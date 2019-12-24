@@ -77,7 +77,7 @@ class GammaDataRecord < ApplicationRecord
     has_one :card, through: :sample
     
     def time
-        self.time_ms / 1000
+        self.time_ms.to_f / 1000
     end
 
     def self.insert_sample(file_or_string, sample)
