@@ -25,7 +25,7 @@ class MlController < ActionController::Base
         #pp params["upload"]
         #pp params["body"]
         if !params["sample"].present?
-            render json: {}, status: 400
+            render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
             return
         end 
 
@@ -38,10 +38,15 @@ class MlController < ActionController::Base
         sampler = Sampler.find_by_name("Test Device")
 
         records = SampleGamma.from_file(params[:sample].tempfile)
+
+        if records.size < 100
+            render json: {status: "error", data: nil, message: "Sample too small"}, status: 200
+            return
+        end
+
         samples = SampleGamma.from_records(recods, sampler, :user, params[:id], product, [], params[:note])
         
-
-        render json: classify_multiple(samples), status: 200
+        render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
     end
 
     def upload_white_sample
@@ -51,14 +56,14 @@ class MlController < ActionController::Base
         pp params   
         pp params.keys
         if !params["sample"].present?
-            render json: {}, status: 400
+            render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
             return
         end 
 
         sample_file = params[:sample].tempfile
 
-        pp "#############"
-        pp Base64.strict_encode64(sample_file.read)
+        #pp "#############"
+        #pp Base64.strict_encode64(sample_file.read)
 
         begin
             brand = Brand.find_or_create_by(name: params[:brand])
@@ -88,9 +93,15 @@ class MlController < ActionController::Base
         sampler = Sampler.find_by_name("Test Device")
 
         records = SampleGamma.from_file(sample_file)
+
+        if records.size < 100
+            render json: {status: "error", data: nil, message: "Sample too small"}, status: 200 
+            return
+        end
+
         samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
 
-        render json: classify_multiple(samples), status: 200
+        render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
     end
 
     def classify_multiple(samples)
@@ -115,7 +126,11 @@ class MlController < ActionController::Base
                 sum[key] = value / classifications.size
             }
         end
-        sum
+        classifications = []
+        sum.each{|key, value|
+            classifications << {name: key, percentage: value}
+        }
+        classifications
     end 
 
     def samples 
