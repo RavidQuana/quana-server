@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_23_122150) do
+ActiveRecord::Schema.define(version: 2019_12_24_093016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,15 +165,16 @@ ActiveRecord::Schema.define(version: 2019_12_23_122150) do
 
   create_table "gamma_data_records", force: :cascade do |t|
     t.integer "sample_id", null: false
-    t.integer "secs_elapsed", null: false
+    t.integer "time_ms", null: false
     t.integer "sensor_code", null: false
     t.integer "qcm_1", null: false
     t.integer "qcm_2", null: false
     t.integer "qcm_3", null: false
     t.integer "qcm_4", null: false
     t.integer "qcm_5", null: false
-    t.integer "humidiy"
+    t.integer "humidity"
     t.integer "temp"
+    t.integer "sample_code", null: false
     t.index ["sample_id"], name: "index_gamma_data_records_on_sample_id"
   end
 

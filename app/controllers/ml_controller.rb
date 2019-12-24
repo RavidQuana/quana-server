@@ -93,11 +93,12 @@ class MlController < ActionController::Base
         render json: classify_multiple(samples), status: 200
     end
 
-    def classify_multiple(sampels)
+    def classify_multiple(samples)
         classifications = []
         samples.each{|s|
-            classifications << s.classification
-        }
+            c = s.classification 
+            classifications << c if c.present?
+        }   
         sum = {}
         classifications.each{|clas|
             clas.each{|key, value|
@@ -161,11 +162,11 @@ class MlController < ActionController::Base
         begin
             response = RestClient.post("#{API_HOST}/classify",  {sample: file, version: MlController.current_version}, headers: {accept: :json, "x-api-key": API_KEY})
             if response.code != 200 
-                return false
+                return nil
             end
         rescue StandardError => e
             pp e
-            return false
+            return nil
         ensure
            file.close
            file.unlink 

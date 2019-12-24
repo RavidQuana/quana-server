@@ -22,7 +22,7 @@
 #  qcm_6          :integer          not null
 #  qcm_7          :integer          not null
 #  ht_status      :integer
-#  humidiy        :integer
+#  humidity        :integer
 #  temp           :integer
 #  fan_type       :string           not null
 #
@@ -45,12 +45,12 @@ class GammaDataRecord < ApplicationRecord
                 :qcm_4,
                 :qcm_5,
                 :temp,
-                :humidiy,
+                :humidity,
                 :tags
             ],
 			columns: [
                 :sample_id,
-                :secs_elapsed,
+                "(CAST(#{table_name}.time_ms as float) / 1000) as time",
                 "cards.id",
                 :qcm_1,
                 :qcm_2,
@@ -58,7 +58,7 @@ class GammaDataRecord < ApplicationRecord
                 :qcm_4,
                 :qcm_5,
                 :temp,
-                :humidiy,
+                :humidity,
                # "array( select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
                "array( #{SampleTag.where("sample_id = #{table_name}.sample_id").joins(:tag).select('tags.name').to_sql} )"
             ],
@@ -66,11 +66,11 @@ class GammaDataRecord < ApplicationRecord
                 :card
             ],
             order: {
-                secs_elapsed: :asc
+                time_ms: :asc
             }
 	 	}
 	]
-
+    
     belongs_to :sample
     has_one :brand, through: :sample
     has_many :tags, through: :sample

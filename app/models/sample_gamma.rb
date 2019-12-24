@@ -22,12 +22,11 @@
 class SampleGamma < Sample
     include Exportable
     
-    has_many :beta_data_records, dependent: :delete_all, foreign_key: :sample_id
-
-    accepts_nested_attributes_for :beta_data_records, :allow_destroy => true
+    has_many :gamma_data_records, dependent: :delete_all, foreign_key: :sample_id
+    accepts_nested_attributes_for :gamma_data_records, :allow_destroy => true
 
     def data 
-        self.beta_data_records
+        self.gamma_data_records
     end
 
     def insert_sample(file_or_string)
@@ -43,11 +42,11 @@ class SampleGamma < Sample
         while !file.eof?
             #packet_id, message_id, opcode, data_len = file.read(6).unpack("vvCC")
 
-            data_len = file.read(1).unpack("C").first
+            #data_len = file.read(1).unpack("C").first
 
             #pp packet_id, message_id, opcode, data_len 
 
-            data = file.read(data_len+1)
+            #data = file.read(data_len+1)
             #if opcode != 6
             #    pp "unkown opcode"
             #    next
@@ -55,18 +54,20 @@ class SampleGamma < Sample
 
             #pp data
             
-            crc = data.last
+            #crc = data.last
+            data = file.read(4)
             sensor_code, sample_id, sample_size = data.unpack("CvC")
-
+            data = file.read(sample_size+1)
             #pp sensor_code, sample_id, sample_size
-            pp sample_size
-            temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time = data.byteslice(4, sample_size).unpack("vvVVVVVV")
+            #pp sensor_code, sample_id, sample_size
+            time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc  = data.unpack("VvvVVVVVC")
 
-            #pp  temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, time 
+            #pp time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc
 
             records << {
-                time: time,
-                sensor_id: sensor_code,
+                sample_code: sample_id,
+                time_ms: time,
+                sensor_code: sensor_code,
                 temp: temperture, 
                 humidity: humidity, 
                 qcm_1: qcm1, 
@@ -82,33 +83,35 @@ class SampleGamma < Sample
 
     def self.from_records(records, sampler, source, source_id, product, tags, note)
         samples = []
-        sensor_data = records.group_by{|r| r.sensor_id}
-        sensor_data.each{|sensor_id, data|
-            data.sort_by!{|r| r.time}
-
-            begin
-                card = card.find_or_create_by(id: sensor_id) do |c|
-                    c.name = sensor_id
+        SampleGamma.transaction do 
+            sensor_data = records.group_by{|r| r[:sensor_code]}
+            sensor_data.each{|sensor_code, data|
+                data.sort_by!{|r| r[:time_ms]}
+    
+                begin
+                    card = Card.find_or_create_by(id: sensor_code) do |c|
+                        c.name = sensor_code
+                    end
+                rescue ActiveRecord::RecordNotUnique
+                    retry
                 end
-            rescue ActiveRecord::RecordNotUnique
-                retry
-            end
-
-            sample = SampleGamma.create!(file_name: "binary.bin", source: source, product: product, card: card, sampler: sampler)
-            if source_id.nil?
-                source_id = sample.id
-            end 
-            sample.source_id = source_id
-            sample.tags = tags
-            sample.save!
-
-            data.each{|r|
-                r.sample_id = sample.id
-            }
-            BetaDataRecord.insert_all!(data)
-
-            samples << sample
-        }   
+                
+                sample = SampleGamma.create!(file_name: "sample.csv", protocol: Protocol.last, source: source, product: product, card: card, sampler: sampler)
+                if source_id.nil?
+                    source_id = sample.id
+                end 
+                sample.source_id = source_id
+                sample.tags = tags
+                sample.save!
+    
+                data.each{|r|
+                    r[:sample_id] = sample.id
+                }
+                GammaDataRecord.insert_all!(data)
+    
+                samples << sample
+            }   
+        end
         samples
     end
 
