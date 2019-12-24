@@ -70,12 +70,16 @@ class GammaDataRecord < ApplicationRecord
             }
 	 	}
 	]
-    
+
     belongs_to :sample
     has_one :brand, through: :sample
     has_many :tags, through: :sample
     has_one :card, through: :sample
     
+    def time
+        self.time_ms / 1000
+    end
+
     def self.insert_sample(file_or_string, sample)
         raise "sample id is null" if sample.nil? || sample.id.nil?
         raise "unimplemented"
