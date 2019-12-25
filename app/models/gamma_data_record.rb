@@ -59,8 +59,9 @@ class GammaDataRecord < ApplicationRecord
                 :qcm_5,
                 :temp,
                 :humidity,
-               # "array( select tag_id from sample_tags where sample_id = #{table_name}.sample_id)"
-               "array( #{SampleTag.where("sample_id = #{table_name}.sample_id").joins(:tag).select('tags.name').to_sql} )"
+                #return this after migration 
+               #"array( #{SampleTag.where("sample_id = #{table_name}.sample_id").joins(:tag).select('tags.name').to_sql} )"
+               "array(SELECT tags.name FROM \"sample_tags\" INNER JOIN \"tags\" ON \"tags\".\"id\" = \"sample_tags\".\"tag_id\" WHERE (sample_id = #{table_name}.sample_id)"
             ],
             joins: [
                 :card
