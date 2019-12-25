@@ -27,21 +27,18 @@ class SampleAlphaTest < ActiveSupport::TestCase
 	class SampleAlphaTests < SampleAlphaTest
 
         setup do
-			Brand.delete_all
 			Product.delete_all
-			SamplerType.delete_all
 			Sampler.delete_all
-			Protocol.delete_all
 			SampleAlpha.delete_all
 			SampleBeta.delete_all
-			Card.delete_all
 
-			@brand = Brand.create!(name: "Test")
+			@brand = brands(:brand)
+			@sampler_type = sampler_types(:sampler_type)
+			@protocol = protocols(:protocol)
+			@card = cards(:card)
+
 			@product = Product.create!(name: "Test", brand: @brand)
-			@sampler_type = SamplerType.create!(name: "Test Device")
 			@sampler = Sampler.create!(name: "Test Device", sampler_type: @sampler_type)
-			@protocol = Protocol.create!(name: "Test", description: "Test")
-			@card = Card.create!(name: "Test")
 		end 
 
 		test "Alpha Sample Import" do
@@ -78,17 +75,17 @@ class SampleAlphaTest < ActiveSupport::TestCase
 			sample.data.delete_all
 		end
 		
-		test "Gamma Sample Import" do
+		test "Gamma Samples Import" do
 			file = File.open("./test/test_gamma.bin")
 			sample_class = Sample.detect_format(file)
 			assert_equal(sample_class, SampleGamma)
 
 			samples = SampleGamma.from_file(file)
 			assert_equal(samples, [
-				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}, 
-				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}
+				{:sample_code=>1, :time_ms=>100, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325726, :qcm_2=>16325711, :qcm_3=>16325750, :qcm_4=>16325702, :qcm_5=>16325703}, 
+				{:sample_code=>2, :time_ms=>200, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325760, :qcm_2=>16325689, :qcm_3=>16325671, :qcm_4=>16325725, :qcm_5=>16325686}, 
+				{:sample_code=>3, :time_ms=>300, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325673, :qcm_2=>16325664, :qcm_3=>16325701, :qcm_4=>16325718, :qcm_5=>16325733}
 			])
         end
 	end
-
 end
