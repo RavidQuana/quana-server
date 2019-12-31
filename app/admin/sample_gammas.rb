@@ -71,7 +71,9 @@ ActiveAdmin.register SampleGamma do
                         row.qcm_2,
                         row.qcm_3,
                         row.qcm_4,
-                        row.qcm_5]}.flatten.minmax { |a, b| a <=> b }
+						row.qcm_5]}.flatten.minmax { |a, b| a <=> b }
+						
+					data = data[10..-1]	
     
                     space = (min_max[1] - min_max[0]) * 0.1
     
