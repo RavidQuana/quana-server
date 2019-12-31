@@ -107,8 +107,8 @@ class MlController < ActionController::Base
         begin
             render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
         rescue => e
+            pp e
             render json: {status: "error", data: nil, message: "Failed to get result from ML server"}, status: 200 
-            return
         end
     end
 
