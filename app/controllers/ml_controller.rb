@@ -94,16 +94,21 @@ class MlController < ActionController::Base
 
         begin
             records = SampleGamma.from_file(sample_file)
-
             if records.size < 100
                 render json: {status: "error", data: nil, message: "Sample too small"}, status: 200 
                 return
             end
-            
             samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
-            render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
         rescue => e
             render json: {status: "error", data: nil, message: "Failed to read sample"}, status: 200 
+            return
+        end
+
+        begin
+            render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
+        rescue => e
+            render json: {status: "error", data: nil, message: "Failed to get result from ML server"}, status: 200 
+            return
         end
     end
 
