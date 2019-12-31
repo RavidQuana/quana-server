@@ -63,7 +63,7 @@ class MlController < ActionController::Base
         sample_file = params[:sample].tempfile
 
         #pp "#############"
-        #pp Base64.strict_encode64(sample_file.read)
+        pp Base64.strict_encode64(sample_file.read)
 
         begin
             brand = Brand.find_or_create_by(name: params[:brand])
