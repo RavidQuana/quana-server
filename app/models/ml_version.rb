@@ -1,12 +1,13 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: ml_versions
 #
 #  id         :bigint           not null, primary key
 #  name       :string           not null
-#  brand_id   :integer          not null
+#  status     :integer          default("ready"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  query      :string
 #
 
 class MLVersion < ApplicationRecord

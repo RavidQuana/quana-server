@@ -1,30 +1,17 @@
 # == Schema Information
 #
-# Table name: data_records
+# Table name: beta_data_records
 #
-#  id             :bigint           not null, primary key
-#  sample_id      :integer          not null
-#  read_id        :string           not null
-#  file_id        :string           not null
-#  food_label     :string           not null
-#  card           :integer          not null
-#  secs_elapsed   :decimal(10, 4)   not null
-#  ard_state      :string           not null
-#  msec           :decimal(10, 4)   not null
-#  si             :decimal(10, 4)   not null
-#  clean_duration :decimal(10, 4)   not null
-#  qcm_respond    :integer          not null
-#  qcm_1          :integer          not null
-#  qcm_2          :integer          not null
-#  qcm_3          :integer          not null
-#  qcm_4          :integer          not null
-#  qcm_5          :integer          not null
-#  qcm_6          :integer          not null
-#  qcm_7          :integer          not null
-#  ht_status      :integer
-#  humidiy        :integer
-#  temp           :integer
-#  fan_type       :string           not null
+#  id           :bigint           not null, primary key
+#  sample_id    :integer          not null
+#  secs_elapsed :decimal(10, 4)   not null
+#  qcm_1        :integer          not null
+#  qcm_2        :integer          not null
+#  qcm_3        :integer          not null
+#  qcm_4        :integer          not null
+#  qcm_5        :integer          not null
+#  humidiy      :decimal(10, 4)
+#  temp         :decimal(10, 4)
 #
 
 #This structure is a simple raw data table
