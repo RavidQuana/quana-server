@@ -126,7 +126,7 @@ class MlController < ActionController::Base
         }   
         classifications.each{|clas|
             clas.each{|key, value|
-                sum[key.to_s] = sum.fetch(key.to_s, 0) + value
+                sum[key] = sum.fetch(key, 0) + value
             }
         }
         if classifications.size > 0 
