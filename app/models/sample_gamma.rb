@@ -60,22 +60,27 @@ class SampleGamma < Sample
             data = file.read(sample_size+1)
             #pp sensor_code, sample_id, sample_size
             #pp sensor_code, sample_id, sample_size
-            time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc  = data.unpack("VvvVVVVVC")
 
-            #pp time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc
+            samples = data.unpack("C")
+            data = data.byteslice(1..-1)
+            for i in 0...samples 
+                time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc  = data.unpack("VvvVVVVVC")
 
-            records << {
-                sample_code: sample_id,
-                time_ms: time,
-                sensor_code: sensor_code,
-                temp: temperture, 
-                humidity: humidity, 
-                qcm_1: qcm1, 
-                qcm_2: qcm2, 
-                qcm_3: qcm3, 
-                qcm_4: qcm4, 
-                qcm_5: qcm5, 
-            }
+                records << {
+                    sample_code: sample_id,
+                    time_ms: time,
+                    sensor_code: sensor_code,
+                    temp: temperture, 
+                    humidity: humidity, 
+                    qcm_1: qcm1, 
+                    qcm_2: qcm2, 
+                    qcm_3: qcm3, 
+                    qcm_4: qcm4, 
+                    qcm_5: qcm5, 
+                }
+
+                data = data.byteslice(28..-1)
+            end
         end
 
         records
