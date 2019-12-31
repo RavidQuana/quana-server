@@ -60,15 +60,16 @@ class SampleGamma < Sample
             #pp sensor_code, sample_id, sample_size
             #pp sensor_code, sample_id, sample_size
 
-            samples = data.unpack("C")
+            samples = data.unpack("C")[0]
             data = data.byteslice(1..-1)
+
             for i in 0...samples 
-                time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5, crc  = data.unpack("VvvVVVVVC")
+                card_id, time, temperture, humidity, qcm1, qcm2, qcm3, qcm4, qcm5  = data.unpack("CVvvVVVVV")
 
                 records << {
                     sample_code: sample_id,
                     time_ms: time,
-                    sensor_code: sensor_code,
+                    sensor_code: card_id,
                     temp: temperture, 
                     humidity: humidity, 
                     qcm_1: qcm1, 
@@ -78,8 +79,9 @@ class SampleGamma < Sample
                     qcm_5: qcm5, 
                 }
 
-                data = data.byteslice(28..-1)
+                data = data.byteslice(29..-1)
             end
+            crc = data.unpack("C")
         end
 
         records
@@ -105,12 +107,13 @@ class SampleGamma < Sample
                     source_id = sample.id
                 end 
                 sample.source_id = source_id
-                sample.tags = tags
+                sample.tags = tags if tags.size > 0
                 sample.save!
     
                 data.each{|r|
                     r[:sample_id] = sample.id
                 }
+
                 GammaDataRecord.insert_all!(data)
     
                 samples << sample

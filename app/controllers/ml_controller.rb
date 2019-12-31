@@ -92,16 +92,19 @@ class MlController < ActionController::Base
 
         sampler = Sampler.find_by_name("Test Device")
 
-        records = SampleGamma.from_file(sample_file)
+        begin
+            records = SampleGamma.from_file(sample_file)
 
-        if records.size < 100
-            render json: {status: "error", data: nil, message: "Sample too small"}, status: 200 
-            return
+            if records.size < 100
+                render json: {status: "error", data: nil, message: "Sample too small"}, status: 200 
+                return
+            end
+            
+            samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
+            render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
+        rescue => e
+            render json: {status: "error", data: nil, message: "Failed to read sample"}, status: 200 
         end
-
-        samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
-
-        render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
     end
 
     def classify_multiple(samples)
