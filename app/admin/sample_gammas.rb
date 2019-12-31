@@ -93,16 +93,16 @@ ActiveAdmin.register SampleGamma do
 					h1 "Relative Graphs"
 					
 					div line_chart [
-                        {name: "qcm_1", data: data.map { |data_record| [data_record.time, data_record.qcm_1.to_i - data[0].qcm_1.to_i] }},
-                        {name: "qcm_2", data: data.map { |data_record| [data_record.time, data_record.qcm_2.to_i - data[0].qcm_2.to_i] }},
-                        {name: "qcm_3", data: data.map { |data_record| [data_record.time, data_record.qcm_3.to_i - data[0].qcm_3.to_i] }},
-                        {name: "qcm_4", data: data.map { |data_record| [data_record.time, data_record.qcm_4.to_i - data[0].qcm_4.to_i] }},
-                        {name: "qcm_5", data: data.map { |data_record| [data_record.time, data_record.qcm_5.to_i - data[0].qcm_5.to_i] }},
+                        {name: "qcm_1", data: data.map { |data_record| [data_record.time, data_record.qcm_1.to_i - data[10].qcm_1.to_i] }},
+                        {name: "qcm_2", data: data.map { |data_record| [data_record.time, data_record.qcm_2.to_i - data[10].qcm_2.to_i] }},
+                        {name: "qcm_3", data: data.map { |data_record| [data_record.time, data_record.qcm_3.to_i - data[10].qcm_3.to_i] }},
+                        {name: "qcm_4", data: data.map { |data_record| [data_record.time, data_record.qcm_4.to_i - data[10].qcm_4.to_i] }},
+                        {name: "qcm_5", data: data.map { |data_record| [data_record.time, data_record.qcm_5.to_i - data[10].qcm_5.to_i] }},
                     ], points: false
     
 					div line_chart [
-                        {name: "humidity", data: data.map { |data_record| [data_record.time, data_record.humidity.to_f - data[0].humidity.to_f] }},
-                        {name: "temp", data: data.map { |data_record| [data_record.time, data_record.temp.to_f - data[0].temp.to_f] }},
+                        {name: "humidity", data: data.map { |data_record| [data_record.time, data_record.humidity.to_f - data[10].humidity.to_f] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.time, data_record.temp.to_f - data[10].temp.to_f] }},
 					], points: false
                 end
             end
