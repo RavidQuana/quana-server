@@ -100,7 +100,7 @@ class MlController < ActionController::Base
             end
             samples = SampleGamma.from_records(records, sampler, :white, nil, product, tags, params[:note])
         rescue => e
-            render json: {status: "error", data: nil, message: "Failed to read sample"}, status: 200 
+            render json: {status: "error", data: nil, message: "Failed to read sample, please try again"}, status: 200 
             return
         end
 
@@ -108,7 +108,7 @@ class MlController < ActionController::Base
             render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
         rescue => e
             pp e
-            render json: {status: "error", data: nil, message: "Failed to get result from ML server"}, status: 200 
+            render json: {status: "error", data: nil, message: "Failed to get result from ML server, sample saved"}, status: 200 
         end
     end
 
