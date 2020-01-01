@@ -26,21 +26,18 @@ class SampleAlphaTest < ActiveSupport::TestCase
 	class SampleAlphaTests < SampleAlphaTest
 
         setup do
-			Brand.delete_all
 			Product.delete_all
-			SamplerType.delete_all
 			Sampler.delete_all
-			Protocol.delete_all
 			SampleAlpha.delete_all
 			SampleBeta.delete_all
-			Card.delete_all
 
-			@brand = Brand.create!(name: "Test")
+			@brand = brands(:brand)
+			@sampler_type = sampler_types(:sampler_type)
+			@protocol = protocols(:protocol)
+			@card = cards(:card)
+
 			@product = Product.create!(name: "Test", brand: @brand)
-			@sampler_type = SamplerType.create!(name: "Test Device")
 			@sampler = Sampler.create!(name: "Test Device", sampler_type: @sampler_type)
-			@protocol = Protocol.create!(name: "Test", description: "Test")
-			@card = Card.create!(name: "Test")
 		end 
 
 		test "Alpha Sample Import" do
@@ -77,17 +74,26 @@ class SampleAlphaTest < ActiveSupport::TestCase
 			sample.data.delete_all
 		end
 		
-		test "Gamma Sample Import" do
+		test "Gamma Samples Import" do
 			file = File.open("./test/test_gamma.bin")
 			sample_class = Sample.detect_format(file)
 			assert_equal(sample_class, SampleGamma)
 
 			samples = SampleGamma.from_file(file)
-			assert_equal(samples, [
-				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}, 
-				{:time=>80, :sensor_id=>3, :temp=>5, :humidity=>6, :qcm_1=>16, :qcm_2=>17, :qcm_3=>18, :qcm_4=>19, :qcm_5=>20}
+
+			assert_equal(samples[0..10], [
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>34, :temp=>39, :humidity=>38, :qcm_1=>0, :qcm_2=>0, :qcm_3=>5987246, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>35, :temp=>33, :humidity=>38, :qcm_1=>2472457, :qcm_2=>0, :qcm_3=>0, :qcm_4=>5991228, :qcm_5=>5995302}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>36, :temp=>31, :humidity=>38, :qcm_1=>0, :qcm_2=>5987147, :qcm_3=>5993648, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>37, :temp=>31, :humidity=>38, :qcm_1=>5992255, :qcm_2=>5441360, :qcm_3=>0, :qcm_4=>5671606, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>38, :temp=>31, :humidity=>39, :qcm_1=>0, :qcm_2=>5994540, :qcm_3=>0, :qcm_4=>0, :qcm_5=>5920349}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>39, :temp=>30, :humidity=>39, :qcm_1=>5993859, :qcm_2=>0, :qcm_3=>5995295, :qcm_4=>0, :qcm_5=>5244155}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>34, :temp=>39, :humidity=>38, :qcm_1=>0, :qcm_2=>0, :qcm_3=>8980872, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>35, :temp=>33, :humidity=>38, :qcm_1=>4948467, :qcm_2=>0, :qcm_3=>0, :qcm_4=>8986846, :qcm_5=>8992962}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>36, :temp=>31, :humidity=>38, :qcm_1=>0, :qcm_2=>8980727, :qcm_3=>8990482, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>37, :temp=>31, :humidity=>39, :qcm_1=>8988387, :qcm_2=>8353823, :qcm_3=>0, :qcm_4=>8668419, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>38, :temp=>31, :humidity=>39, :qcm_1=>0, :qcm_2=>8991818, :qcm_3=>0, :qcm_4=>0, :qcm_5=>8917264}
 			])
         end
 	end
-
 end
