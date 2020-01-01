@@ -81,10 +81,19 @@ class SampleAlphaTest < ActiveSupport::TestCase
 			assert_equal(sample_class, SampleGamma)
 
 			samples = SampleGamma.from_file(file)
-			assert_equal(samples, [
-				{:sample_code=>1, :time_ms=>100, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325726, :qcm_2=>16325711, :qcm_3=>16325750, :qcm_4=>16325702, :qcm_5=>16325703}, 
-				{:sample_code=>2, :time_ms=>200, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325760, :qcm_2=>16325689, :qcm_3=>16325671, :qcm_4=>16325725, :qcm_5=>16325686}, 
-				{:sample_code=>3, :time_ms=>300, :sensor_code=>1, :temp=>30, :humidity=>55, :qcm_1=>16325673, :qcm_2=>16325664, :qcm_3=>16325701, :qcm_4=>16325718, :qcm_5=>16325733}
+
+			assert_equal(samples[0..10], [
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>34, :temp=>39, :humidity=>38, :qcm_1=>0, :qcm_2=>0, :qcm_3=>5987246, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>35, :temp=>33, :humidity=>38, :qcm_1=>2472457, :qcm_2=>0, :qcm_3=>0, :qcm_4=>5991228, :qcm_5=>5995302}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>36, :temp=>31, :humidity=>38, :qcm_1=>0, :qcm_2=>5987147, :qcm_3=>5993648, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>37, :temp=>31, :humidity=>38, :qcm_1=>5992255, :qcm_2=>5441360, :qcm_3=>0, :qcm_4=>5671606, :qcm_5=>0}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>38, :temp=>31, :humidity=>39, :qcm_1=>0, :qcm_2=>5994540, :qcm_3=>0, :qcm_4=>0, :qcm_5=>5920349}, 
+				{:sample_code=>1, :time_ms=>0, :sensor_code=>39, :temp=>30, :humidity=>39, :qcm_1=>5993859, :qcm_2=>0, :qcm_3=>5995295, :qcm_4=>0, :qcm_5=>5244155}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>34, :temp=>39, :humidity=>38, :qcm_1=>0, :qcm_2=>0, :qcm_3=>8980872, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>35, :temp=>33, :humidity=>38, :qcm_1=>4948467, :qcm_2=>0, :qcm_3=>0, :qcm_4=>8986846, :qcm_5=>8992962}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>36, :temp=>31, :humidity=>38, :qcm_1=>0, :qcm_2=>8980727, :qcm_3=>8990482, :qcm_4=>0, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>37, :temp=>31, :humidity=>39, :qcm_1=>8988387, :qcm_2=>8353823, :qcm_3=>0, :qcm_4=>8668419, :qcm_5=>0}, 
+				{:sample_code=>2, :time_ms=>100, :sensor_code=>38, :temp=>31, :humidity=>39, :qcm_1=>0, :qcm_2=>8991818, :qcm_3=>0, :qcm_4=>0, :qcm_5=>8917264}
 			])
         end
 	end
