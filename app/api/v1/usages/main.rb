@@ -25,15 +25,19 @@ module V1
 					usage.save
 
 					if (@filtered_params[:sample].present?)
-						begin
-							response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: @filtered_params[:sample], id: usage.id}, {accept: :json, "x-api-key": "Test"})
-							pp response.code  
+						begin 
+							file = @filtered_params[:sample][:tempfile]
+							pp "ASdssad"
+							response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: file , id: usage.id, product: usage.product.name, brand: "NA"}, {accept: :json, "x-api-key": "Test"})
+							pp response.body  
 							if response.code != 200 
 								usage.error_in_process!
 							else 
 								usage.processed!
 							end
 						rescue => e
+							pp usage.product.name 
+							pp e
 							usage.error_in_process!
 						end
 					end
