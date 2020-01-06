@@ -12,6 +12,7 @@ class MlController < ActionController::Base
     API_HOST = ENV["ML_URL"] || "http://localhost:8000"
 
     def check_api_key
+        pp request.headers
         if request.headers["x-api-key"] == API_KEY
             #everything is fine
         else
