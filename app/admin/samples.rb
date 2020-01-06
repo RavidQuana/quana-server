@@ -57,7 +57,7 @@ ActiveAdmin.register Sample do
             }
        ensure
            response.stream.close
-           GC.start(false, true)
+           GC.start
        end
     end
 
@@ -93,7 +93,7 @@ ActiveAdmin.register Sample do
              }
        ensure
            response.stream.close
-           GC.start(false, true)
+           GC.start
        end
     end
 
@@ -130,7 +130,7 @@ ActiveAdmin.register Sample do
 			 }
 		ensure
       response.stream.close
-      GC.start(false, true)
+      GC.start
 		end
   end
 
