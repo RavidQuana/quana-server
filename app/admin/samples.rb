@@ -52,6 +52,7 @@ ActiveAdmin.register Sample do
             }
        ensure
            response.stream.close
+           GC.start(false, true)
        end
     end
 
@@ -87,6 +88,7 @@ ActiveAdmin.register Sample do
              }
        ensure
            response.stream.close
+           GC.start(false, true)
        end
     end
 
@@ -122,7 +124,8 @@ ActiveAdmin.register Sample do
 				response.stream.write(row)
 			 }
 		ensure
-			response.stream.close
+      response.stream.close
+      GC.start(false, true)
 		end
   end
 

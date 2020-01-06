@@ -48,15 +48,15 @@ class MlController < ActionController::Base
         
         samples = SampleGamma.from_records(records, sampler, :user, params[:id], product, [], params[:note])
         
-        render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
+        render json: {status: "success", data: classify_multiple_safe(samples), message: nil}, status: 200
     end
 
     def upload_white_sample
         #pp params
         #pp params["file"]
         #pp params["upload"]
-        pp params   
-        pp params.keys
+        #pp params   
+        #pp params.keys
         if !params["sample"].present?
             render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
             return
@@ -113,6 +113,31 @@ class MlController < ActionController::Base
             render json: {status: "error", data: nil, message: "Failed to get result from ML server, sample saved"}, status: 200 
         end
     end
+
+    def classify_multiple_safe(samples)
+        classifications = []
+        samples.each{|s|
+            c = s.classification 
+            #c = JSON.parse('{"Pesticide": 45.4}')
+            classifications << c if c.present?
+        }   
+        sum = {
+            "Pesticide": 0,
+            "Mold": 0,
+            "Sativa": 0,
+            "Indica": 0,
+        }   
+        classifications.each{|clas|
+            clas.each{|key, value|
+                sum[key.to_sym] = value if value > sum.fetch(key.to_sym, 0)
+            }
+        }
+        if sum[:Pesticide] > 50 || sum[:Mold] > 50
+            {safe: false}
+        else
+            {safe: true}
+        end
+    end 
 
     def classify_multiple(samples)
         classifications = []
