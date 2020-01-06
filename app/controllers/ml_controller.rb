@@ -12,7 +12,6 @@ class MlController < ActionController::Base
     API_HOST = ENV["ML_URL"] || "http://localhost:8000"
 
     def check_api_key
-        pp request.headers
         if request.headers["x-api-key"] == API_KEY
             #everything is fine
         else
@@ -25,6 +24,8 @@ class MlController < ActionController::Base
         #pp params["file"]
         #pp params["upload"]
         #pp params["body"]
+        pp params
+
         if !params["sample"].present?
             render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
             return
