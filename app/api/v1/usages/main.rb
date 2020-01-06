@@ -23,19 +23,20 @@ module V1
 
 					usage = @current_user.usages.new(@filtered_params)
 					usage.save
-					begin
-						response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: @filtered_params[:sample], id: usage.id}, {accept: :json, "x-api-key": "Test"})
-						pp response.code  
-						if response.code != 200 
-							usage.error_in_process!
-						else 
-							usage.processed!
-						end
-					rescue => e
-						usage.error_in_process!
-					end
-			
 
+					if (@filtered_params[:sample].present?)
+						begin
+							response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: @filtered_params[:sample], id: usage.id}, {accept: :json, "x-api-key": "Test"})
+							pp response.code  
+							if response.code != 200 
+								usage.error_in_process!
+							else 
+								usage.processed!
+							end
+						rescue => e
+							usage.error_in_process!
+						end
+					end
 					validate_and_save usage, V1::Entities::Usages::Full , :save!   	
 				end
 
