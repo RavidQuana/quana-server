@@ -16,11 +16,26 @@ module V1
 				post '/', http_codes: [
 					{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
 				] do
-					
-					usage = @current_user.usages.new(@filtered_params)
-						
 
-					usage.safe_to_use_status =  :safe
+
+				
+
+
+					usage = @current_user.usages.new(@filtered_params)
+					usage.save
+					begin
+						response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: @filtered_params[:sample], id: usage.id}, {accept: :json, "x-api-key": "Test"})
+						pp response.code  
+						if response.code != 200 
+							usage.error_in_process!
+						else 
+							usage.processed!
+						end
+					rescue => e
+						usage.error_in_process!
+					end
+			
+
 					validate_and_save usage, V1::Entities::Usages::Full , :save!   	
 				end
 

@@ -6,6 +6,7 @@ module UsageHelpers
 
       params :usage_attributes do
         requires  :product_id, type: Integer, allow_blank: false, desc: "The usage product id"
+        optional  :sample, type: File, allow_blank: false, desc: "The usage binary data"
 
       end      
       params :usage_symptom_influence_attributes do 

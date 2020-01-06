@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_22_133257) do
+ActiveRecord::Schema.define(version: 2020_01_06_113851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -349,6 +349,8 @@ ActiveRecord::Schema.define(version: 2019_12_22_133257) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "safe_to_use_status", default: 0, null: false
+    t.binary "sample"
+    t.integer "sample_process_status", default: 0, null: false
     t.index ["product_id"], name: "index_usages_on_product_id"
     t.index ["user_id"], name: "index_usages_on_user_id"
   end
