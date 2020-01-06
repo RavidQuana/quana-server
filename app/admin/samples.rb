@@ -19,6 +19,11 @@ ActiveAdmin.register Sample do
   filter :tags2, label: "Not in Tags", as: :select2_multiselect, not: true
   filter :note
 
+  scope -> { "White" }, :white
+  scope -> { "Manual" }, :manual
+  scope -> { "User" }, :user
+
+
     #need to always show batch actions
     config.batch_actions = true
     config.scoped_collection_actions_if = -> { true }
