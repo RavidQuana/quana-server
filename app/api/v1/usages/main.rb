@@ -36,7 +36,7 @@ module V1
 								usage.processed!
 							end
 						rescue => e
-							pp usage.product.name 
+							pp "error in process"
 							pp e
 							usage.error_in_process!
 						end
