@@ -236,7 +236,7 @@ class MlController < ActionController::Base
     end 
     
     def self.train(q)
-        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
+        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q, protocol: :https)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
         if response.code != 200 
             return false
         end
