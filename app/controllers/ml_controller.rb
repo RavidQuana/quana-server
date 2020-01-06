@@ -45,8 +45,8 @@ class MlController < ActionController::Base
             render json: {status: "error", data: nil, message: "Sample too small"}, status: 200
             return
         end
-
-        samples = SampleGamma.from_records(recods, sampler, :user, params[:id], product, [], params[:note])
+        
+        samples = SampleGamma.from_records(records, sampler, :user, params[:id], product, [], params[:note])
         
         render json: {status: "success", data: classify_multiple(samples), message: nil}, status: 200
     end
@@ -118,6 +118,7 @@ class MlController < ActionController::Base
         classifications = []
         samples.each{|s|
             c = s.classification 
+            #c = JSON.parse('{"Pesticide": 45.4}')
             classifications << c if c.present?
         }   
         sum = {
