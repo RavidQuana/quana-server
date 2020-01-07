@@ -45,7 +45,7 @@ class MlController < ActionController::Base
 
         sample_file = params[:sample].tempfile
         pp Base64.strict_encode64(sample_file.read)
-    
+
         begin
             brand = Brand.find_or_create_by(name: params[:brand])
             product = Product.find_or_create_by(brand: brand, name: params[:product])
@@ -133,27 +133,44 @@ class MlController < ActionController::Base
     end
 
     def classify_multiple_safe(samples)
-        classifications = []
-        samples.each{|s|
-            c = s.classification 
-            #c = JSON.parse('{"Pesticide": 45.4}')
-            classifications << c if c.present?
-        }   
-        sum = {
-            "Pesticide": 0,
-            "Mold": 0,
-            "Sativa": 0,
-            "Indica": 0,
-        }   
-        classifications.each{|clas|
-            clas.each{|key, value|
-                sum[key.to_sym] = value if value > sum.fetch(key.to_sym, 0)
-            }
-        }
-        if sum[:Pesticide] > 50 || sum[:Mold] > 50
-            {safe: false}
+        samples = samples.group_by { |s| s.card_id }
+        
+        if samples[34].present? && samples[1].present?
+            pp "Smart accuracy mode"
+            pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
+            card_1 = samples[1][0].classification
+            pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
+            mold_1 = card_1&.fetch('Mold', nil) || 0
+
+            if pesticide_1 > 50 || pesticide_34 > 50 || mold_1 > 50
+                {safe: false}
+            else
+                {safe: true}
+            end
         else
-            {safe: true}
+            pp "Dummy accuracy mode"
+            classifications = []
+            samples.values.each{|s|
+                c = s[0].classification 
+                #c = JSON.parse('{"Pesticide": 45.4}')
+                classifications << c if c.present?
+            }   
+            sum = {
+                "Pesticide": 0,
+                "Mold": 0,
+                "Sativa": 0,
+                "Indica": 0,
+            }   
+            classifications.each{|clas|
+                clas.each{|key, value|
+                    sum[key.to_sym] = value if value > sum.fetch(key.to_sym, 0)
+                }
+            }
+            if sum[:Pesticide] > 50 || sum[:Mold] > 50
+                {safe: false}
+            else
+                {safe: true}
+            end
         end
     end 
 
