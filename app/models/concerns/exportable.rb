@@ -56,8 +56,8 @@ module Exportable
       })
       query = query.order(exportable_data[:order]) if exportable_data[:order].present?
       query = query.distinct(exportable_data[:distinct]) if exportable_data[:distinct].present?
-      pp query.to_sql
-        
+      pp query.to_sql if Rails.env.development?
+      
       exportable_data[:header] = false if header == false
       if exportable_data[:header] != false 
         header = exportable_data[:header] || []
