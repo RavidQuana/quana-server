@@ -27,12 +27,19 @@ module V1
 					if (@filtered_params[:sample].present?)
 						begin 
 							file = @filtered_params[:sample][:tempfile]
-							pp "ASdssad"
 							response = RestClient.put("https://quana-server-staging.herokuapp.com/ml/upload_sample",  {sample: file , id: usage.id, product: usage.product.name, brand: "NA"}, {accept: :json, "x-api-key": "Test"})
+							pp "Quana Process server response:"
 							pp response.body  
 							if response.code != 200 
 								usage.error_in_process!
 							else 
+
+								responseJSon =  JSON.parse(response.body)
+								if  responseJSon["data"]["safe"]
+									usage.safe_to_use_status = :safe
+								else
+									usage.safe_to_use_status = :unsafe
+								end
 								usage.processed!
 							end
 						rescue => e
