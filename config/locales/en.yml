@@ -49,3 +49,8 @@ en:
           manager: Manager
         created_at: Created At
         updated_at: Updated At  
+      sample:
+        sources:
+          white: White
+          user: User
+          manual: Manual  

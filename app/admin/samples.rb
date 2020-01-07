@@ -18,6 +18,7 @@ ActiveAdmin.register Sample do
   filter :tags, as: :select2_multiselect
   filter :tags2, label: "Not in Tags", as: :select2_multiselect, not: true
   filter :note
+  #filter :source, as: :select2, collection: -> { enum_value_select(Sample, :source) }
 
   scope -> { "White" }, :white
   scope -> { "Manual" }, :manual
@@ -100,7 +101,11 @@ ActiveAdmin.register Sample do
 
   scoped_collection_action :train, method: :post, class: 'download-trigger member_link_scope',  title: "שלח ללמידה" do
     params.permit!
-    MlController.train(params[:q])
+
+    filtered_query = params[:q]
+    filtered_query[params[:scope]] = "true" if params[:scope].present?
+    
+    MlController.train(filtered_query)
     redirect_to collection_path, notice: "Processing request sent."
   end
 	

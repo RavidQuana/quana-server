@@ -64,6 +64,10 @@ class Sample < ApplicationRecord
         raise "no data"
     end
 
+    def self.ransackable_scopes(auth_object = nil)
+        [:manual, :white, :user]
+    end
+
 
     def classification
         MlController.classify_sample(self)
