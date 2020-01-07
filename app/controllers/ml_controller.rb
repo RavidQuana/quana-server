@@ -3,6 +3,8 @@ class MlController < ActionController::Base
         include Rails.application.routes.url_helpers
     end
 
+    include ActionController::Live
+
     #skip auth token because its API and not ActiveAdmin
     skip_before_action :verify_authenticity_token
 
