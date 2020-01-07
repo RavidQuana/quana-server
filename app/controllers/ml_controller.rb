@@ -27,10 +27,23 @@ class MlController < ActionController::Base
         pp params
 
         if !params["sample"].present?
-            render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
+            render json: {status: "error", data: nil, message: "Sample file does not exists"}, status: 400
             return
         end 
 
+        if !params["brand"].present? ||  !params["product"].present?
+            render json: {status: "error", data: nil, message: "Brand or Product does not exists"}, status: 400
+            return
+        end 
+
+        if !params["id"].present?
+            render json: {status: "error", data: nil, message: "Id does not exists"}, status: 400
+            return
+        end 
+
+        sample_file = params[:sample].tempfile
+        pp Base64.strict_encode64(sample_file.read)
+    
         begin
             brand = Brand.find_or_create_by(name: params[:brand])
             product = Product.find_or_create_by(brand: brand, name: params[:product])
@@ -39,14 +52,17 @@ class MlController < ActionController::Base
         end
         sampler = Sampler.find_by_name("Test Device")
 
-        records = SampleGamma.from_file(params[:sample].tempfile)
-
-        if records.size < 100
-            render json: {status: "error", data: nil, message: "Sample too small"}, status: 200
+        begin
+            records = SampleGamma.from_file(sample_file)
+            if records.size < 100
+                render json: {status: "error", data: nil, message: "Sample too small"}, status: 200 
+                return
+            end
+            samples = SampleGamma.from_records(records, sampler, :user, params[:id], product, [], params[:note])
+        rescue => e
+            render json: {status: "error", data: nil, message: "Failed to read sample, please try again"}, status: 200 
             return
         end
-        
-        samples = SampleGamma.from_records(records, sampler, :user, params[:id], product, [], params[:note])
         
         render json: {status: "success", data: classify_multiple_safe(samples), message: nil}, status: 200
     end
@@ -58,7 +74,7 @@ class MlController < ActionController::Base
         #pp params   
         #pp params.keys
         if !params["sample"].present?
-            render json: {status: "error", data: null, message: "Sample does not exists"}, status: 400
+            render json: {status: "error", data: nil, message: "Sample does not exists"}, status: 400
             return
         end 
 
