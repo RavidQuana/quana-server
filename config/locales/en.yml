@@ -26,6 +26,15 @@ en:
       app_settings:
         one: Setting
         other: Settings
+      sample_beta:
+        one: Beta Sample
+        other: Beta Samples  
+      sample_gamma:
+        one: Gamma Sample
+        other: Gamma Samples  
+      sample_alpha:
+        one: Alpha Sample
+        other: Alpha Samples  
     attributes:
       admin_user:
         id: ID

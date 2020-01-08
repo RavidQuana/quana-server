@@ -1,6 +1,7 @@
 ActiveAdmin.register BetaDataRecord do
-	menu url: -> { admin_beta_data_records_path(locale: I18n.locale) } 
-
+	#menu url: -> { admin_beta_data_records_path(locale: I18n.locale) } 
+	menu false
+	
 	include Admin::Translatable
 	include Admin::Exportable
 	include Admin::Scopable 

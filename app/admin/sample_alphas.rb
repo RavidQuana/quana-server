@@ -51,22 +51,6 @@ ActiveAdmin.register SampleAlpha do
 
 				data = sample_alpha.data_records.sort_by{|d| d.secs_elapsed}
 				  
-				table_for data do
-					column :id do |instance|
-						link_to instance.id, public_send("admin_#{sample_alpha.data_type.model_name.param_key}_path", instance.id)
-					end
-					column :secs_elapsed
-					column :qcm_1
-					column :qcm_2
-					column :qcm_3
-					column :qcm_4
-					column :qcm_5
-					column :qcm_6
-					column :qcm_7
-					column :temp
-					column :humidiy
-                end
-
 				if data.count > 0 
                     min_max = data.map{|row| [
                         row.qcm_1,
@@ -112,7 +96,25 @@ ActiveAdmin.register SampleAlpha do
                         {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_i - data[0].humidiy.to_i] }},
                         {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_i - data[0].temp.to_i] }},
 					], points: false
+				end
+				
+				table_for data do
+					column :id do |instance|
+						link_to instance.id, public_send("admin_#{sample_alpha.data_type.model_name.param_key}_path", instance.id)
+					end
+					column :secs_elapsed
+					column :qcm_1
+					column :qcm_2
+					column :qcm_3
+					column :qcm_4
+					column :qcm_5
+					column :qcm_6
+					column :qcm_7
+					column :temp
+					column :humidiy
                 end
+
+				
             end
             
            

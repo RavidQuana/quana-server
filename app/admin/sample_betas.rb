@@ -51,20 +51,6 @@ ActiveAdmin.register SampleBeta do
 
 				data = sample_beta.beta_data_records.sort_by{|d| d.secs_elapsed}
 				  
-				table_for data do
-					column :id do |instance|
-						link_to instance.id, public_send("admin_#{sample_beta.data_type.model_name.param_key}_path", instance.id)
-					end
-					column :secs_elapsed
-					column :qcm_1
-					column :qcm_2
-					column :qcm_3
-					column :qcm_4
-					column :qcm_5
-					column :temp
-					column :humidiy
-                end
-
 				if data.count > 0 
                     min_max = data.map{|row| [
                         row.qcm_1,
@@ -74,7 +60,22 @@ ActiveAdmin.register SampleBeta do
                         row.qcm_5]}.flatten.minmax { |a, b| a <=> b }
     
                     space = (min_max[1] - min_max[0]) * 0.1
+	
+					h1 "Relative Graphs"
+					
+					div line_chart [
+                        {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1.to_i - data[0].qcm_1.to_i] }},
+                        {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2.to_i - data[0].qcm_2.to_i] }},
+                        {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3.to_i - data[0].qcm_3.to_i] }},
+                        {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4.to_i - data[0].qcm_4.to_i] }},
+                        {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5.to_i - data[0].qcm_5.to_i] }},
+                    ], points: false
     
+					div line_chart [
+                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_f - data[0].humidiy.to_f] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_f - data[0].temp.to_f] }},
+					], points: false
+					
 					h1 "Absolute Graphs"
 
                     div line_chart [
@@ -90,21 +91,24 @@ ActiveAdmin.register SampleBeta do
                         {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp] }},
 					], points: false
 
-					h1 "Relative Graphs"
 					
-					div line_chart [
-                        {name: "qcm_1", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_1.to_i - data[0].qcm_1.to_i] }},
-                        {name: "qcm_2", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_2.to_i - data[0].qcm_2.to_i] }},
-                        {name: "qcm_3", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_3.to_i - data[0].qcm_3.to_i] }},
-                        {name: "qcm_4", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_4.to_i - data[0].qcm_4.to_i] }},
-                        {name: "qcm_5", data: data.map { |data_record| [data_record.secs_elapsed, data_record.qcm_5.to_i - data[0].qcm_5.to_i] }},
-                    ], points: false
-    
-					div line_chart [
-                        {name: "humidity", data: data.map { |data_record| [data_record.secs_elapsed, data_record.humidiy.to_f - data[0].humidiy.to_f] }},
-                        {name: "temp", data: data.map { |data_record| [data_record.secs_elapsed, data_record.temp.to_f - data[0].temp.to_f] }},
-					], points: false
+				end
+				
+				table_for data do
+					column :id do |instance|
+						link_to instance.id, public_send("admin_#{sample_beta.data_type.model_name.param_key}_path", instance.id)
+					end
+					column :secs_elapsed
+					column :qcm_1
+					column :qcm_2
+					column :qcm_3
+					column :qcm_4
+					column :qcm_5
+					column :temp
+					column :humidiy
                 end
+
+				
             end
             
            

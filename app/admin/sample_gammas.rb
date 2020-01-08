@@ -51,20 +51,6 @@ ActiveAdmin.register SampleGamma do
 
 				data = sample_gamma.gamma_data_records.sort_by{|d| d.time}
 				  
-				table_for data do
-					column :id do |instance|
-						link_to instance.id, public_send("admin_#{sample_gamma.data_type.model_name.param_key}_path", instance.id)
-					end
-					column :time
-					column :qcm_1
-					column :qcm_2
-					column :qcm_3
-					column :qcm_4
-					column :qcm_5
-					column :temp
-					column :humidity
-                end
-
 				if data.count > 0 
                     min_max = data.map{|row| [
                         row.qcm_1,
@@ -76,22 +62,7 @@ ActiveAdmin.register SampleGamma do
 					data = data[10..-1]	
     
                     space = (min_max[1] - min_max[0]) * 0.1
-    
-					h1 "Absolute Graphs"
-
-                    div line_chart [
-                        {name: "qcm_1", data: data.map { |data_record| [data_record.time, data_record.qcm_1] }},
-                        {name: "qcm_2", data: data.map { |data_record| [data_record.time, data_record.qcm_2] }},
-                        {name: "qcm_3", data: data.map { |data_record| [data_record.time, data_record.qcm_3] }},
-                        {name: "qcm_4", data: data.map { |data_record| [data_record.time, data_record.qcm_4] }},
-                        {name: "qcm_5", data: data.map { |data_record| [data_record.time, data_record.qcm_5] }},
-                    ], min: min_max[0]-space, max: min_max[1]+space, points: false
-    
-                    div line_chart [
-                        {name: "humidity", data: data.map { |data_record| [data_record.time, data_record.humidity] }},
-                        {name: "temp", data: data.map { |data_record| [data_record.time, data_record.temp] }},
-					], points: false
-
+	
 					h1 "Relative Graphs"
 					
 					div line_chart [
@@ -106,7 +77,38 @@ ActiveAdmin.register SampleGamma do
                         {name: "humidity", data: data.map { |data_record| [data_record.time, data_record.humidity.to_f - data[10].humidity.to_f] }},
                         {name: "temp", data: data.map { |data_record| [data_record.time, data_record.temp.to_f - data[10].temp.to_f] }},
 					], points: false
+
+					h1 "Absolute Graphs"
+
+                    div line_chart [
+                        {name: "qcm_1", data: data.map { |data_record| [data_record.time, data_record.qcm_1] }},
+                        {name: "qcm_2", data: data.map { |data_record| [data_record.time, data_record.qcm_2] }},
+                        {name: "qcm_3", data: data.map { |data_record| [data_record.time, data_record.qcm_3] }},
+                        {name: "qcm_4", data: data.map { |data_record| [data_record.time, data_record.qcm_4] }},
+                        {name: "qcm_5", data: data.map { |data_record| [data_record.time, data_record.qcm_5] }},
+                    ], min: min_max[0]-space, max: min_max[1]+space, points: false
+    
+                    div line_chart [
+                        {name: "humidity", data: data.map { |data_record| [data_record.time, data_record.humidity] }},
+                        {name: "temp", data: data.map { |data_record| [data_record.time, data_record.temp] }},
+					], points: false
+				end
+				
+				table_for data do
+					column :id do |instance|
+						link_to instance.id, public_send("admin_#{sample_gamma.data_type.model_name.param_key}_path", instance.id)
+					end
+					column :time
+					column :qcm_1
+					column :qcm_2
+					column :qcm_3
+					column :qcm_4
+					column :qcm_5
+					column :temp
+					column :humidity
                 end
+
+				
             end
             
            
