@@ -18,6 +18,8 @@ module V1
 				expose :id, documentation: { type: 'Integer' }
 				expose :name, documentation: { type: 'String' }
 				expose :minimal_number_of_scans, documentation: { type: 'String' }
+				expose :image_url, as: :image, documentation: { type: 'String' }
+
 			end	
 			class Product < Grape::Entity
 				expose :id, documentation: { type: 'Integer' }

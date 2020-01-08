@@ -12,6 +12,9 @@ ActiveAdmin.register Rank do
 		id_column
 		column :name
 		column :minimal_number_of_scans
+		column :image do |instance|
+			image_thumb instance.image_url, { style: 'width: 50px' }
+		end
 		actions defaults: true do |instance|
 		end    
 	end
