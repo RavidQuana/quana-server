@@ -101,10 +101,10 @@ ActiveAdmin.register Sample do
 
   scoped_collection_action :train, method: :post, class: 'download-trigger member_link_scope',  title: "שלח ללמידה" do
     params.permit!
-
-    filtered_query = params[:q]
-    filtered_query[params[:scope]] = "true" if params[:scope].present?
     
+    filtered_query = params[:q] || {}
+    filtered_query[params[:scope]] = "true" if params[:scope].present?
+
     MlController.train(filtered_query)
     redirect_to collection_path, notice: "Processing request sent."
   end
