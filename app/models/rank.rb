@@ -7,9 +7,10 @@
 #  minimal_number_of_scans :integer          not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  image                   :string
 #
 
 class Rank < ApplicationRecord
-
-
+    include Uploadable
+	mount_field :image
 end

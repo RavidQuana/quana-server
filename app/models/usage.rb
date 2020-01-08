@@ -9,7 +9,7 @@
 #  updated_at            :datetime         not null
 #  safe_to_use_status    :integer          default("undetermined"), not null
 #  sample                :binary
-#  sample_process_status :integer          default(0), not null
+#  sample_process_status :integer          default("no_process"), not null
 #
 
 class Usage < ApplicationRecord  

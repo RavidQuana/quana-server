@@ -20,6 +20,7 @@ ActiveAdmin.register Rank do
 		f.inputs I18n.t('active_admin.details', model: I18n.t('activerecord.models.admin_user.one')) do
 			f.input :name
 			f.input :minimal_number_of_scans
+			f.input :image, as: :s3_file
 
 		end
 		f.actions

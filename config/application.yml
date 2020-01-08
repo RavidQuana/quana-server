@@ -36,7 +36,7 @@ development:
 
   # AWS S3
   aws_s3_region: eu-west-1
-  aws_s3_bucket: quana
+  aws_s3_bucket: quana-staging
 
 staging:
   <<: *defaults
@@ -44,8 +44,8 @@ staging:
   server_domain: 'quana-server-staging.herokuapp.com'
 
   # AWS S3
-  aws_s3_region:
-  aws_s3_bucket:
+  aws_s3_region: eu-west-1
+  aws_s3_bucket: quana-staging
 
 production:
   <<: *defaults
