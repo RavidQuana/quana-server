@@ -47,6 +47,12 @@ module V1
 							pp e
 							usage.error_in_process!
 						end
+					else
+						if usage.product.has_mold
+							usage.safe_to_use_status = :unsafe
+						else
+							usage.safe_to_use_status = :safe
+						end
 					end
 					validate_and_save usage, V1::Entities::Usages::Full , :save!   	
 				end
