@@ -175,9 +175,22 @@ class MlController < ActionController::Base
     end 
 
     def classify_multiple(samples)
+        samples = samples.group_by { |s| s.card_id }
+
+        if samples[34].present? && samples[1].present?
+            pp "Smart accuracy mode"
+            pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
+            card_1 = samples[1][0].classification
+            pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
+            mold_1 = card_1&.fetch('Mold', nil) || 0
+
+            [{name: 'Mold', percentage: mold_1},
+             {name: 'Pesticide', percentage: pesticide_34}]
+        else
+            pp "Dummy accuracy mode"
         classifications = []
-        samples.each{|s|
-            c = s.classification 
+            samples.values.each{|s|
+                c = s[0].classification 
             #c = JSON.parse('{"Pesticide": 45.4}')
             classifications << c if c.present?
         }   
@@ -189,19 +202,12 @@ class MlController < ActionController::Base
         }   
         classifications.each{|clas|
             clas.each{|key, value|
-                sum[key.to_sym] = sum.fetch(key.to_sym, 0) + value
-            }
+                    sum[key.to_sym] = value if value > sum.fetch(key.to_sym, 0)
         }
-        if classifications.size > 0 
-            sum.each{|key, value|
-                sum[key] = value / classifications.size
             }
+            [{name: 'Mold', percentage: sum[:Mold]},
+                {name: 'Pesticide', percentage: sum[:Pesticide]}]
         end
-        classifications = []
-        sum.each{|key, value|
-            classifications << {name: key, percentage: value}
-        }
-        classifications
     end 
 
     def samples 
