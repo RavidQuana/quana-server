@@ -142,7 +142,7 @@ class MlController < ActionController::Base
             pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
             mold_1 = card_1&.fetch('Mold', nil) || 0
 
-            if pesticide_34 > 50 || mold_1 > 50
+            if pesticide_1 > 50 || pesticide_34 > 50 || mold_1 > 50
                 {safe: false}
             else
                 {safe: true}
