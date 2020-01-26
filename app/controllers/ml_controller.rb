@@ -185,7 +185,7 @@ class MlController < ActionController::Base
             mold_1 = card_1&.fetch('Mold', nil) || 0
 
             [{name: 'Mold', percentage: mold_1},
-             {name: 'Pesticide', percentage: pesticide_34}]
+             {name: 'Pesticide', percentage: (pesticide_34 + pesticide_1) / 2}]
         else
             pp "Dummy accuracy mode"
         classifications = []
