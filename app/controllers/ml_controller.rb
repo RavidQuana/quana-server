@@ -275,9 +275,17 @@ class MlController < ActionController::Base
        
         return json
     end 
-    
+
+    def self.protocol
+        if Rails.env.development?
+            :http
+        else
+            :https
+        end
+    end
+        
     def self.train(q)
-        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q, protocol: :https)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
+        response = RestClient.post("#{API_HOST}/train",  {samples: export_samples_url(host: Settings.server_domain, q: q, protocol: MlController.protocol)}.to_json, headers: {accept: :json, "x-api-key": API_KEY})
         if response.code != 200 
             return false
         end
