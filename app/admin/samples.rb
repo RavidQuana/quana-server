@@ -18,6 +18,8 @@ ActiveAdmin.register Sample do
   filter :tags, as: :select2_multiselect
   filter :tags2, label: "Not in Tags", as: :select2_multiselect, not: true
   filter :note
+  filter :created_at, as: :date_time_range, datepicker_options: { timepicker: true, format: 'Y-m-d H:i' } 
+  
   #filter :source, as: :select2, collection: -> { enum_value_select(Sample, :source) }
 
   scope -> { "White" }, :white
