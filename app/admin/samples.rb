@@ -25,7 +25,7 @@ ActiveAdmin.register Sample do
   scope -> { "White" }, :white
   scope -> { "Manual" }, :manual
   scope -> { "User" }, :user
-
+  scope -> { "Selected" }, :active_selected
 
     #need to always show batch actions
     config.batch_actions = true
@@ -67,7 +67,6 @@ ActiveAdmin.register Sample do
     scoped_collection_action :download_csv_combined_scope, method: :post, class: 'download-trigger member_link_scope',  title: "הורדה מאוחד" do
         samples = scoped_collection_records
         if params[:collection_selection].present?
-            pp params[:collection_selection]
             samples = Sample.where(id: params[:collection_selection][0].values)
         end
         samples = samples.distinct
@@ -110,6 +109,33 @@ ActiveAdmin.register Sample do
     MlController.train(filtered_query)
     redirect_to collection_path, notice: "Processing request sent."
   end
+
+  scoped_collection_action :unselect_all, method: :post, class: 'download-trigger member_link_scope',  title: "ביטול סימון מפילטר" do
+    params.permit!
+    
+    samples = scoped_collection_records
+    if params[:collection_selection].present?
+        samples = Sample.where(id: params[:collection_selection][0].values)
+    end
+    samples = samples.distinct
+    samples.update_all(selected: false)
+    
+    redirect_to collection_path, notice: "Unselecting done."
+  end
+
+  scoped_collection_action :select_all, method: :post, class: 'download-trigger member_link_scope',  title: "סמן מפילטר" do
+    params.permit!
+    
+    samples = scoped_collection_records
+    if params[:collection_selection].present?
+        samples = Sample.where(id: params[:collection_selection][0].values)
+    end
+    samples = samples.distinct
+    samples.update_all(selected: true)
+    
+    redirect_to collection_path, notice: "Selecting done."
+  end
+	
 	
 	collection_action :download_samples, method: :post do
 		pp collection
@@ -141,6 +167,16 @@ ActiveAdmin.register Sample do
 		end
   end
 
+  member_action :select, method: :post do
+    resource.update!(selected: true)
+    redirect_back fallback_location: collection_path
+  end
+  
+  member_action :unselect, method: :post do
+    resource.update!(selected: false)
+    redirect_back fallback_location: collection_path
+  end
+
 	index download_links: [:csv, :zip] do
 		selectable_column
     id_column
@@ -157,7 +193,12 @@ ActiveAdmin.register Sample do
     column :note
 		
 		actions defaults: true do |instance|
-			item "Download", public_send("download_csv_admin_sample_path", instance.id), class: "member_link"
+      item "Download", public_send("download_csv_admin_sample_path", instance.id), class: "member_link"
+      if !instance.selected
+        item "Select", public_send("select_admin_sample_path", instance.id), method: :post, class: "member_link"
+      else
+        item "Unselect", public_send("unselect_admin_sample_path", instance.id), method: :post, class: "member_link"
+      end
 		end
   end
   

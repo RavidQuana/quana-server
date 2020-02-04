@@ -37,6 +37,7 @@ class Sample < ApplicationRecord
 
     scope :no_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) = 0") }
     scope :has_tags, -> { where("(select count(id) from sample_tags where samples.id = sample_tags.sample_id) > 0") }
+    scope :active_selected, -> { where(selected: true) }
 
     def self.MigrateDummy1
         #BetaDataRecord.all.delete_all

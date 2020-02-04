@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_093016) do
+ActiveRecord::Schema.define(version: 2020_02_03_150234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_093016) do
     t.integer "product_id", null: false
     t.integer "source", default: 0, null: false
     t.integer "source_id"
+    t.boolean "selected", default: false
     t.index ["type"], name: "index_samples_on_type"
     t.index ["user_id"], name: "index_samples_on_user_id"
   end

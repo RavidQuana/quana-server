@@ -21,12 +21,16 @@
 class SampleBeta < Sample
     include Exportable
     
-    has_many :beta_data_records, dependent: :delete_all, foreign_key: :sample_id
+    has_many :beta_data_records, -> { order(secs_elapsed: :asc) }, dependent: :delete_all, foreign_key: :sample_id
 
     accepts_nested_attributes_for :beta_data_records, :allow_destroy => true
 
     def data 
         self.beta_data_records
+    end
+
+    def data_time_column
+        :secs_elapsed
     end
 
     def insert_sample(file_or_string)

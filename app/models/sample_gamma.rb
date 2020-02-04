@@ -21,11 +21,15 @@
 class SampleGamma < Sample
     include Exportable
     
-    has_many :gamma_data_records, dependent: :delete_all, foreign_key: :sample_id
+    has_many :gamma_data_records, -> { order(time_ms: :asc) }, dependent: :delete_all, foreign_key: :sample_id
     accepts_nested_attributes_for :gamma_data_records, :allow_destroy => true
 
     def data 
         self.gamma_data_records
+    end
+
+    def data_time_column
+        :time_ms
     end
 
     def insert_sample(file_or_string)
