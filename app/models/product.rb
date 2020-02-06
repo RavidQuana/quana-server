@@ -30,7 +30,21 @@ class Product < ApplicationRecord
 
     def stats_by_user(user_id)
         result = ProductStat.new(product: self)
-        result.usage_count = self.user_usages(user_id).count
+        
+        
+        usages =  self.user_usages(user_id)
+        ids = usages.pluck(:id)
+        symptoms_average = []
+        UsageSymptomInfluence.where(:usage_id=>ids).group(:user_symptom_id).average(:influence).each do |id, average|
+            symptoms_average.push(ProductStatSymtpomAverage.new(symptom: UserSymptom.find_by(id: id).symptom ,  average: average))
+        
+        end
+        result.symptoms =  symptoms_average
+        result.usage_count = usages.count
+        
+        
+        
+        
         result.side_effects = self.user_side_effects(user_id)
         result 
     end

@@ -13,7 +13,7 @@
 class UsageSymptomInfluence < ApplicationRecord  
     belongs_to :usage
     belongs_to :user_symptom
-
+    
     enum influence: {worse: 0, same: 1, better: 2}
 
 end
