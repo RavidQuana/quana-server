@@ -32,6 +32,7 @@ class User < ApplicationRecord
     has_many :user_treatments
     has_many :treatments, through: :user_treatments
     has_many :usages
+    has_many :products, through: :usages
 
     scope :permitted, -> {where(status: [:active, :pending_details]) }
 
@@ -49,6 +50,10 @@ class User < ApplicationRecord
         self.usages.safe.order(created_at: :desc).limit(3)
     end
 
+    def used_products
+        self.products.distinct
+    end
+
     def next_rank
         Rank.where("minimal_number_of_scans > ?", self.number_of_reviews).order(minimal_number_of_scans: :asc).first   
     end
@@ -60,5 +65,25 @@ class User < ApplicationRecord
     def number_of_reviews
         self.usages.joins(:usage_symptom_influences).uniq.count
     end
+
+
+    def stats		
+        result = []
+        
+        self.used_products.each do |product|
+            result.push(product.stats_by_user(self.id))
+        end
+		#if self.transfer_date.present?
+		#	t = TransferInfo.new(date: self.transfer_date.to_date, title: "You got 20$", body: "" )
+		#	result.push(t)
+
+		#	t = TransferInfo.new(date: self.transfer_date.to_date, 
+		#		title: "You need to pay back $#{self.transfer_amount} + $#{fee} fee", 
+		#		body: "If you don’t pay us untill #{self.late_payback_date.to_date} will charge you for extra $#{late_fee} fee")
+		#	result.push(t)
+		#end
+		result
+
+	end
 
 end

@@ -66,6 +66,16 @@ module V1
 						V1::Entities::Usages::Full			
 				end
 
+
+								#-----[GET]/usages/-----
+				desc 'get user usages stats'
+				get '/stats', http_codes: [
+					{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
+				] do
+		        	render_success @current_user.stats, 
+						V1::Entities::ProductStat::Base			
+				end
+
 				route_param :usage_id do
 					after_validation do
 					  get_usage

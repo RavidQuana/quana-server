@@ -10,6 +10,7 @@
 
 class SideEffect < ApplicationRecord
     has_many :usage_side_effects
+    has_many :usages, through: :usage_side_effects
 
 
 end
