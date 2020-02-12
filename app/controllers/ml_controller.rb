@@ -135,14 +135,22 @@ class MlController < ActionController::Base
     def classify_multiple_safe(samples)
         samples = samples.group_by { |s| s.card_id }
         
-        if samples[34].present? && samples[1].present?
-            pp "Smart accuracy mode"
-            pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
-            card_1 = samples[1][0].classification
-            pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
-            mold_1 = card_1&.fetch('Mold', nil) || 0
+        # if samples[34].present? && samples[1].present?
+        #     pp "Smart accuracy mode"
+        #     pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
+        #     card_1 = samples[1][0].classification
+        #     pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
+        #     mold_1 = card_1&.fetch('Mold', nil) || 0
 
-            if pesticide_1 > 50 || pesticide_34 > 50 || mold_1 > 50
+        #     if pesticide_1 > 50 || pesticide_34 > 50 || mold_1 > 50
+        #         {safe: false}
+        #     else
+        #         {safe: true}
+        #     end
+        if samples[37].present?
+            pp "Smart accuracy mode"
+            pesticide_37 = samples[37][0].classification&.fetch('Pesticide', nil) || 0
+            if pesticide_37 > 60
                 {safe: false}
             else
                 {safe: true}
