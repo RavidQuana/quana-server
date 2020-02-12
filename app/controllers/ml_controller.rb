@@ -185,15 +185,24 @@ class MlController < ActionController::Base
     def classify_multiple(samples)
         samples = samples.group_by { |s| s.card_id }
 
-        if samples[34].present? && samples[1].present?
+        # if samples[34].present? && samples[1].present?
+        #     pp "Smart accuracy mode"
+        #     pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
+        #     card_1 = samples[1][0].classification
+        #     pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
+        #     mold_1 = card_1&.fetch('Mold', nil) || 0
+
+        #     [{name: 'Mold', percentage: mold_1},
+        #      {name: 'Pesticide', percentage: (pesticide_34 + pesticide_1) / 2}]
+        if samples[37].present? && samples[1].present?
             pp "Smart accuracy mode"
-            pesticide_34 = samples[34][0].classification&.fetch('Pesticide', nil) || 0
+            pesticide_37 = samples[37][0].classification&.fetch('Pesticide', nil) || 0
             card_1 = samples[1][0].classification
             pesticide_1 = card_1&.fetch('Pesticide', nil) || 0
             mold_1 = card_1&.fetch('Mold', nil) || 0
 
             [{name: 'Mold', percentage: mold_1},
-             {name: 'Pesticide', percentage: (pesticide_34 + pesticide_1) / 2}]
+             {name: 'Pesticide', percentage: pesticide_37}]
         else
             pp "Dummy accuracy mode"
         classifications = []
