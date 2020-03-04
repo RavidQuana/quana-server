@@ -82,7 +82,7 @@ module V1
 					{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
 				] do
 
-					last_usages =  @current_user.usages.joins(:usage_symptom_influences).order(created_at: :desc).limit(7)
+					last_usages =  @current_user.usages.joins(:usage_symptom_influences).distinct.order(created_at: :desc).limit(7)
 					last_usages = last_usages.sort_by &:created_at
 					render_success last_usages , V1::Entities::Usages::Full			
 				end
