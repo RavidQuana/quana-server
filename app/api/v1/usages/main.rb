@@ -76,6 +76,16 @@ module V1
 						V1::Entities::ProductStat::Base			
 				end
 
+
+				desc 'get user usages trend'
+				get '/trends', http_codes: [
+					{ code: RESPONSE_CODES[:ok], message: 'Ok', model: V1::Entities::Usages::Full }
+				] do
+					last_usages =  @current_user.usages.order(created_at: :desc).limit(7)
+					last_usages = last_usages.sort_by &:created_at
+					render_success last_usages , V1::Entities::Usages::Full			
+				end
+
 				route_param :usage_id do
 					after_validation do
 					  get_usage
