@@ -110,6 +110,8 @@ group :test do
   gem 'webmock'
 end
 
+gem 'rails-erd', group: :development
+
 gem 'rcsv'
 gem 'zip_tricks'
 gem 'active_admin_scoped_collection_actions'
