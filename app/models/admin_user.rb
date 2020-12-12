@@ -48,8 +48,9 @@ class AdminUser < ApplicationRecord
   	mount_field :thumbnail
 
 	devise :two_factor_authenticatable, :confirmable, :recoverable, :lockable, :secure_validatable, 
-		:timeoutable, :trackable, :password_expirable, :password_archivable, #:session_limitable, 
-		:expirable, otp_secret_encryption_key: Rails.application.credentials.opt_encryption_key
+		:timeoutable, :trackable, #:password_expirable, 
+		:password_archivable, #:session_limitable, #:expirable, 
+		otp_secret_encryption_key: Rails.application.credentials.opt_encryption_key
 
 	belongs_to :admin_role
 

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.4'
+ruby '2.6.5'
 
 gem 'rails', '6.0.0'
 gem 'sprockets', '>= 3.7.2'
@@ -117,3 +117,5 @@ gem 'zip_tricks'
 gem 'active_admin_scoped_collection_actions'
 gem 'chartkick'
 gem 'scout_apm'
+gem 'tzinfo-data'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?

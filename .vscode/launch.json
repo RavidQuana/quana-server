@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Rails server",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/bin/rails",
+            "env": {
+                "DATABASE_URL":"postgres://tovnbubzuridhp:a91a21a9f6ac68369a254f3f101cede5fd099b0782c95331405cf7f09b13d678@ec2-46-137-113-157.eu-west-1.compute.amazonaws.com:5432/dp0av0prs21pa",
+                // "LANG":"en_US.UTF-8",
+                // "ML_API_KEY":"Test",
+                // "ML_URL":"https://quana-ml-staging.herokuapp.com",
+                // "RACK_ENV":"staging",
+                // "RAILS_ENV":"staging",
+                // "RAILS_LOG_TO_STDOUT":"enabled",
+                // "RAILS_MASTER_KEY":"3c574c35abb703ff0e8ef0947facd89b",
+                // "RAILS_SERVE_STATIC_FILES":"enabled",
+                // "REDIS_URL":"redis://h:pb6affc63705054509bc2c76ade1ea2d01eab4cfa106db0612e40975baa454322@ec2-54-78-139-39.eu-west-1.compute.amazonaws.com:7639",
+                // "SCOUT_KEY":"0kO8yf7c2WNsJ0TwQD2r",
+                // "SCOUT_LOG_LEVEL":"WARN",
+                // "SCOUT_MONITOR":"true",
+                // "SECRET_KEY_BASE":"46f5904c995c2501b11e579949501c7e750aa945555e9b713c5316de6f9a8bfa4b9891f6b4ac256a192e6b44b72aa7284a44e16f1c9f690e4f1e36d8a8cee108",
+                // "SENDGRID_PASSWORD":"4e8r4b2a2409",
+                // "SENDGRID_USERNAME":"app146837135@heroku.com"
+            },
+            "args": [
+                "server"
+            ]
+        },
+        {
+            "type": "ruby-debug",
+            "request": "launch",
+            "name": "Launch File",
+            "program": "${workspaceFolder}/${command:AskForProgramName}",
+            "programArgs": [],
+            "useBundler": false
+        }
+    ]
+}

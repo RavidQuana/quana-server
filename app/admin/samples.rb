@@ -31,7 +31,6 @@ ActiveAdmin.register Sample do
     config.batch_actions = true
     config.scoped_collection_actions_if = -> { true }
     scoped_collection_action :download_csv_scope, method: :post, class: 'download-trigger member_link_scope',  title: "הורדה מופרד" do
-
         samples = scoped_collection_records
         if params[:collection_selection].present?
             samples = Sample.where(id: params[:collection_selection][0].values)
@@ -47,10 +46,32 @@ ActiveAdmin.register Sample do
              response.headers["Content-Disposition"] = "attachment; filename=\"samples.zip\""
             w = ZipTricks::BlockWrite.new { |chunk| response.stream.write(chunk) }
               ZipTricks::Streamer.open(w) { |zip| 
-                samples.pluck_in_batches(:id, :type, :file_name, batch_size: 500) {|batch| 
-                batch.each{|id, type, file_name|
+                samples.pluck_in_batches(:id, :type, :file_name, :product_id, :card_id, :note, :device, batch_size: 500) {|batch| 
+                batch.each{|id, type, file_name, product_id, card_id, note, device|
                   sample_type = type.constantize
-                  zip.write_deflated_file(file_name) { |sink|
+                  product = Product.find(product_id)
+                  barnd_name = ""
+                  begin
+                    puts "*************" + product.brand.name.to_s + "****************"
+                    brand_name = product.brand.name.to_s
+                  rescue => e
+                    barnd_name = ""
+                  end
+                  card = Card.find(card_id)
+                  
+                  file_name_new = id.to_s + "_" + product.name + "_" + file_name 
+                  puts "*************Brand name: " + brand_name + "****************"
+                  puts "*************Product name: " + product.name + "****************"
+                  puts "*************device name: " + device.to_s + "****************"
+                  puts "*************Card name: " + card.name + "****************"
+                  puts "*************Note: " + note + "****************"
+                  attr_line =  brand_name + "," + product.name + "," + device.to_s + "," +  card.name + "," + note +"\n"
+                  puts "*************" + attr_line + "****************"
+                  header_line = "Brand, Product, Device, Card, Note \n" + attr_line
+                  puts "============== " + header_line +  " =========="
+
+                  zip.write_deflated_file(file_name_new) { |sink|
+                    sink.write(header_line)
                     sample_type.data_type.stream_csv_report(sample_type.data_type.where(sample_id: id)).lazy.each{|row|
                       sink.write(row)
                     }
